@@ -1,0 +1,54 @@
+# Cambia TU-USUARIO por tu usuario de Codeberg
+baseURL = 'https://TU-USUARIO.codeberg.page/'
+languageCode = 'es-co'
+defaultContentLanguage = 'es'
+title = 'Esneider Sierra'
+enableRobotsTXT = true
+
+[params]
+  autor = 'Esneider Sierra'
+  descripcion = 'Matemáticas, computación, cuentos, opiniones y fotos.'
+  licencia = 'CC BY-SA 4.0'
+  licenciaURL = 'https://creativecommons.org/licenses/by-sa/4.0/deed.es'
+
+[taxonomies]
+  tag = 'tags'
+
+[menus]
+  [[menus.main]]
+    name = 'Notas'
+    pageRef = '/posts'
+    weight = 10
+  [[menus.main]]
+    name = 'Cuentos'
+    pageRef = '/cuentos'
+    weight = 20
+  [[menus.main]]
+    name = 'Opiniones'
+    pageRef = '/opiniones'
+    weight = 30
+  [[menus.main]]
+    name = 'Fotos'
+    pageRef = '/fotos'
+    weight = 40
+  [[menus.main]]
+    name = 'Acerca'
+    pageRef = '/acerca'
+    weight = 50
+
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true
+  # Deja pasar el LaTeX intacto para que KaTeX lo renderice
+  [markup.goldmark.extensions.passthrough]
+    enable = true
+    [markup.goldmark.extensions.passthrough.delimiters]
+      block = [['\[', '\]'], ['$$', '$$']]
+      inline = [['\(', '\)'], ['$', '$']]
+  [markup.highlight]
+    style = 'nord'
+    noClasses = true
+
+[imaging]
+  quality = 82
+  resampleFilter = 'Lanczos'

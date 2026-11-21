@@ -1,0 +1,32 @@
+{{ define "main" }}
+<article>
+  <header class="entrada">
+    <h1>{{ .Title }}</h1>
+    {{ if not .Date.IsZero }}
+    <p class="meta">
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_long" }}</time>
+      {{ if ne .Section "fotos" }} · {{ .ReadingTime }} min de lectura{{ end }}
+    </p>
+    {{ end }}
+  </header>
+
+  {{ if .Params.toc }}
+    <details class="toc"><summary>Contenido</summary>{{ .TableOfContents }}</details>
+  {{ end }}
+
+  <div class="contenido">
+    {{ .Content }}
+  </div>
+
+  {{ with .GetTerms "tags" }}
+  <p class="etiquetas">
+    {{ range . }}<a href="{{ .RelPermalink }}">#{{ .LinkTitle }}</a> {{ end }}
+  </p>
+  {{ end }}
+
+  <nav class="vecinos">
+    {{ with .PrevInSection }}<a href="{{ .RelPermalink }}">← {{ .Title }}</a>{{ else }}<span></span>{{ end }}
+    {{ with .NextInSection }}<a href="{{ .RelPermalink }}">{{ .Title }} →</a>{{ end }}
+  </nav>
+</article>
+{{ end }}

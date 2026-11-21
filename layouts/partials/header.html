@@ -1,0 +1,9 @@
+<header class="sitio">
+  <a class="nombre" href="{{ "/" | relURL }}">{{ site.Title }}</a>
+  <nav>
+    {{ $actual := . }}
+    {{ range site.Menus.main }}
+      <a href="{{ .URL }}"{{ if or ($actual.IsMenuCurrent "main" .) ($actual.HasMenuCurrent "main" .) }} aria-current="page"{{ end }}>{{ .Name }}</a>
+    {{ end }}
+  </nav>
+</header>

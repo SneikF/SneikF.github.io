@@ -1,0 +1,34 @@
+{{ define "main" }}
+<section class="intro">
+  {{ .Content }}
+</section>
+
+{{ range slice "posts" "cuentos" "opiniones" }}
+  {{ with site.GetPage (printf "/%s" .) }}
+    {{ if .Pages }}
+    <section class="bloque">
+      <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+      {{ with .Description }}<p class="tenue">{{ . }}</p>{{ end }}
+      <ul class="lista">
+        {{ range first 5 .Pages }}
+        <li>
+          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format "Jan 2006" }}</time>
+          <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        </li>
+        {{ end }}
+      </ul>
+      {{ if gt (len .Pages) 5 }}<p><a class="mas" href="{{ .RelPermalink }}">Ver las {{ len .Pages }} entradas →</a></p>{{ end }}
+    </section>
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ with site.GetPage "/fotos" }}
+  {{ if .Pages }}
+  <section class="bloque">
+    <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+    {{ partial "albumes.html" (first 6 .Pages) }}
+  </section>
+  {{ end }}
+{{ end }}
+{{ end }}

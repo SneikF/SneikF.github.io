@@ -1,0 +1,5 @@
+{{ define "main" }}
+<h1>{{ .Title }}</h1>
+{{ with .Content }}<div class="intro-seccion">{{ . }}</div>{{ end }}
+{{ partial "albumes.html" .Pages }}
+{{ end }}

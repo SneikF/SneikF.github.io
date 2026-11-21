@@ -1,0 +1,132 @@
+/* Estilo sobrio: una columna, serif, un solo color de acento */
+:root {
+  --fondo: #fbfaf7;
+  --texto: #1f1f1f;
+  --tenue: #6d6a64;
+  --acento: #8a3b12;
+  --linea: #e4e0d8;
+  --codigo: #f1eee8;
+  --ancho: 40rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fondo: #171615;
+    --texto: #e6e3dd;
+    --tenue: #9b978f;
+    --acento: #e2a47c;
+    --linea: #2f2d2a;
+    --codigo: #23221f;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  max-width: var(--ancho);
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 4rem;
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  font-size: 1.125rem;
+  line-height: 1.65;
+}
+body.fotos { --ancho: 56rem; }
+
+a { color: var(--acento); text-decoration-thickness: 1px; text-underline-offset: 0.15em; }
+a:hover { text-decoration-thickness: 2px; }
+
+h1, h2, h3 { line-height: 1.25; font-weight: 600; }
+h1 { font-size: 1.9rem; margin: 0 0 0.4rem; }
+h2 { font-size: 1.35rem; margin-top: 2.2rem; }
+h3 { font-size: 1.1rem; }
+
+img { max-width: 100%; height: auto; }
+hr { border: 0; border-top: 1px solid var(--linea); margin: 2rem 0; }
+
+.tenue, .meta, time, .resumen { color: var(--tenue); }
+
+/* Cabecera y pie */
+header.sitio {
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  padding-bottom: 1rem; margin-bottom: 2.5rem;
+  border-bottom: 1px solid var(--linea);
+}
+header.sitio .nombre { color: var(--texto); text-decoration: none; font-weight: 600; font-size: 1.2rem; }
+header.sitio nav { display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; font-size: 1rem; }
+header.sitio nav a { color: var(--tenue); text-decoration: none; }
+header.sitio nav a:hover, header.sitio nav a[aria-current] { color: var(--texto); }
+
+footer.sitio {
+  margin-top: 4rem; padding-top: 1rem;
+  border-top: 1px solid var(--linea);
+  font-size: 0.9rem; color: var(--tenue);
+}
+footer.sitio p { margin: 0.3rem 0; }
+
+/* Listas de entradas */
+.bloque h2 a, h2.anio { color: var(--texto); text-decoration: none; }
+.lista { list-style: none; padding: 0; margin: 0.5rem 0 0; }
+.lista li { margin: 0.45rem 0; }
+.lista time {
+  display: inline-block; min-width: 5.5rem;
+  font-variant-numeric: tabular-nums; font-size: 0.95rem;
+}
+.lista .resumen { display: block; margin-left: 5.5rem; font-size: 0.95rem; }
+.mas { font-size: 0.95rem; }
+
+/* Entradas */
+header.entrada { margin-bottom: 2rem; }
+.meta { margin: 0; font-size: 0.95rem; }
+.contenido p { hyphens: auto; }
+.etiquetas { margin-top: 2.5rem; font-size: 0.95rem; }
+.etiquetas a { margin-right: 0.6rem; text-decoration: none; }
+.vecinos {
+  display: flex; justify-content: space-between; gap: 1rem;
+  margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--linea);
+  font-size: 0.95rem;
+}
+.vecinos a { text-decoration: none; }
+.toc { font-size: 0.95rem; margin-bottom: 2rem; }
+
+blockquote {
+  margin: 1.5rem 0; padding: 0 0 0 1rem;
+  border-left: 3px solid var(--linea); color: var(--tenue);
+}
+
+/* Teoremas y definiciones: <div class="teorema"> ... </div> */
+.teorema, .definicion, .prueba { margin: 1.5rem 0; }
+.teorema::before    { content: "Teorema. ";    font-weight: 600; }
+.definicion::before { content: "Definición. "; font-weight: 600; }
+.prueba::before     { content: "Prueba. ";     font-style: italic; }
+.prueba::after      { content: " ∎"; float: right; }
+.teorema { font-style: italic; }
+
+/* Código */
+code, pre { font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; font-size: 0.88em; }
+:not(pre) > code { background: var(--codigo); padding: 0.1em 0.3em; border-radius: 3px; }
+pre { padding: 1rem; overflow-x: auto; border-radius: 4px; line-height: 1.45; }
+
+/* Matemáticas largas no rompen el móvil */
+.katex-display { overflow-x: auto; overflow-y: hidden; padding: 0.2rem 0; }
+
+/* Tablas */
+table { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
+th, td { border-bottom: 1px solid var(--linea); padding: 0.4rem 0.5rem; text-align: left; }
+
+/* Fotos */
+.galeria { display: grid; gap: 0.6rem; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); margin-top: 1rem; }
+.galeria img { display: block; width: 100%; }
+.galeria figure { margin: 0; }
+.galeria figcaption { font-size: 0.85rem; color: var(--tenue); margin-top: 0.25rem; }
+.album { text-decoration: none; color: var(--texto); }
+.album span { display: block; font-size: 0.95rem; margin-top: 0.3rem; }
+
+@media (max-width: 30rem) {
+  body { font-size: 1.05rem; }
+  .lista time { display: block; min-width: 0; }
+  .lista .resumen { margin-left: 0; }
+}

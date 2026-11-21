@@ -1,0 +1,17 @@
+{{ define "main" }}
+<h1>{{ .Title }}</h1>
+{{ with .Content }}<div class="intro-seccion">{{ . }}</div>{{ end }}
+
+{{ range .Pages.GroupByDate "2006" }}
+  <h2 class="anio">{{ .Key }}</h2>
+  <ul class="lista">
+    {{ range .Pages }}
+    <li>
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format "2 Jan" }}</time>
+      <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+      {{ with .Description }}<span class="resumen">{{ . }}</span>{{ end }}
+    </li>
+    {{ end }}
+  </ul>
+{{ end }}
+{{ end }}
