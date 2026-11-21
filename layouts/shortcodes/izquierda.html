@@ -1,0 +1,8 @@
+{{/* Texto alineado a la izquierda, con el título, en vez de la columna centrada:
+     {{< izquierda >}}
+     *Cualquier texto en Markdown.*
+     {{< /izquierda >}}
+     Sin la etiqueta, el texto queda en la columna centrada como siempre. */}}
+<div class="a-la-izquierda">
+{{ .Inner | .Page.RenderString (dict "display" "block") }}
+</div>

@@ -84,6 +84,13 @@ ignoreFiles = ['cuentos/ejemplo(\.en)?\.md$', 'opiniones/ejemplo(\.en)?\.md$']
   # Una imagen sola en su línea se convierte en figura (no queda dentro de un párrafo)
   [markup.goldmark.parser]
     wrapStandAloneImageWithinParagraph = false
+  # Diálogos: «--» se convierte en raya larga (—), como se usa en español.
+  # Escribe:  -- No me creerás --le dice.   y se verá:  — No me creerás —le dice.
+  [markup.goldmark.extensions.typographer]
+    enDash = '&mdash;'
+    # Comillas angulares: escribe <<así>> y se verá «así», dibujadas con la letra de los títulos.
+    leftAngleQuote = '<span class="comilla">&laquo;</span>'
+    rightAngleQuote = '<span class="comilla">&raquo;</span>'
   # Deja pasar el LaTeX intacto para que KaTeX lo renderice
   [markup.goldmark.extensions.passthrough]
     enable = true

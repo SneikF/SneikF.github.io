@@ -10,8 +10,10 @@
 {{/* Fuentes libres (licencia OFL) servidas por Bunny Fonts, sin rastreo */}}
 <link rel="preconnect" href="https://fonts.bunny.net">
 <link rel="stylesheet" href="https://fonts.bunny.net/css?family=kalam:300,700|caveat:500,700&display=swap">
-<link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
-<script defer src="{{ "js/sitio.js" | relURL }}"></script>
+{{/* ?v=… cambia en cada construcción del sitio: obliga al navegador a usar la versión nueva */}}
+{{ $version := now.Unix }}
+<link rel="stylesheet" href="{{ "css/style.css" | relURL }}?v={{ $version }}">
+<script defer src="{{ "js/sitio.js" | relURL }}?v={{ $version }}"></script>
 {{ with .OutputFormats.Get "rss" }}
 <link rel="alternate" type="application/rss+xml" href="{{ .RelPermalink }}" title="{{ site.Title }}">
 {{ end }}

@@ -242,6 +242,18 @@ h2.anio { font-size: 1.7rem; color: var(--tenue); }
 header.entrada { margin-bottom: 2rem; }
 header.entrada h1 { margin-bottom: 0.3rem; }
 .meta { margin: 0; font-size: 1.1rem; }
+/* Nota debajo del título (nota: "…" en el encabezado): alineada con el título, no centrada */
+.nota-titulo { margin: 0.7rem 0 0; max-width: 42rem; color: var(--tenue); font-style: italic; font-size: 1.1rem; line-height: 1.5; }
+.nota-titulo a { color: var(--tenue); }
+.nota-titulo a:hover { color: var(--grafito-fuerte); }
+/* Texto marcado con {{< izquierda >}}: alineado con el título, fuera de la columna centrada */
+.contenido .a-la-izquierda {
+  margin-left: calc(-1 * min(10rem, max(0rem, (100vw - var(--ancho)) / 2)));
+  max-width: 42rem;
+}
+.a-la-izquierda > :last-child { margin-bottom: 1.3rem; }
+/* Comillas angulares « » (se escriben << >>): con la letra de los títulos, que las dibuja mejor */
+.comilla { font-family: var(--letra-titulos); font-weight: 500; font-size: 1.15em; line-height: 1; }
 .etiquetas { margin-top: 2.5rem; font-size: 1.1rem; }
 .etiquetas a { margin-right: 0.8rem; color: var(--tenue); text-decoration: none; }
 .etiquetas a:hover { color: var(--grafito-fuerte); }
@@ -291,6 +303,14 @@ thead th { border-bottom: 1px solid var(--trazo); }
 a.ampliable { display: block; cursor: zoom-in; }
 figure.imagen { margin: 2rem 0; text-align: center; }
 figure.imagen img { display: block; margin: 0 auto; }
+/* Imágenes dentro del texto de una entrada (cuentos, opiniones, notas): centradas y sin salirse
+   del texto. --ancho-imagen es la fracción del ancho del texto que pueden ocupar. */
+.contenido { --ancho-imagen: 80%; }
+.contenido figure.imagen,
+.contenido figure.lamina:not(.descrita) { margin: 2.5rem 0; text-align: center; }
+.contenido figure.imagen img,
+.contenido figure.lamina:not(.descrita) img { width: auto; max-width: var(--ancho-imagen); max-height: 65vh; margin: 0 auto; }
+@media (max-width: 40rem) { .contenido { --ancho-imagen: 100%; } }
 figcaption { color: var(--tenue); font-size: 1.1rem; text-align: center; margin-top: 0.5rem; }
 
 .laminas { width: min(92vw, 64rem); margin-left: 50%; transform: translateX(-50%); }
