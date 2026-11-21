@@ -4,11 +4,15 @@
   {{ with .Params.subtitulo }}<p class="portada-subtitulo">{{ . }}</p>{{ end }}
 </section>
 
-{{/* Foto (en static/img/) y texto de presentación (el cuerpo de content/_index.md) */}}
+{{/* Texto de presentación (el cuerpo de content/_index.md) con fotos invisibles
+     (lista «fotos» en el encabezado; archivos en static/img/): la primera arriba a la
+     izquierda y la segunda abajo a la derecha. Aparecen a color al pasar el mouse. */}}
 <section class="presentacion">
-  {{ with .Params.foto }}<img class="foto-perfil" src="{{ . | relURL }}" alt="{{ site.Title }}" tabindex="0">{{ end }}
   <div class="intro">
     {{ .Content }}
   </div>
+  {{ range $i, $f := .Params.fotos }}
+    <img class="foto-oculta foto-{{ add $i 1 }}" src="{{ $f | relURL }}" alt="" tabindex="0" loading="lazy">
+  {{ end }}
 </section>
 {{ end }}

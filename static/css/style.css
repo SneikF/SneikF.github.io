@@ -124,6 +124,27 @@ header.sitio {
   :root:not([data-tema="claro"]) .icono-oscuro { display: none; }
 }
 
+/* Botones de idioma y tema: en la barra superior van en el borde derecho de la página,
+   uno debajo del otro. El menú conserva su lugar. */
+header.sitio .derecha { margin-right: 5.6rem; }   /* espacio que ocupaban antes los botones */
+header.sitio .controles {
+  position: absolute; top: 1.4rem; right: 1.6rem;
+  flex-direction: column; align-items: center; gap: 0.5rem;
+}
+.controles .idioma {
+  display: grid; place-items: center;
+  width: 2.4rem; height: 1.7rem;
+  border: 1px solid var(--trazo); border-radius: 4px;
+  color: var(--grafito); font-size: 0.95rem; letter-spacing: 0.06em; line-height: 1;
+  text-decoration: none;
+}
+.controles .idioma:hover { border-color: var(--grafito); color: var(--grafito-fuerte); }
+.controles .boton-tema { width: 2.1rem; height: 2.1rem; font-size: 1rem; }
+@media (max-width: 64rem) {
+  header.sitio .derecha { margin-right: 0; }
+  header.sitio .controles { position: static; flex-direction: row; }
+}
+
 /* ---------- Menú flotante (☰, aparece al bajar) ---------- */
 .menu-boton {
   position: fixed; top: 1rem; left: 1rem; z-index: 50;
@@ -167,20 +188,25 @@ header.entrada.con-imagen {
 /* Oculto a la vista, pero lo leen buscadores y lectores de pantalla */
 .solo-lectores { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-/* Presentación del inicio: el texto queda centrado y la foto, pequeña, a su izquierda.
-   La foto es invisible hasta que se pasa el mouse sobre ella; entonces aparece a color. */
-.presentacion { position: relative; }
-.foto-perfil {
-  position: absolute; top: 0.4rem; right: calc(100% + 2rem);
-  width: 12.5rem; aspect-ratio: 4 / 5; object-fit: cover;
+/* Presentación del inicio: el texto queda centrado y lo acompañan dos fotos invisibles,
+   una arriba a la izquierda y otra abajo a la derecha.
+   Cada una aparece a color al pasar el mouse sobre ella. */
+.presentacion { position: relative; min-height: 16.5rem; }   /* espacio para la foto de arriba */
+.foto-oculta {
+  position: absolute; object-fit: cover;
   opacity: 0;
   transition: opacity 0.5s ease, filter 0.5s ease;
 }
-.foto-perfil:hover, .foto-perfil:focus { opacity: 1; filter: none; }
+.foto-oculta:hover, .foto-oculta:focus { opacity: 1; filter: none; z-index: 2; }
+.foto-1 { width: 12.5rem; aspect-ratio: 4 / 5; top: 0.4rem; right: calc(100% + 2rem); }   /* arriba a la izquierda */
+.foto-2 { width: 10rem;  aspect-ratio: 3 / 4; bottom: 0;   left: calc(100% + 2rem); }    /* abajo a la derecha */
 .presentacion .intro p:last-child { margin-bottom: 0; }
-/* Sin espacio a la izquierda (pantallas angostas): la foto va arriba, igual de discreta */
+/* Sin espacio a los lados (pantallas angostas): una foto arriba y otra abajo del texto */
 @media (max-width: 64rem) {
-  .foto-perfil { position: static; display: block; width: 10rem; margin: 0 0 1.2rem; }
+  .presentacion { min-height: 0; display: flex; flex-direction: column; }
+  .foto-oculta { position: static; width: 10rem; }
+  .foto-1 { order: -1; margin-bottom: 1.2rem; }
+  .foto-2 { align-self: flex-end; margin-top: 1.2rem; }
 }
 
 /* ---------- En las secciones: nombre y menú en gris, negro al pasar el mouse ---------- */
