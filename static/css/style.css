@@ -1,22 +1,45 @@
-/* Estilo sobrio: una columna, serif, un solo color de acento */
+/* Estilo de hoja de cuaderno: papel, renglones punteados y perforaciones */
 :root {
-  --fondo: #fbfaf7;
-  --texto: #1f1f1f;
-  --tenue: #6d6a64;
-  --acento: #8a3b12;
-  --linea: #e4e0d8;
-  --codigo: #f1eee8;
+  --papel: #fbe8da;
+  --raya: #c9b6a9;
+  --agujero: #fffaf6;
+  --texto: #2b2522;
+  --tenue: #77675d;
+  --acento: #1f3f73;          /* tinta azul */
+  --linea: #dcc6b6;
+  --codigo: #f3dccb;
+  --renglon: 1.9rem;
   --ancho: 40rem;
+  color-scheme: light;
 }
+/* Modo oscuro: automático según el sistema, salvo que se elija claro con el botón */
 @media (prefers-color-scheme: dark) {
-  :root {
-    --fondo: #171615;
-    --texto: #e6e3dd;
-    --tenue: #9b978f;
-    --acento: #e2a47c;
-    --linea: #2f2d2a;
-    --codigo: #23221f;
+  :root:not([data-tema="claro"]) {
+    --papel: #1d1a18; --raya: #3a332e; --agujero: #0f0d0c;
+    --texto: #e9e2da; --tenue: #a0958b; --acento: #9cb8e8;
+    --linea: #3a332e; --codigo: #29241f;
+    color-scheme: dark;
   }
+}
+:root[data-tema="oscuro"] {
+  --papel: #1d1a18; --raya: #3a332e; --agujero: #0f0d0c;
+  --texto: #e9e2da; --tenue: #a0958b; --acento: #9cb8e8;
+  --linea: #3a332e; --codigo: #29241f;
+  color-scheme: dark;
+}
+
+html {
+  background-color: var(--papel);
+  background-image:
+    /* perforaciones del margen izquierdo */
+    radial-gradient(circle at 16px 50%, var(--agujero) 0 6px, transparent 6.5px),
+    /* corta la raya en guiones */
+    linear-gradient(to right, var(--papel) 0 4px, transparent 4px),
+    /* la raya de cada renglón */
+    linear-gradient(to bottom, transparent calc(var(--renglon) - 1px), var(--raya) 0);
+  background-size: 32px 34px, 10px var(--renglon), 10px var(--renglon);
+  background-repeat: repeat-y, repeat, repeat;
+  min-height: 100%;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -26,12 +49,11 @@ html { -webkit-text-size-adjust: 100%; }
 body {
   max-width: var(--ancho);
   margin: 0 auto;
-  padding: 2.5rem 1.25rem 4rem;
-  background: var(--fondo);
+  padding: 2.5rem 1.25rem 4rem 2.75rem;
   color: var(--texto);
   font-family: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
   font-size: 1.125rem;
-  line-height: 1.65;
+  line-height: var(--renglon);
 }
 body.fotos { --ancho: 56rem; }
 
@@ -59,6 +81,23 @@ header.sitio .nombre { color: var(--texto); text-decoration: none; font-weight: 
 header.sitio nav { display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; font-size: 1rem; }
 header.sitio nav a { color: var(--tenue); text-decoration: none; }
 header.sitio nav a:hover, header.sitio nav a[aria-current] { color: var(--texto); }
+.controles { display: flex; align-items: center; gap: 0.6rem; font-size: 0.9rem; }
+.controles .idioma { color: var(--tenue); text-decoration: none; letter-spacing: 0.05em; }
+.controles .idioma:hover { color: var(--texto); }
+#tema {
+  background: none; border: 1px solid var(--linea); border-radius: 50%;
+  width: 1.9rem; height: 1.9rem; padding: 0; cursor: pointer;
+  color: var(--texto); font-size: 1rem; line-height: 1;
+}
+#tema:hover { border-color: var(--tenue); }
+/* Muestra la luna en modo claro y el sol en modo oscuro */
+.icono-claro { display: none; }
+:root[data-tema="oscuro"] .icono-claro { display: inline; }
+:root[data-tema="oscuro"] .icono-oscuro { display: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="claro"]) .icono-claro { display: inline; }
+  :root:not([data-tema="claro"]) .icono-oscuro { display: none; }
+}
 
 footer.sitio {
   margin-top: 4rem; padding-top: 1rem;

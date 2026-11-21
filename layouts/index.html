@@ -17,7 +17,7 @@
         </li>
         {{ end }}
       </ul>
-      {{ if gt (len .Pages) 5 }}<p><a class="mas" href="{{ .RelPermalink }}">Ver las {{ len .Pages }} entradas →</a></p>{{ end }}
+      {{ if gt (len .Pages) 5 }}<p><a class="mas" href="{{ .RelPermalink }}">{{ i18n "verTodas" (len .Pages) }}</a></p>{{ end }}
     </section>
     {{ end }}
   {{ end }}

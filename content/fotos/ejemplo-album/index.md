@@ -1,11 +1,14 @@
 ---
-title: "Nombre del álbum"
-date: 2026-11-20
-draft: true
-# Opcional: pies de foto. Si no pones nada, la foto sale sin pie.
-# resources:
-#   - src: "foto1.jpg"
-#     title: "Monserrate al amanecer"
+title: "Álbum de ejemplo"
+date: 2026-11-21
+draft: false
+resources:
+  - src: "portada.jpg"
+    title: "Cerros al amanecer"
+  - src: "foto-2.jpg"
+    title: "Mediodía"
+  - src: "foto-3.jpg"
+    title: "Atardecer"
 ---
 
-Pon las fotos (.jpg o .png) en esta misma carpeta. La que se llame `portada.jpg` será la portada del álbum; si no hay ninguna, se usa la primera.
+*Álbum de ejemplo: estas imágenes son de prueba. Reemplázalas por tus fotos.*

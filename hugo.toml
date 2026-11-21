@@ -1,40 +1,79 @@
 # Al publicar, GitHub Actions reemplaza esta dirección por la real
-baseURL = 'https://TU-USUARIO.github.io/'
-languageCode = 'es-co'
+baseURL = 'https://sneikf.github.io/'
 defaultContentLanguage = 'es'
-title = 'Esneider Sierra'
+defaultContentLanguageInSubdir = false
 enableRobotsTXT = true
 
 [params]
   autor = 'Esneider Sierra'
-  descripcion = 'Matemáticas, computación, cuentos, opiniones y fotos.'
   licencia = 'CC BY-SA 4.0'
-  licenciaURL = 'https://creativecommons.org/licenses/by-sa/4.0/deed.es'
 
 [taxonomies]
   tag = 'tags'
 
-[menus]
-  [[menus.main]]
-    name = 'Notas'
-    pageRef = '/posts'
-    weight = 10
-  [[menus.main]]
-    name = 'Cuentos'
-    pageRef = '/cuentos'
-    weight = 20
-  [[menus.main]]
-    name = 'Opiniones'
-    pageRef = '/opiniones'
-    weight = 30
-  [[menus.main]]
-    name = 'Fotos'
-    pageRef = '/fotos'
-    weight = 40
-  [[menus.main]]
-    name = 'Acerca'
-    pageRef = '/acerca'
-    weight = 50
+# ---------- Idiomas ----------
+# Español en https://sneikf.github.io/  ·  inglés en https://sneikf.github.io/en/
+# Una entrada en inglés es el mismo archivo con .en antes de .md:
+#   posts/mi-nota.md  ->  posts/mi-nota.en.md
+
+[languages]
+  [languages.es]
+    languageName = 'Español'
+    languageCode = 'es-co'
+    title = 'Esneider Sierra'
+    weight = 1
+    [languages.es.params]
+      descripcion = 'Matemáticas, computación, cuentos, opiniones y fotos.'
+      licenciaURL = 'https://creativecommons.org/licenses/by-sa/4.0/deed.es'
+    [[languages.es.menus.main]]
+      name = 'Notas'
+      pageRef = '/posts'
+      weight = 10
+    [[languages.es.menus.main]]
+      name = 'Cuentos'
+      pageRef = '/cuentos'
+      weight = 20
+    [[languages.es.menus.main]]
+      name = 'Opiniones'
+      pageRef = '/opiniones'
+      weight = 30
+    [[languages.es.menus.main]]
+      name = 'Fotos'
+      pageRef = '/fotos'
+      weight = 40
+    [[languages.es.menus.main]]
+      name = 'Acerca'
+      pageRef = '/acerca'
+      weight = 50
+
+  [languages.en]
+    languageName = 'English'
+    languageCode = 'en'
+    title = 'Esneider Sierra'
+    weight = 2
+    [languages.en.params]
+      descripcion = 'Mathematics, computer science, stories, opinions and photos.'
+      licenciaURL = 'https://creativecommons.org/licenses/by-sa/4.0/deed.en'
+    [[languages.en.menus.main]]
+      name = 'Notes'
+      pageRef = '/posts'
+      weight = 10
+    [[languages.en.menus.main]]
+      name = 'Stories'
+      pageRef = '/cuentos'
+      weight = 20
+    [[languages.en.menus.main]]
+      name = 'Opinions'
+      pageRef = '/opiniones'
+      weight = 30
+    [[languages.en.menus.main]]
+      name = 'Photos'
+      pageRef = '/fotos'
+      weight = 40
+    [[languages.en.menus.main]]
+      name = 'About'
+      pageRef = '/acerca'
+      weight = 50
 
 [markup]
   [markup.goldmark.renderer]

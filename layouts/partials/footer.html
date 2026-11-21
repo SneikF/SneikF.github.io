@@ -1,8 +1,8 @@
 <footer class="sitio">
   <p>
     © {{ now.Year }} {{ site.Params.autor }} ·
-    Contenido bajo <a href="{{ site.Params.licenciaURL }}">{{ site.Params.licencia }}</a> ·
-    <a href="{{ "index.xml" | relURL }}">RSS</a>
+    {{ i18n "licenciaTexto" }} <a href="{{ site.Params.licenciaURL }}">{{ site.Params.licencia }}</a> ·
+    <a href="{{ "index.xml" | relLangURL }}">RSS</a>
   </p>
-  <p class="tenue">Hecho con <a href="https://gohugo.io">Hugo</a> y alojado en <a href="https://pages.github.com">GitHub Pages</a>.</p>
+  <p class="tenue">{{ i18n "hecho" }} <a href="https://gohugo.io">Hugo</a> · {{ i18n "alojado" }} <a href="https://pages.github.com">GitHub Pages</a></p>
 </footer>

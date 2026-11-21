@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ site.Language.LanguageCode | default "es" }}">
+<html lang="{{ site.Language.Lang }}">
 <head>
   {{ partial "head.html" . }}
 </head>
@@ -9,5 +9,14 @@
     {{ block "main" . }}{{ end }}
   </main>
   {{ partial "footer.html" . }}
+  <script>
+    document.getElementById('tema').addEventListener('click', function () {
+      var r = document.documentElement;
+      var actual = r.dataset.tema || (matchMedia('(prefers-color-scheme: dark)').matches ? 'oscuro' : 'claro');
+      var nuevo = actual === 'oscuro' ? 'claro' : 'oscuro';
+      r.dataset.tema = nuevo;
+      try { localStorage.setItem('tema', nuevo); } catch (e) {}
+    });
+  </script>
 </body>
 </html>

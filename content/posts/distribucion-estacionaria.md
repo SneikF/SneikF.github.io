@@ -1,12 +1,12 @@
 ---
-title: "Ejemplo: distribución estacionaria de una cadena de dos estados"
-date: 2026-11-20
-description: "Entrada de prueba para revisar cómo se ven las fórmulas."
+title: "Distribución estacionaria de una cadena de dos estados"
+date: 2026-11-21
+description: "Un ejemplo pequeño para ver cómo se escriben fórmulas y código."
 tags: ["cadenas de markov", "probabilidad"]
-draft: true
+draft: false
 ---
 
-Esta entrada es un ejemplo: sirve para comprobar que KaTeX funciona. Bórrala o cámbiala cuando subas tus notas (con `draft: true` no se publica).
+*Entrada de ejemplo: edítala o bórrala.*
 
 Sea $P$ la matriz de transición de una cadena con estados $\{1, 2\}$:
 
@@ -24,16 +24,18 @@ Una distribución $\pi = (\pi_1, \pi_2)$ es **estacionaria** si $\pi P = \pi$ y 
 
 La primera coordenada de $\pi P = \pi$ dice $\pi_1 (1-a) + \pi_2\, b = \pi_1$, es decir, $a\,\pi_1 = b\,\pi_2$. Con $\pi_1 + \pi_2 = 1$:
 
-$$
-\pi_1 = \frac{b}{a+b}, \qquad \pi_2 = \frac{a}{a+b}.
-$$
+<div class="teorema">
 
-Y un bloque de código, para ver el resaltado:
+La cadena tiene una única distribución estacionaria, $\pi = \left( \dfrac{b}{a+b}, \dfrac{a}{a+b} \right)$.
+
+</div>
+
+Se puede comprobar numéricamente elevando $P$ a una potencia grande:
 
 ```python
 import numpy as np
 
 a, b = 0.3, 0.1
 P = np.array([[1 - a, a], [b, 1 - b]])
-print(np.linalg.matrix_power(P, 100)[0])  # ≈ [b/(a+b), a/(a+b)]
+print(np.linalg.matrix_power(P, 100)[0])  # ≈ [0.25, 0.75]
 ```

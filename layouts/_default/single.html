@@ -5,13 +5,13 @@
     {{ if not .Date.IsZero }}
     <p class="meta">
       <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_long" }}</time>
-      {{ if ne .Section "fotos" }} · {{ .ReadingTime }} min de lectura{{ end }}
+      {{ if ne .Section "fotos" }} · {{ i18n "lectura" .ReadingTime }}{{ end }}
     </p>
     {{ end }}
   </header>
 
   {{ if .Params.toc }}
-    <details class="toc"><summary>Contenido</summary>{{ .TableOfContents }}</details>
+    <details class="toc"><summary>{{ i18n "contenido" }}</summary>{{ .TableOfContents }}</details>
   {{ end }}
 
   <div class="contenido">

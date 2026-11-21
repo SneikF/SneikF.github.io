@@ -1,0 +1,23 @@
+[lectura]
+other = "{{ .Count }} min read"
+
+[verTodas]
+other = "See all {{ .Count }} posts →"
+
+[contenido]
+other = "Contents"
+
+[licenciaTexto]
+other = "Content under"
+
+[hecho]
+other = "Made with"
+
+[alojado]
+other = "hosted on"
+
+[cambiarTema]
+other = "Toggle light and dark mode"
+
+[idioma]
+other = "Read in"

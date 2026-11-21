@@ -1,0 +1,23 @@
+[lectura]
+other = "{{ .Count }} min de lectura"
+
+[verTodas]
+other = "Ver las {{ .Count }} entradas →"
+
+[contenido]
+other = "Contenido"
+
+[licenciaTexto]
+other = "Contenido bajo"
+
+[hecho]
+other = "Hecho con"
+
+[alojado]
+other = "alojado en"
+
+[cambiarTema]
+other = "Cambiar entre modo claro y oscuro"
+
+[idioma]
+other = "Leer en"

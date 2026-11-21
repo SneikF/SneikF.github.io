@@ -37,43 +37,58 @@ hugo server -D        # -D muestra también los borradores
 
 Abre http://localhost:1313. Cada vez que guardas un archivo la página se recarga.
 
-## 3. Escribir
+## 3. Escribir una entrada nueva
 
 ```bash
-hugo new content posts/teorema-de-perron.md
-hugo new content cuentos/la-ultima-estacion.md
-hugo new content opiniones/sobre-frankenstein.md
-hugo new content fotos/villa-de-leyva/index.md    # luego copia las fotos a esa carpeta
+cd ~/notes/myblog
+hugo new content posts/teorema-de-perron.md          # nota
+hugo new content cuentos/la-ultima-estacion.md       # cuento
+hugo new content opiniones/sobre-frankenstein.md     # opinión
+hugo new content fotos/villa-de-leyva/index.md       # álbum: luego copia las fotos a esa carpeta
 ```
 
-Cada archivo empieza en `draft: true`. Cámbialo a `draft: false` (o borra la línea) cuando quieras publicarlo.
+Abre el archivo en tu editor, escribe debajo de la segunda línea `---` y cambia `draft: true` a `draft: false` cuando quieras publicarlo.
 
-**Matemáticas** (solo en `posts/`, o en cualquier página con `math: true`):
-`$x^2$` o `\(x^2\)` en línea, `$$ ... $$` o `\[ ... \]` en bloque. Ya están definidas `\R`, `\N`, `\Z`, `\Q`, `\C`.
+Mientras escribes, deja corriendo `hugo server -D` y mira http://localhost:1313: la página se actualiza cada vez que guardas.
 
-**Teoremas**: envuelve el texto en `<div class="teorema">`, `<div class="definicion">` o `<div class="prueba">`, dejando una línea en blanco después de abrir y antes de cerrar el `div`.
+### En inglés
 
-**Índice**: pon `toc: true` en el encabezado de una entrada larga.
+La versión en inglés es otro archivo con el mismo nombre y `.en` antes de `.md`:
 
-**Fotos**: el sitio publica solo copias redimensionadas, no los originales. Pero el repositorio es público, así que antes de agregar fotos **quítales los metadatos** (pueden tener la ubicación GPS) y redúcelas para que el repositorio no crezca demasiado:
-
-```bash
-# ImageMagick; modifica los archivos, así que trabaja sobre copias
-mogrify -auto-orient -strip -resize '2400x2400>' -quality 85 *.jpg
 ```
+content/cuentos/el-ultimo-renglon.md      ← español  (sneikf.github.io/cuentos/...)
+content/cuentos/el-ultimo-renglon.en.md   ← inglés   (sneikf.github.io/en/cuentos/...)
+```
+
+Para un álbum: `index.md` e `index.en.md` en la misma carpeta (las fotos se comparten).
+No es obligatorio traducir todo: si una entrada no tiene versión en inglés, simplemente no aparece en `/en/`.
+
+### Matemáticas, teoremas y fotos
+
+- Fórmulas (en `posts/`): `$x^2$` en línea, `$$ ... $$` en bloque. Ya existen `\R`, `\N`, `\Z`, `\Q`, `\C`.
+- Teoremas: `<div class="teorema">`, `<div class="definicion">` o `<div class="prueba">`, con una línea en blanco después de abrir y antes de cerrar.
+- Índice en entradas largas: `toc: true` en el encabezado.
+- Fotos: la que se llame `portada.jpg` es la portada del álbum. Los pies de foto van en `resources:` (mira el álbum de ejemplo). Antes de agregarlas, quítales los metadatos (pueden tener tu ubicación) y redúcelas:
+
+  ```bash
+  mogrify -auto-orient -strip -resize '2400x2400>' -quality 85 *.jpg   # ImageMagick, trabaja sobre copias
+  ```
 
 ## 4. Publicar
 
-GitHub construye y publica el sitio solo cada vez que haces `git push` a `main`
-(ver `.github/workflows/hugo.yaml`). No hay que subir `public/`.
+Cada vez que quieras publicar (una entrada nueva, una corrección o fotos):
 
 ```bash
+cd ~/notes/myblog
 git add -A
-git commit -m "Nueva entrada"
+git commit -m "Nueva entrada: el último renglón"
 git push
 ```
 
-En la pestaña **Actions** del repositorio se ve cada publicación; si una falla, aparece en rojo con el error.
+GitHub construye el sitio solo. En uno o dos minutos está en https://sneikf.github.io.
+El avance se ve en la pestaña **Actions** del repositorio; si sale en rojo, ahí está el error.
+
+Para guardar un borrador sin publicarlo, déjalo con `draft: true`: se sube al repositorio pero no aparece en el sitio.
 
 ## Licencia
 
