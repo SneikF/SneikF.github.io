@@ -1,5 +1,5 @@
-# Cambia TU-USUARIO por tu usuario de Codeberg
-baseURL = 'https://sneikf.codeberg.page/'
+# Al publicar, GitHub Actions reemplaza esta dirección por la real
+baseURL = 'https://TU-USUARIO.github.io/'
 languageCode = 'es-co'
 defaultContentLanguage = 'es'
 title = 'Esneider Sierra'
@@ -52,3 +52,7 @@ enableRobotsTXT = true
 [imaging]
   quality = 82
   resampleFilter = 'Lanczos'
+
+[caches]
+  [caches.images]
+    dir = ':cacheDir/images'

@@ -1,6 +1,6 @@
 # Guía para mantener el blog
 
-Notas para mí: cómo escribir, previsualizar y publicar. El sitio se hace con [Hugo](https://gohugo.io) y se publica en [Codeberg Pages](https://codeberg.page).
+Notas para mí: cómo escribir, previsualizar y publicar. El sitio se hace con [Hugo](https://gohugo.io) y se publica en [GitHub Pages](https://pages.github.com).
 
 ## Estructura
 
@@ -14,7 +14,7 @@ content/
   fotos/<album>/       un álbum por carpeta: index.md + las fotos
 layouts/               plantillas (sin tema externo)
 static/css/style.css   todo el estilo
-publicar.sh            construye y sube el sitio
+.github/workflows/     construye y publica el sitio en cada push
 ```
 
 ## 1. Instalar Hugo (una vez)
@@ -62,35 +62,19 @@ Cada archivo empieza en `draft: true`. Cámbialo a `draft: false` (o borra la l�
 mogrify -auto-orient -strip -resize '2400x2400>' -quality 85 *.jpg
 ```
 
-## 4. Publicar en Codeberg (una vez)
+## 4. Publicar
 
-1. Crea una cuenta en https://codeberg.org.
-2. Crea un repositorio **público** llamado `pages`.
-3. En `hugo.toml`, cambia `SneikF` por tu usuario.
-4. Sube el código fuente:
-   ```bash
-   cd ~/notes/myblog
-   git init -b main
-   git add -A && git commit -m "Primer commit"
-   git remote add origin git@codeberg.org:SneikF/pages.git
-   git push -u origin main
-   ```
-5. En el repositorio: **Settings → Webhooks → Add webhook**, elige el de **git-pages**, deja la URL por defecto (`https://sneikf.codeberg.page/`) y pon `pages` en **Branch filter**.
-6. Publica:
-   ```bash
-   chmod +x publicar.sh
-   ./publicar.sh
-   ```
-
-El blog queda en `https://sneikf.codeberg.page/`.
-
-## Rutina de siempre
+GitHub construye y publica el sitio solo cada vez que haces `git push` a `main`
+(ver `.github/workflows/hugo.yaml`). No hay que subir `public/`.
 
 ```bash
-git add -A && git commit -m "Nueva entrada" && git push   # guarda el fuente
-./publicar.sh                                              # actualiza el sitio
+git add -A
+git commit -m "Nueva entrada"
+git push
 ```
+
+En la pestaña **Actions** del repositorio se ve cada publicación; si una falla, aparece en rojo con el error.
 
 ## Licencia
 
-Contenido bajo CC BY-SA 4.0 y código bajo MIT (ver `LICENSE`). Codeberg está pensado para proyectos libres, así que conviene que el contenido tenga una licencia libre.
+Contenido bajo CC BY-SA 4.0 y código bajo MIT (ver `LICENSE`). 
