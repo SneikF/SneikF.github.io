@@ -1,0 +1,11 @@
+{{/* Imagen con descripción dentro de una entrada:
+     {{< foto src="atardecer.jpg" titulo="Minititulo" >}}
+     Descripción en Markdown (puede tener varios párrafos).
+     {{< /foto >}}
+     La imagen debe estar en la misma carpeta que el index.md de la entrada. */}}
+{{ $src := .Get "src" }}
+{{ $img := .Page.Resources.Get $src }}
+{{ if not $img }}
+  {{ errorf "foto: no encuentro la imagen %q junto a %s (la entrada debe ser una carpeta con index.md)" $src .Page.File.Path }}
+{{ end }}
+{{ partial "lamina.html" (dict "img" $img "titulo" (.Get "titulo") "descripcion" (trim .Inner "\n ")) }}

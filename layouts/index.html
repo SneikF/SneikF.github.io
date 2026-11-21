@@ -33,7 +33,7 @@
   {{ if .Pages }}
   <section class="bloque">
     <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
-    {{ partial "albumes.html" (first 6 .Pages) }}
+    {{ partial "albumes.html" (first 6 (shuffle .Pages)) }}
   </section>
   {{ end }}
 {{ end }}

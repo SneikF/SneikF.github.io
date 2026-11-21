@@ -1,15 +1,16 @@
-{{/* Recibe una lista de álbumes y muestra su portada */}}
-<div class="galeria albumes">
+{{/* Recibe una lista de álbumes y los muestra «regados», como fotos sobre una mesa:
+     solo la portada y el título centrado encima. */}}
+<div class="albumes">
   {{ range . }}
     {{ $imgs := .Resources.ByType "image" }}
     {{ $portada := $imgs.GetMatch "portada*" }}
     {{ if not $portada }}{{ with $imgs }}{{ $portada = index . 0 }}{{ end }}{{ end }}
     <a class="album" href="{{ .RelPermalink }}">
       {{ with $portada }}
-        {{ $t := .Fill "480x360 Center" }}
+        {{ $t := .Fit "900x900" }}
         <img src="{{ $t.RelPermalink }}" width="{{ $t.Width }}" height="{{ $t.Height }}" alt="" loading="lazy">
       {{ end }}
-      <span>{{ .Title }}</span>
+      <span class="album-titulo">{{ .Title }}</span>
     </a>
   {{ end }}
 </div>

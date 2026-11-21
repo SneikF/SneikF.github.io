@@ -1,18 +1,29 @@
-{{/* Una imagen presentada como lámina: título, «Ampliar», «Descargar» y la imagen.
-     Recibe: dict "img" (recurso de imagen) "numero" (int) "pie" (texto opcional) */}}
+{{/* Una imagen presentada como lámina.
+     Recibe: dict "img" (recurso de imagen), y opcionales:
+       "numero" (int, muestra «Lámina I, II…»), "titulo" (minititulo), "descripcion" (texto en Markdown).
+     Con título o descripción: texto a la izquierda (1/4) e imagen a la derecha (3/4).
+     Sin ellos: imagen centrada, como antes. Solo se publican versiones redimensionadas. */}}
 {{ $img := .img }}
 {{ $vista := $img.Fit "1600x1600" }}
 {{ $grande := $img.Fit "3000x3000" }}
-<figure class="lamina">
-  <p class="lamina-titulo">{{ i18n "lamina" }} {{ partial "romano.html" .numero }}</p>
-  <p class="lamina-acciones">
-    <a class="ampliar" href="{{ $grande.RelPermalink }}" data-zoom>
-      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6"/></svg>{{ i18n "ampliar" }}</a>
-    <a class="descargar" href="{{ $grande.RelPermalink }}" download>
-      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M4 15v5h16v-5"/></svg>{{ i18n "descargar" }}</a>
-  </p>
-  <a class="ampliable" href="{{ $grande.RelPermalink }}">
-    <img src="{{ $vista.RelPermalink }}" width="{{ $vista.Width }}" height="{{ $vista.Height }}" alt="{{ .pie }}" loading="lazy">
-  </a>
-  {{ with .pie }}<figcaption>{{ . }}</figcaption>{{ end }}
+{{ $alt := .titulo | default "" }}
+{{ $acciones := printf `<p class="lamina-acciones"><a class="ampliar" href="%s" data-zoom><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6"/></svg>%s</a><a class="descargar" href="%s" download><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M4 15v5h16v-5"/></svg>%s</a></p>` $grande.RelPermalink (i18n "ampliar") $grande.RelPermalink (i18n "descargar") }}
+{{ $imagen := printf `<a class="ampliable" href="%s"><img src="%s" width="%d" height="%d" alt="%s" loading="lazy"></a>` $grande.RelPermalink $vista.RelPermalink $vista.Width $vista.Height $alt }}
+
+{{ if or .titulo .descripcion }}
+<figure class="lamina descrita">
+  <figcaption class="lamina-texto">
+    {{ with .numero }}<span class="lamina-numero">{{ i18n "lamina" }} {{ partial "romano.html" . }}</span>{{ end }}
+    {{ with .titulo }}<span class="lamina-minititulo">{{ . }}</span>{{ end }}
+    {{ with .descripcion }}<div class="lamina-descripcion">{{ . | markdownify }}</div>{{ end }}
+    {{ $acciones | safeHTML }}
+  </figcaption>
+  {{ $imagen | safeHTML }}
 </figure>
+{{ else }}
+<figure class="lamina">
+  {{ with .numero }}<p class="lamina-titulo">{{ i18n "lamina" }} {{ partial "romano.html" . }}</p>{{ end }}
+  {{ $acciones | safeHTML }}
+  {{ $imagen | safeHTML }}
+</figure>
+{{ end }}

@@ -58,7 +58,9 @@ a { color: var(--grafito-fuerte); text-decoration: underline; text-decoration-co
 a:hover { text-decoration-color: var(--grafito-fuerte); }
 
 p, ul, ol, blockquote, pre, table, figure, details { margin: 0 0 1.3rem; }
-img { max-width: 100%; height: auto; filter: grayscale(1) contrast(1.05); }
+/* Las imágenes van en grises y recuperan el color al pasar el mouse */
+img { max-width: 100%; height: auto; filter: grayscale(1) contrast(1.05); transition: filter 0.4s ease; }
+img:hover, a:hover > img, a:focus-visible > img { filter: none; }
 
 h1, h2, h3, h4 {
   font-family: var(--letra-titulos);
@@ -142,9 +144,20 @@ body.desplazado .menu-boton { opacity: 1; pointer-events: auto; }
 
 /* ---------- Títulos principales: alineados a la izquierda con el nombre ---------- */
 /* Sobresalen de la columna de texto hasta el borde izquierdo de la cabecera */
-.portada, header.entrada, main > h1 {
+.portada, header.entrada, main > h1, main > h1 + .subtitulo {
   margin-left: calc(-1 * min(10rem, max(0rem, (100vw - var(--ancho)) / 2)));
   text-align: left;
+}
+
+/* Entrada con imagen junto al título: título a la izquierda, imagen a la derecha */
+header.entrada.con-imagen {
+  display: grid; grid-template-columns: 1fr minmax(0, 0.8fr); gap: 2.5rem; align-items: center;
+  margin-right: calc(-1 * min(10rem, max(0rem, (100vw - var(--ancho)) / 2)));
+  margin-bottom: 2.8rem;
+}
+.imagen-titulo img { display: block; width: 100%; max-height: 26rem; object-fit: cover; }
+@media (max-width: 48rem) {
+  header.entrada.con-imagen { grid-template-columns: 1fr; gap: 1.2rem; }
 }
 
 /* ---------- Portada ---------- */
@@ -248,12 +261,98 @@ figure.lamina { margin: 0 0 4rem; text-align: center; }
 .lamina-acciones svg, .visor-barra svg { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 figure.lamina img { display: block; margin: 0 auto; max-height: 85vh; width: auto; }
 
-/* Álbumes */
-.galeria { display: grid; gap: 1.2rem; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); margin-top: 1rem; }
-.galeria img { display: block; width: 100%; }
-.album { text-decoration: none; color: var(--grafito); }
-.album span { display: block; font-size: 1.2rem; margin-top: 0.3rem; }
-.album:hover span { text-decoration: underline; text-decoration-color: var(--trazo); }
+/* Lámina con descripción: texto a la izquierda (1/4), imagen a la derecha (3/4) */
+figure.lamina.con-descripcion {
+  display: grid; grid-template-columns: 1fr 3fr; gap: 2.5rem;
+  align-items: start; text-align: left;
+}
+.con-descripcion .lamina-texto { text-align: left; margin: 0; color: var(--grafito); font-size: 1.15rem; line-height: 1.55; }
+.lamina-numero { color: var(--tenue); font-size: 1.05rem; margin: 0; }
+.lamina-minititulo { font-size: 1.7rem; margin: 0 0 0.6rem; }
+.lamina-descripcion p { margin: 0 0 0.8rem; hyphens: auto; }
+.con-descripcion .lamina-acciones { margin: 1rem 0 0; display: flex; flex-direction: column; gap: 0.2rem; }
+.con-descripcion .lamina-acciones a { margin: 0; }
+.con-descripcion img { width: 100%; max-height: none; }
+/* Dentro de una entrada, la lámina con descripción sale de la columna para tener espacio */
+.contenido figure.lamina.con-descripcion { width: min(92vw, 64rem); margin: 2.5rem 0 2.5rem 50%; transform: translateX(-50%); }
+.contenido figure.lamina:not(.con-descripcion) { margin: 2.5rem 0; }
+@media (max-width: 45rem) {
+  figure.lamina.con-descripcion { grid-template-columns: 1fr; gap: 1rem; }
+  .con-descripcion .lamina-texto { order: 2; }   /* en el celular: imagen arriba, texto abajo */
+  .con-descripcion .lamina-acciones { flex-direction: row; gap: 1.2rem; }
+}
+
+/* Lámina con descripción: texto a la izquierda (1/4), imagen a la derecha (3/4) */
+figure.lamina.descrita {
+  display: grid; grid-template-columns: 1fr 3fr; gap: 2.2rem;
+  align-items: start; text-align: left;
+}
+/* Dentro de una entrada, la lámina sale de la columna de texto para tener espacio */
+.contenido figure.lamina.descrita { width: min(92vw, 64rem); margin: 2.5rem 0 3rem 50%; transform: translateX(-50%); }
+.lamina-texto { display: flex; flex-direction: column; gap: 0.3rem; margin: 0; text-align: left; font-style: normal; }
+.lamina-numero { color: var(--tenue); font-size: 1rem; }
+.lamina-minititulo {
+  font-family: var(--letra-titulos); font-weight: 700; font-size: 1.7rem; line-height: 1.1;
+  color: var(--grafito-fuerte); filter: url(#lapiz);
+}
+.lamina-descripcion { color: var(--grafito); font-size: 1.1rem; line-height: 1.55; }
+.lamina-descripcion p { margin: 0 0 0.7rem; }
+.descrita .lamina-acciones { margin: 0.6rem 0 0; display: flex; flex-direction: column; gap: 0.2rem; }
+.descrita .lamina-acciones a { margin: 0; }
+.descrita .ampliable img { margin: 0; width: auto; max-width: 100%; max-height: 85vh; }
+
+@media (max-width: 48rem) {
+  figure.lamina.descrita { grid-template-columns: 1fr; gap: 1rem; }
+  .descrita .ampliable { order: -1; }      /* en el celular: imagen arriba, texto debajo */
+  .descrita .lamina-acciones { flex-direction: row; gap: 1.2rem; }
+}
+
+/* Álbumes: regados como fotos impresas sobre una mesa */
+.albumes {
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+  gap: 2.5rem 3rem; padding: 2rem 0 3rem;
+}
+/* En la página de Fotos ocupan más ancho que la columna de texto */
+.fotos .albumes, .inicio .albumes { width: min(94vw, 68rem); margin-left: 50%; transform: translateX(-50%); }
+.album {
+  position: relative; display: block; flex: 0 0 auto;
+  width: var(--ancho-foto, 16rem);
+  padding: 0.55rem;
+  background: #fbfbf9;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
+  transform: rotate(var(--giro, 0deg)) translateY(var(--desfase, 0));
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  text-decoration: none;
+}
+.album img { display: block; width: 100%; height: auto; }
+.album:hover, .album:focus-visible {
+  transform: rotate(0deg) translateY(var(--desfase, 0)) scale(1.04);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+}
+/* Tamaños, giros y desfases distintos para que no queden en fila */
+.album:nth-child(7n+1) { --ancho-foto: 17rem; --giro: -3deg;   --desfase: 1.2rem; }
+.album:nth-child(7n+2) { --ancho-foto: 13rem; --giro: 2.5deg;  --desfase: -1.6rem; }
+.album:nth-child(7n+3) { --ancho-foto: 20rem; --giro: -1.2deg; --desfase: 2.2rem; }
+.album:nth-child(7n+4) { --ancho-foto: 14rem; --giro: 4deg;    --desfase: -0.6rem; }
+.album:nth-child(7n+5) { --ancho-foto: 18rem; --giro: -2.2deg; --desfase: 1.6rem; }
+.album:nth-child(7n+6) { --ancho-foto: 15rem; --giro: 1.5deg;  --desfase: -2rem; }
+.album:nth-child(7n+7) { --ancho-foto: 16rem; --giro: -4deg;   --desfase: 0.8rem; }
+/* Título centrado sobre la portada */
+.album-titulo {
+  position: absolute; inset: 0.55rem;
+  display: grid; place-items: center; padding: 1rem; text-align: center;
+  font-family: var(--letra-titulos); font-weight: 700; font-size: 2.1rem; line-height: 1.05;
+  color: #fff; text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
+  background: rgba(0, 0, 0, 0.16);
+  transition: background 0.35s ease;
+}
+.album:hover .album-titulo { background: rgba(0, 0, 0, 0.05); }
+@media (max-width: 40rem) {
+  .albumes { gap: 2rem 1.2rem; }
+  .album { --ancho-foto: 42vw !important; }
+  .album-titulo { font-size: 1.5rem; }
+}
 
 /* ---------- Visor ---------- */
 .visor { position: fixed; inset: 0; z-index: 100; background: rgba(24, 24, 24, 0.95); }

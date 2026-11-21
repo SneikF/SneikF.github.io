@@ -1,5 +1,7 @@
 {{ define "main" }}
 <h1>{{ .Title }}</h1>
+{{ with .Description }}<p class="tenue subtitulo">{{ . }}</p>{{ end }}
 {{ with .Content }}<div class="intro-seccion">{{ . }}</div>{{ end }}
-{{ partial "albumes.html" .Pages }}
+{{/* Orden aleatorio: cambia cada vez que se publica el sitio */}}
+{{ partial "albumes.html" (shuffle .Pages) }}
 {{ end }}

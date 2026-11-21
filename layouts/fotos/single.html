@@ -10,8 +10,8 @@
 
   <div class="laminas">
     {{ range $i, $img := .Resources.ByType "image" }}
-      {{ $pie := "" }}{{ if ne $img.Title $img.Name }}{{ $pie = $img.Title }}{{ end }}
-      {{ partial "lamina.html" (dict "img" $img "numero" (add $i 1) "pie" $pie) }}
+      {{ $titulo := "" }}{{ if ne $img.Title $img.Name }}{{ $titulo = $img.Title }}{{ end }}
+      {{ partial "lamina.html" (dict "img" $img "numero" (add $i 1) "titulo" $titulo "descripcion" ($img.Params.descripcion | default "")) }}
     {{ end }}
   </div>
 

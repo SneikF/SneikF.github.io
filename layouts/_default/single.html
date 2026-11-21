@@ -1,12 +1,26 @@
 {{ define "main" }}
 <article>
-  <header class="entrada">
-    <h1>{{ .Title }}</h1>
-    {{ if not .Date.IsZero }}
-    <p class="meta">
-      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_long" }}</time>
-      {{ if and (ne .Section "fotos") (ne .Section "") }} · {{ i18n "lectura" .ReadingTime }}{{ end }}
-    </p>
+  {{/* Imagen junto al título: en el encabezado de la entrada,  imagen: "archivo.jpg"
+       (el archivo va en la misma carpeta que el index.md de la entrada) */}}
+  {{ $imagenTitulo := false }}
+  {{ with .Params.imagen }}
+    {{ $imagenTitulo = $.Resources.Get . }}
+    {{ if not $imagenTitulo }}{{ errorf "imagen: no encuentro %q junto a %s (la entrada debe ser una carpeta con index.md)" . $.File.Path }}{{ end }}
+  {{ end }}
+  <header class="entrada{{ if $imagenTitulo }} con-imagen{{ end }}">
+    <div class="entrada-titulo">
+      <h1>{{ .Title }}</h1>
+      {{ if not .Date.IsZero }}
+      <p class="meta">
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_long" }}</time>
+        {{ if and (ne .Section "fotos") (ne .Section "") }} · {{ i18n "lectura" .ReadingTime }}{{ end }}
+      </p>
+      {{ end }}
+    </div>
+    {{ with $imagenTitulo }}
+      {{ $vista := .Fit "1000x1000" }}
+      {{ $grande := .Fit "3000x3000" }}
+      <a class="ampliable imagen-titulo" href="{{ $grande.RelPermalink }}"><img src="{{ $vista.RelPermalink }}" width="{{ $vista.Width }}" height="{{ $vista.Height }}" alt=""></a>
     {{ end }}
   </header>
 

@@ -83,23 +83,72 @@ subtitulo: "Matemáticas, computación, cuentos y fotos"
 imagen: "img/inicio.jpg"           # opcional: imagen debajo (archivo en static/img/)
 ```
 
+### Imagen junto al título (opiniones, cuentos o notas)
+
+Convierte la entrada en carpeta, pon la imagen al lado del `index.md` y agrega una línea al encabezado:
+
+```yaml
+---
+title: "Caminar la ciudad"
+imagen: "calle.jpg"
+---
+```
+
+El título y la fecha quedan a la izquierda y la imagen a la derecha (en el celular, la imagen va debajo del título).
+Ejemplos: `opiniones/leer-en-papel/` (solo imagen en el título), `opiniones/caminar-la-ciudad/` y `cuentos/el-faro/` (imagen en el título y en el texto), `opiniones/ejemplo.md` y `cuentos/ejemplo.md` (sin imágenes).
+
 ### Imágenes dentro de una entrada
 
-Convierte la entrada en carpeta (`content/posts/mi-nota/index.md`), pon la imagen al lado y escríbela sola en una línea:
+Convierte la entrada en carpeta (`content/posts/mi-nota/index.md`) y pon las imágenes al lado del `index.md`.
+
+**Imagen sola, centrada:**
 
 ```markdown
 ![Descripción para lectores de pantalla](foto.jpg "Pie de foto opcional")
 ```
 
-Al hacer clic se abre el visor: lupa para acercar (o clic sobre la imagen), botón de pantalla completa, flechas ← → para pasar entre imágenes y Esc para cerrar.
-En los álbumes de `fotos/`, cada imagen sale como «Lámina I, II, III…» con los enlaces Ampliar y Descargar.
+**Imagen con descripción** (texto a la izquierda en 1/4, imagen a la derecha en 3/4):
+
+```markdown
+{{< foto src="atardecer.jpg" titulo="Atardecer en Monserrate" >}}
+Aquí va la descripción. Puede tener **negritas**, *cursivas*
+y varios párrafos.
+{{< /foto >}}
+```
+
+En el celular la imagen queda arriba y la descripción debajo.
+
+### Fotos de un álbum con descripción
+
+En el encabezado del `index.md` del álbum, cada foto puede llevar un minititulo (`title`) y una descripción (`descripcion`):
+
+```yaml
+resources:
+  - src: "portada.jpg"
+    title: "Cerros al amanecer"
+    params:
+      descripcion: "Primera luz sobre los cerros orientales."
+  - src: "foto-2.jpg"
+    title: "Mediodía"
+    params:
+      descripcion: |
+        Una descripción más larga.
+
+        Con varios párrafos.
+  - src: "foto-3.jpg"        # sin título ni descripción: sale sola y centrada
+```
+
+En la sección Fotos, los álbumes aparecen regados y en orden aleatorio (cambia cada vez que publicas). Cada uno muestra su portada (la foto llamada `portada.jpg`, o la primera) con el título del álbum encima. Los tamaños y giros se ajustan en el CSS, en las reglas `.album:nth-child(...)`.
+
+Las fotos se numeran solas (Lámina I, II, III…) en orden alfabético por nombre de archivo; para cambiar el orden, renómbralas (`01-cerros.jpg`, `02-mediodia.jpg`…).
+En cualquier imagen, el clic abre el visor (lupa para acercar, pantalla completa, flechas ← → y Esc para cerrar).
 
 ### Tonos y letras
 
 Todo está al principio de `static/css/style.css`: `--papel` (fondo), `--grafito` (texto), `--grafito-fuerte` (títulos), `--tenue` (fechas), `--trazo` (líneas), y `--letra` / `--letra-titulos` (fuentes: Patrick Hand y Caveat).
 Los tonos del modo oscuro están justo debajo, repetidos en dos bloques: cambia ambos.
 El grano de lápiz de los títulos es el filtro `lapiz` en `layouts/_default/baseof.html`; para quitarlo, borra las líneas `filter: url(#lapiz);` del CSS.
-Las fotos se muestran en blanco y negro por la línea `img { ... filter: grayscale(1) ... }`.
+Las fotos se muestran en grises y recuperan el color al pasar el mouse (reglas `img { ... filter: grayscale(1) ... }` e `img:hover`). Para dejarlas siempre a color, borra `filter: grayscale(1) contrast(1.05);`.
 
 ## 4. Publicar
 
