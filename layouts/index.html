@@ -2,39 +2,13 @@
 <section class="portada">
   <h1 class="solo-lectores">{{ site.Title }}</h1>
   {{ with .Params.subtitulo }}<p class="portada-subtitulo">{{ . }}</p>{{ end }}
-  {{ with .Params.imagen }}<img class="portada-imagen" src="{{ . | relURL }}" alt="">{{ end }}
 </section>
 
-<section class="intro">
-  {{ .Content }}
+{{/* Foto (en static/img/) y texto de presentación (el cuerpo de content/_index.md) */}}
+<section class="presentacion">
+  {{ with .Params.foto }}<img class="foto-perfil" src="{{ . | relURL }}" alt="{{ site.Title }}" tabindex="0">{{ end }}
+  <div class="intro">
+    {{ .Content }}
+  </div>
 </section>
-
-{{ range slice "posts" "cuentos" "opiniones" }}
-  {{ with site.GetPage (printf "/%s" .) }}
-    {{ if .Pages }}
-    <section class="bloque">
-      <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
-      <ul class="lista">
-        {{ range first 5 .Pages }}
-        <li>
-          <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format "Jan 2006" }}</time>
-          {{ with .Description }}<span class="resumen">{{ . }}</span>{{ end }}
-        </li>
-        {{ end }}
-      </ul>
-      {{ if gt (len .Pages) 5 }}<p><a class="mas" href="{{ .RelPermalink }}">{{ i18n "verTodas" (len .Pages) }}</a></p>{{ end }}
-    </section>
-    {{ end }}
-  {{ end }}
-{{ end }}
-
-{{ with site.GetPage "/fotos" }}
-  {{ if .Pages }}
-  <section class="bloque">
-    <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
-    {{ partial "albumes.html" (first 6 (shuffle .Pages)) }}
-  </section>
-  {{ end }}
-{{ end }}
 {{ end }}

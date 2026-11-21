@@ -13,7 +13,6 @@
       {{ if not .Date.IsZero }}
       <p class="meta">
         <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_long" }}</time>
-        {{ if and (ne .Section "fotos") (ne .Section "") }} · {{ i18n "lectura" .ReadingTime }}{{ end }}
       </p>
       {{ end }}
     </div>

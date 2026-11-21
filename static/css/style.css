@@ -167,6 +167,22 @@ header.entrada.con-imagen {
 /* Oculto a la vista, pero lo leen buscadores y lectores de pantalla */
 .solo-lectores { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
+/* Presentación del inicio: el texto queda centrado y la foto, pequeña, a su izquierda.
+   La foto es invisible hasta que se pasa el mouse sobre ella; entonces aparece a color. */
+.presentacion { position: relative; }
+.foto-perfil {
+  position: absolute; top: 0.4rem; right: calc(100% + 2rem);
+  width: 12.5rem; aspect-ratio: 4 / 5; object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.5s ease, filter 0.5s ease;
+}
+.foto-perfil:hover, .foto-perfil:focus { opacity: 1; filter: none; }
+.presentacion .intro p:last-child { margin-bottom: 0; }
+/* Sin espacio a la izquierda (pantallas angostas): la foto va arriba, igual de discreta */
+@media (max-width: 64rem) {
+  .foto-perfil { position: static; display: block; width: 10rem; margin: 0 0 1.2rem; }
+}
+
 /* ---------- En las secciones: nombre y menú en gris, negro al pasar el mouse ---------- */
 .seccion .nombre,
 .seccion .menu a { color: var(--tenue); }
