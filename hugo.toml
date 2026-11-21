@@ -3,6 +3,9 @@ baseURL = 'https://sneikf.github.io/'
 defaultContentLanguage = 'es'
 defaultContentLanguageInSubdir = false
 enableRobotsTXT = true
+# Archivos viejos que Hugo no debe leer (las entradas se movieron a sus propias carpetas).
+# Cuando borres esos archivos, puedes quitar esta línea.
+ignoreFiles = ['cuentos/ejemplo(\.en)?\.md$', 'opiniones/ejemplo(\.en)?\.md$']
 
 [params]
   autor = 'Esneider Sierra'
