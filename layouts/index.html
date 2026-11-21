@@ -1,7 +1,6 @@
 {{ define "main" }}
 <section class="portada">
-  {{ with .Params.etiqueta }}<p class="portada-etiqueta">{{ . }}</p>{{ end }}
-  <h1>{{ .Params.titular | default site.Title }}</h1>
+  <h1 class="solo-lectores">{{ site.Title }}</h1>
   {{ with .Params.subtitulo }}<p class="portada-subtitulo">{{ . }}</p>{{ end }}
   {{ with .Params.imagen }}<img class="portada-imagen" src="{{ . | relURL }}" alt="">{{ end }}
 </section>

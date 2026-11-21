@@ -84,7 +84,7 @@ hr {
 
 /* ---------- Cabecera ---------- */
 header.sitio {
-  max-width: calc(var(--ancho) + 12rem);
+  max-width: calc(var(--ancho) + 20rem);
   margin: 0 auto;
   padding: 1.8rem 1.5rem 1.2rem;
   display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
@@ -94,16 +94,16 @@ header.sitio {
 .nombre {
   font-family: var(--letra-titulos);
   font-weight: 700;
-  font-size: 2rem;
+  font-size: 1.6rem;
   color: var(--grafito-fuerte);
   text-decoration: none;
   filter: url(#lapiz);
+  transition: color 0.2s;
 }
 .derecha { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.4rem 1.6rem; margin-left: auto; }
 .menu { display: flex; flex-wrap: wrap; gap: 0.2rem 1.3rem; }
-.menu a { color: var(--grafito); text-decoration: none; font-size: 1.25rem; }
+.menu a { color: var(--grafito); text-decoration: none; font-size: 1.25rem; transition: color 0.2s; }
 .menu a:hover { text-decoration: underline; text-decoration-color: var(--trazo); }
-.menu a[aria-current] { color: var(--grafito-fuerte); text-decoration: underline; text-decoration-color: var(--grafito); }
 
 .controles { display: flex; align-items: center; gap: 0.8rem; }
 .controles .idioma { color: var(--tenue); text-decoration: none; font-size: 1.05rem; }
@@ -140,15 +140,33 @@ body.desplazado .menu-boton { opacity: 1; pointer-events: auto; }
 .menu-flotante .nombre { font-size: 1.5rem; }
 .menu-flotante .menu { flex-direction: column; margin: 0; }
 
+/* ---------- Títulos principales: alineados a la izquierda con el nombre ---------- */
+/* Sobresalen de la columna de texto hasta el borde izquierdo de la cabecera */
+.portada, header.entrada, main > h1 {
+  margin-left: calc(-1 * min(10rem, max(0rem, (100vw - var(--ancho)) / 2)));
+  text-align: left;
+}
+
 /* ---------- Portada ---------- */
-.portada { text-align: center; margin: 1rem 0 3rem; }
-.portada-etiqueta { color: var(--tenue); font-size: 1.1rem; letter-spacing: 0.08em; text-transform: lowercase; margin: 0; }
-.portada h1 { font-size: clamp(3.2rem, 10vw, 5.2rem); margin: 0.2rem 0 0.4rem; }
-.portada-subtitulo { color: var(--tenue); margin: 0 0 1.5rem; }
-.portada-imagen { display: block; margin: 2rem auto 0; max-height: 60vh; }
-.portada::after {
-  content: ""; display: block; height: 8px; width: 40%; margin: 2rem auto 0;
-  background: var(--linea-lapiz) center / 100% 8px no-repeat;
+.portada { margin-top: 0.5rem; margin-bottom: 2.5rem; }
+.portada-subtitulo { color: var(--tenue); margin: 0; }
+.portada-imagen { display: block; margin: 2rem 0 0; max-height: 60vh; }
+/* Oculto a la vista, pero lo leen buscadores y lectores de pantalla */
+.solo-lectores { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- En las secciones: nombre y menú en gris, negro al pasar el mouse ---------- */
+.seccion .nombre,
+.seccion .menu a { color: var(--tenue); }
+.seccion .nombre:hover,
+.seccion .menu a:hover { color: var(--grafito-fuerte); }
+/* La sección actual siempre resaltada */
+.menu a[aria-current],
+.seccion .menu a[aria-current] {
+  color: var(--grafito-fuerte);
+  text-decoration: underline;
+  text-decoration-color: var(--grafito);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.25em;
 }
 
 /* ---------- Listas de entradas ---------- */

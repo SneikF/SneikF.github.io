@@ -1,7 +1,5 @@
 ---
 title: "Home"
-etiqueta: "Personal blog"
-titular: "Esneider Sierra"
 subtitulo: "Mathematics, computing, stories and photos"
 ---
 

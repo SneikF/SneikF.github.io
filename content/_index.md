@@ -1,8 +1,6 @@
 ---
 title: "Inicio"
-# Portada. Para mostrar una imagen debajo del título, agrega una línea:  imagen: "img/archivo.jpg"
-etiqueta: "Blog personal"
-titular: "Esneider Sierra"
+# Portada. Para mostrar una imagen debajo de la frase, agrega una línea:  imagen: "img/archivo.jpg"
 subtitulo: "Matemáticas, computación, cuentos y fotos"
 ---
 

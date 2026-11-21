@@ -3,7 +3,7 @@
 <head>
   {{ partial "head.html" . }}
 </head>
-<body class="{{ .Section | default "inicio" }}">
+<body class="{{ if .IsHome }}inicio{{ else }}seccion {{ .Section }}{{ end }}">
   {{/* Filtro de «lápiz»: grano de grafito y trazo levemente irregular */}}
   <svg class="filtros" width="0" height="0" aria-hidden="true" focusable="false">
     <filter id="lapiz" x="-2%" y="-10%" width="104%" height="120%">

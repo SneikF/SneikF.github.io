@@ -76,11 +76,9 @@ No es obligatorio traducir todo: si una entrada no tiene versión en inglés, si
 
 ### Portada
 
-El texto grande del inicio se configura al principio de `content/_index.md` (y de `_index.en.md` para inglés):
+La frase del inicio se configura al principio de `content/_index.md` (y de `_index.en.md` para inglés):
 
 ```yaml
-etiqueta: "Blog personal"          # texto pequeño arriba
-titular: "Esneider Sierra"         # título grande
 subtitulo: "Matemáticas, computación, cuentos y fotos"
 imagen: "img/inicio.jpg"           # opcional: imagen debajo (archivo en static/img/)
 ```
