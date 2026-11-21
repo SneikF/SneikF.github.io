@@ -10,6 +10,7 @@ resources:
   - src: "foto-2.jpg"
     title: "Midday"
     params:
+      lado: "derecha"
       descripcion: |
         The same landscape a few hours later.
 

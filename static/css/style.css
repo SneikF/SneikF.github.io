@@ -9,7 +9,7 @@
   --tenue: #8a8a8a;          /* fechas, notas */
   --trazo: #9a9a9a;          /* líneas dibujadas */
   --codigo: #ebeae6;
-  --letra: "Patrick Hand", "Comic Neue", "Segoe Print", "Bradley Hand", cursive;
+  --letra: "Kalam", "Patrick Hand", "Segoe Print", "Bradley Hand", cursive;   /* trazo fino */
   --letra-titulos: "Caveat", "Segoe Print", "Bradley Hand", cursive;
   --ancho: 40rem;
   color-scheme: light;
@@ -47,8 +47,10 @@ body {
   color: var(--grafito);
   font-family: var(--letra);
   font-size: 1.3rem;
-  line-height: 1.7;
-  text-shadow: 0 0 0.4px currentColor;   /* brillo leve del grafito */
+  font-weight: 300;      /* versión fina de la letra: más liviana para leer */
+  letter-spacing: -0.025em;   /* letras más juntas (Kalam viene muy espaciada) */
+  word-spacing: -0.04em;
+  line-height: 1.75;
 }
 
 .columna { max-width: var(--ancho); margin: 0 auto; padding: 0 1.5rem; }
@@ -64,7 +66,7 @@ img:hover, a:hover > img, a:focus-visible > img { filter: none; }
 
 h1, h2, h3, h4 {
   font-family: var(--letra-titulos);
-  font-weight: 700;
+  font-weight: 500;
   color: var(--grafito-fuerte);
   line-height: 1.1;
   margin: 2.4rem 0 0.8rem;
@@ -95,7 +97,7 @@ header.sitio {
 }
 .nombre {
   font-family: var(--letra-titulos);
-  font-weight: 700;
+  font-weight: 500;
   font-size: 1.6rem;
   color: var(--grafito-fuerte);
   text-decoration: none;
@@ -292,8 +294,8 @@ figure.imagen img { display: block; margin: 0 auto; }
 figcaption { color: var(--tenue); font-size: 1.1rem; text-align: center; margin-top: 0.5rem; }
 
 .laminas { width: min(92vw, 64rem); margin-left: 50%; transform: translateX(-50%); }
-figure.lamina { margin: 0 0 4rem; text-align: center; }
-.lamina-titulo { font-family: var(--letra-titulos); font-size: 1.8rem; font-weight: 700; color: var(--grafito-fuerte); margin: 0; filter: url(#lapiz); }
+figure.lamina { margin: 0 0 6.5rem; text-align: center; }   /* separación entre foto y foto */
+.lamina-titulo { font-family: var(--letra-titulos); font-size: 1.8rem; font-weight: 500; color: var(--grafito-fuerte); margin: 0; filter: url(#lapiz); }
 .lamina-acciones { margin: 0 0 1.2rem; }
 .lamina-acciones a {
   display: inline-flex; align-items: center; gap: 0.3rem;
@@ -334,7 +336,7 @@ figure.lamina.descrita {
 .lamina-texto { display: flex; flex-direction: column; gap: 0.3rem; margin: 0; text-align: left; font-style: normal; }
 .lamina-numero { color: var(--tenue); font-size: 1rem; }
 .lamina-minititulo {
-  font-family: var(--letra-titulos); font-weight: 700; font-size: 1.7rem; line-height: 1.1;
+  font-family: var(--letra-titulos); font-weight: 500; font-size: 1.7rem; line-height: 1.1;
   color: var(--grafito-fuerte); filter: url(#lapiz);
 }
 .lamina-descripcion { color: var(--grafito); font-size: 1.1rem; line-height: 1.55; }
@@ -348,6 +350,37 @@ figure.lamina.descrita {
   .descrita .ampliable { order: -1; }      /* en el celular: imagen arriba, texto debajo */
   .descrita .lamina-acciones { flex-direction: row; gap: 1.2rem; }
 }
+
+/* Descripción a la derecha (lado: "derecha"): imagen en 3/4 a la izquierda, texto en 1/4 a la derecha */
+figure.lamina.descrita.texto-derecha { grid-template-columns: 3fr 1fr; }
+.texto-derecha .lamina-texto { order: 2; }
+.texto-derecha .ampliable { justify-self: end; }
+.lamina-nota { color: var(--tenue); font-size: 1rem; line-height: 1.4; margin: 0.3rem 0 0; }
+p.lamina-nota { margin: 0.1rem 0 0.4rem; }
+@media (max-width: 48rem) {
+  figure.lamina.descrita.texto-derecha { grid-template-columns: 1fr; }
+  .texto-derecha .lamina-texto { order: 0; }
+}
+
+/* Secuencia: descripción arriba y una fila de tres fotos con botones ‹ › */
+figure.secuencia-bloque { margin: 0 0 6.5rem; }
+.secuencia-texto { display: flex; flex-direction: column; gap: 0.3rem; max-width: 40rem; margin: 0 0 1.6rem; text-align: left; }
+.secuencia { display: flex; align-items: center; gap: 0.8rem; }
+.secuencia-ventana { flex: 1; min-width: 0; }
+.secuencia.activa .secuencia-ventana { overflow: hidden; }
+.secuencia-pista { --hueco: 1rem; position: relative; display: flex; gap: var(--hueco); transition: transform 0.5s ease; }
+.secuencia-foto { flex: 0 0 calc((100% - 2 * var(--hueco)) / 3); }
+.secuencia-foto img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+.secuencia:not(.activa) .secuencia-pista { flex-wrap: wrap; }      /* sin JavaScript se ven todas */
+.secuencia-boton {
+  flex: 0 0 auto; width: 2.4rem; height: 3.2rem; display: grid; place-items: center;
+  background: none; border: 1px solid var(--trazo); border-radius: 4px;
+  color: var(--grafito); cursor: pointer;
+}
+.secuencia-boton:hover:not(:disabled) { border-color: var(--grafito); color: var(--grafito-fuerte); }
+.secuencia-boton svg { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.secuencia:not(.activa) .secuencia-boton { display: none; }
+@media (max-width: 48rem) { .secuencia-foto { flex-basis: 100%; } }
 
 /* Álbumes: regados como fotos impresas sobre una mesa */
 .albumes {
@@ -400,22 +433,41 @@ figure.lamina.descrita {
 .visor { position: fixed; inset: 0; z-index: 100; background: rgba(24, 24, 24, 0.95); }
 .visor-lienzo { position: absolute; inset: 0; display: grid; place-items: center; overflow: hidden; }
 .visor-lienzo img { max-width: 94vw; max-height: 94vh; cursor: zoom-in; }
+.visor-vecino { display: none; }
+/* Secuencia: foto grande al centro, la anterior y la siguiente a los lados */
+.visor.modo-secuencia .visor-lienzo { display: flex; align-items: center; justify-content: center; gap: 1.5vw; padding: 0 5.5rem; }
+.visor.modo-secuencia .visor-principal { max-width: 58vw; max-height: 84vh; }
+.visor.modo-secuencia .visor-vecino {
+  display: block; width: 14vw; max-height: 40vh; object-fit: cover; flex: 0 0 auto;
+  opacity: 0.45; cursor: pointer; transition: opacity 0.3s ease;
+}
+.visor.modo-secuencia .visor-vecino:hover { opacity: 0.9; }
+.visor.modo-secuencia.ampliado .visor-vecino { display: none; }
+.visor.modo-secuencia.ampliado .visor-lienzo { display: block; padding: 0; }
+@media (max-width: 48rem) {
+  .visor.modo-secuencia .visor-lienzo { padding: 0 3.6rem; }
+  .visor.modo-secuencia .visor-vecino { display: none; }
+  .visor.modo-secuencia .visor-principal { max-width: 94vw; }
+}
 .visor.ampliado .visor-lienzo { display: block; overflow: auto; }
-.visor.ampliado .visor-lienzo img { max-width: none; max-height: none; min-width: 160vw; cursor: zoom-out; }
+.visor.ampliado .visor-lienzo .visor-principal { max-width: none; max-height: none; min-width: 160vw; cursor: zoom-out; }
 .visor-barra { position: absolute; top: 0.6rem; right: 0.6rem; z-index: 1; display: flex; background: rgba(60, 60, 60, 0.85); border-radius: 4px; }
 .visor-barra button {
   width: 3.4rem; height: 3.4rem; display: grid; place-items: center;
   background: none; border: 0; color: #eee; cursor: pointer;
 }
 .visor-barra button:hover { background: rgba(255, 255, 255, 0.12); }
-
-/* ---------- Pie ---------- */
-footer.sitio {
-  margin-top: 3rem; padding-top: 1.4rem; padding-bottom: 3rem;
-  font-size: 1.05rem; color: var(--tenue);
-  background: var(--linea-lapiz) top / 100% 8px no-repeat;
+/* Flechas para pasar de foto */
+.visor-flecha {
+  position: absolute; top: 50%; z-index: 1; transform: translateY(-50%);
+  width: 3.6rem; height: 5.5rem; display: grid; place-items: center;
+  background: rgba(60, 60, 60, 0.7); border: 0; color: #eee; cursor: pointer;
 }
-footer.sitio p { margin: 0.1rem 0; }
+.visor-flecha:hover { background: rgba(90, 90, 90, 0.9); }
+.visor-flecha svg { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.visor-anterior { left: 0.6rem; border-radius: 4px; }
+.visor-siguiente { right: 0.6rem; border-radius: 4px; }
+.visor.una-sola .visor-flecha, .visor.una-sola footer.sitio p { margin: 0.1rem 0; }
 footer.sitio a { color: var(--tenue); }
 
 /* ---------- Pantallas pequeñas ---------- */

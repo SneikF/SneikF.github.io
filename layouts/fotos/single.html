@@ -8,11 +8,45 @@
 
   {{ with .Content }}<div class="contenido">{{ . }}</div>{{ end }}
 
+  {{ $imgs := .Resources.ByType "image" }}
   <div class="laminas">
-    {{ range $i, $img := .Resources.ByType "image" }}
+  {{ if .Params.secuencia }}
+    {{/* Secuencia: la descripción arriba y debajo una fila de tres fotos con botones ‹ ›.
+         Con › entra una foto nueva por la derecha y se conservan las dos anteriores.
+         Al abrir una foto, el visor la muestra en grande con la anterior y la siguiente
+         a los lados. El orden es el de los nombres de archivo (01.jpg, 02.jpg…). */}}
+    {{ with $imgs }}{{ with index . 0 }}{{ $primera := . }}
+    <figure class="secuencia-bloque">
+      <figcaption class="secuencia-texto">
+        {{ if ne $primera.Title $primera.Name }}<span class="lamina-minititulo">{{ $primera.Title }}</span>{{ end }}
+        {{ with $primera.Params.descripcion }}<div class="lamina-descripcion">{{ . | markdownify }}</div>{{ end }}
+        <span class="lamina-nota">{{ i18n "secuencia" (len $imgs) }}</span>
+      </figcaption>
+      <div class="secuencia">
+        <button type="button" class="secuencia-boton" data-paso="-1" aria-label="{{ i18n "anterior" }}" title="{{ i18n "anterior" }}">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+        </button>
+        <div class="secuencia-ventana">
+          <div class="secuencia-pista">
+            {{ range $imgs }}
+              {{ $vista := .Fill "1200x800 Center" }}
+              {{ $grande := .Fit "3000x3000" }}
+              <a class="ampliable secuencia-foto" href="{{ $grande.RelPermalink }}"><img src="{{ $vista.RelPermalink }}" width="{{ $vista.Width }}" height="{{ $vista.Height }}" alt="{{ if ne .Title .Name }}{{ .Title }}{{ end }}" loading="lazy"></a>
+            {{ end }}
+          </div>
+        </div>
+        <button type="button" class="secuencia-boton" data-paso="1" aria-label="{{ i18n "siguiente" }}" title="{{ i18n "siguiente" }}">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </figure>
+    {{ end }}{{ end }}
+  {{ else }}
+    {{ range $i, $img := $imgs }}
       {{ $titulo := "" }}{{ if ne $img.Title $img.Name }}{{ $titulo = $img.Title }}{{ end }}
-      {{ partial "lamina.html" (dict "img" $img "numero" (add $i 1) "titulo" $titulo "descripcion" ($img.Params.descripcion | default "")) }}
+      {{ partial "lamina.html" (dict "img" $img "numero" (add $i 1) "titulo" $titulo "descripcion" ($img.Params.descripcion | default "") "lado" ($img.Params.lado | default "")) }}
     {{ end }}
+  {{ end }}
   </div>
 
   <nav class="vecinos">

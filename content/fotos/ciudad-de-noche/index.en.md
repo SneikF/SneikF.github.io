@@ -10,11 +10,9 @@ resources:
   - src: "foto-2.jpg"
     title: "Last sunset"
     params:
+      lado: "derecha"
       descripcion: "The sky still orange behind the downtown buildings."
   - src: "foto-3.jpg"
-    title: "Midnight"
-    params:
-      descripcion: "Almost every light is off. Only a few windows are still awake."
 ---
 
 *Example album with placeholder images.*

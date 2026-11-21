@@ -40,32 +40,98 @@
     alDesplazar();
   }
 
+  /* ---------- Secuencias: fila circular de fotos con botones ‹ › ----------
+     No tiene fin: después de la última vuelve la primera. Se logra moviendo la foto
+     que sale por un lado al otro extremo de la fila. */
+  document.querySelectorAll('.secuencia').forEach(function (sec) {
+    var pista = sec.querySelector('.secuencia-pista');
+    var botones = sec.querySelectorAll('.secuencia-boton');
+    var ocupado = false;
+    sec.classList.add('activa');
+    function paso() {
+      var f = pista.children;
+      return f.length > 1 ? f[1].offsetLeft - f[0].offsetLeft : 0;
+    }
+    function sinAnimacion(fn) {
+      pista.style.transition = 'none';
+      fn();
+      void pista.offsetWidth;          /* aplica el cambio antes de volver a animar */
+      pista.style.transition = '';
+    }
+    function avanzar(dir) {
+      if (ocupado || pista.children.length < 2) return;
+      ocupado = true;
+      var d = paso();
+      if (dir > 0) {
+        /* la primera foto sale por la izquierda y pasa al final */
+        pista.style.transform = 'translateX(' + (-d) + 'px)';
+        setTimeout(function () {
+          sinAnimacion(function () {
+            pista.appendChild(pista.firstElementChild);
+            pista.style.transform = 'translateX(0)';
+          });
+          ocupado = false;
+        }, 500);
+      } else {
+        /* la última foto pasa al principio y entra por la izquierda */
+        sinAnimacion(function () {
+          pista.insertBefore(pista.lastElementChild, pista.firstElementChild);
+          pista.style.transform = 'translateX(' + (-d) + 'px)';
+        });
+        pista.style.transform = 'translateX(0)';
+        setTimeout(function () { ocupado = false; }, 500);
+      }
+    }
+    botones.forEach(function (b) {
+      b.addEventListener('click', function () { avanzar(Number(b.dataset.paso)); });
+    });
+  });
+
   /* ---------- Visor de imágenes ---------- */
   var visor = document.getElementById('visor');
   if (!visor) return;
   var lienzo = visor.querySelector('.visor-lienzo');
-  var foto = lienzo.querySelector('img');
+  var foto = lienzo.querySelector('.visor-principal');
+  var vecinoIzq = lienzo.querySelector('.visor-vecino-izq');
+  var vecinoDer = lienzo.querySelector('.visor-vecino-der');
+  var grupo = [];   /* imágenes entre las que se navega (toda la página o una secuencia) */
   var enlaces = Array.prototype.slice.call(document.querySelectorAll('a.ampliable'));
   var indice = -1;
   var ultimoFoco = null;
 
-  function abrir(i, conZoom) {
-    indice = i;
-    var a = enlaces[i];
+  function abrir(a, conZoom) {
+    var sec = a.closest('.secuencia');
+    grupo = sec ? Array.prototype.slice.call(sec.querySelectorAll('a.ampliable')) : enlaces;
+    indice = grupo.indexOf(a);
     var img = a.querySelector('img');
     foto.src = a.href;
-    foto.alt = img ? img.alt : '';
+    foto.alt = img ? img.alt : a.textContent.trim();
     visor.classList.toggle('ampliado', !!conZoom);
-    ultimoFoco = document.activeElement;
-    visor.hidden = false;
-    document.body.style.overflow = 'hidden';
-    visor.querySelector('[data-accion="cerrar"]').focus();
+    visor.classList.toggle('una-sola', grupo.length < 2);
+    /* En una secuencia se ven también la foto anterior y la siguiente, a los lados */
+    visor.classList.toggle('modo-secuencia', !!sec);
+    if (sec) {
+      var n = grupo.length;
+      ponerVecino(vecinoIzq, n > 1 ? grupo[(indice - 1 + n) % n] : null);
+      ponerVecino(vecinoDer, n > 2 ? grupo[(indice + 1) % n] : null);
+    }
+    if (visor.hidden) {
+      ultimoFoco = document.activeElement;
+      visor.hidden = false;
+      document.body.style.overflow = 'hidden';
+      visor.querySelector('[data-accion="cerrar"]').focus();
+    }
+  }
+  function ponerVecino(el, a) {
+    if (a) { el.src = a.querySelector('img') ? a.querySelector('img').src : a.href; el.style.visibility = 'visible'; }
+    else { el.removeAttribute('src'); el.style.visibility = 'hidden'; }
   }
   function cerrar() {
     if (document.fullscreenElement) document.exitFullscreen();
     visor.hidden = true;
     visor.classList.remove('ampliado');
     foto.removeAttribute('src');
+    visor.classList.remove('modo-secuencia');
     document.body.style.overflow = '';
     if (ultimoFoco) ultimoFoco.focus();
   }
@@ -89,20 +155,20 @@
     else if (visor.requestFullscreen) visor.requestFullscreen();
   }
   function mover(paso) {
-    if (enlaces.length < 2) return;
-    abrir((indice + paso + enlaces.length) % enlaces.length, false);
+    if (grupo.length < 2) return;
+    abrir(grupo[(indice + paso + grupo.length) % grupo.length], false);   /* da la vuelta */
   }
 
   enlaces.forEach(function (a, i) {
-    a.addEventListener('click', function (e) { e.preventDefault(); abrir(i, false); });
+    a.addEventListener('click', function (e) { e.preventDefault(); abrir(a, false); });
   });
   /* «Ampliar» abre la lámina ya acercada */
   document.querySelectorAll('a[data-zoom]').forEach(function (a) {
     a.addEventListener('click', function (e) {
       e.preventDefault();
       var figura = a.closest('figure');
-      var i = enlaces.indexOf(figura && figura.querySelector('a.ampliable'));
-      if (i >= 0) abrir(i, true);
+      var objetivo = figura && figura.querySelector('a.ampliable');
+      if (objetivo) abrir(objetivo, true);
     });
   });
 
@@ -113,8 +179,12 @@
       if (accion === 'cerrar') cerrar();
       else if (accion === 'zoom') alternarZoom();
       else if (accion === 'pantalla') pantallaCompleta();
+      else if (accion === 'anterior') mover(-1);
+      else if (accion === 'siguiente') mover(1);
     } else if (e.target === foto) {
       alternarZoom(e);
+    } else if (e.target.classList.contains('visor-vecino')) {
+      mover(Number(e.target.dataset.paso));   /* clic en una foto de los lados */
     } else if (e.target === lienzo) {
       cerrar();               /* clic en el fondo oscuro */
     }

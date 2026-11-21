@@ -45,3 +45,12 @@ other = "Ampliar"
 
 [descargar]
 other = "Descargar"
+
+[anterior]
+other = "Anterior"
+
+[siguiente]
+other = "Siguiente"
+
+[secuencia]
+other = "Secuencia de {{ .Count }} fotos: usa ‹ › para recorrerla (no tiene fin) y toca una para verla en grande."

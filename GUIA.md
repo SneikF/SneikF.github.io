@@ -140,12 +140,16 @@ resources:
 
 En la sección Fotos, los álbumes aparecen regados y en orden aleatorio (cambia cada vez que publicas). Cada uno muestra su portada (la foto llamada `portada.jpg`, o la primera) con el título del álbum encima. Los tamaños y giros se ajustan en el CSS, en las reglas `.album:nth-child(...)`.
 
+**Descripción a la derecha:** dentro de `params` agrega `lado: "derecha"`. Sin esa línea, la descripción va a la izquierda. En las entradas, la etiqueta también lo acepta: `{{< foto src="…" titulo="…" lado="derecha" >}}`.
+
+**Secuencia (muchas fotos de lo mismo):** agrega `secuencia: true` en el encabezado del álbum (mira `content/fotos/montana/`). La descripción va arriba y debajo una fila de tres fotos con botones ‹ ›: con › entra una foto nueva por la derecha y se conservan las dos anteriores; es circular: después de la última vuelve la primera. Al tocar una foto, se abre en grande con la anterior y la siguiente a los lados (clic en ellas o en las flechas para avanzar). El orden es el de los nombres de archivo (`01.jpg`, `02.jpg`, `03.jpg`…): para agregar más fotos, cópialas con el número siguiente. El título y la descripción de la secuencia son los de la primera foto.
+
 Las fotos se numeran solas (Lámina I, II, III…) en orden alfabético por nombre de archivo; para cambiar el orden, renómbralas (`01-cerros.jpg`, `02-mediodia.jpg`…).
 En cualquier imagen, el clic abre el visor (lupa para acercar, pantalla completa, flechas ← → y Esc para cerrar).
 
 ### Tonos y letras
 
-Todo está al principio de `static/css/style.css`: `--papel` (fondo), `--grafito` (texto), `--grafito-fuerte` (títulos), `--tenue` (fechas), `--trazo` (líneas), y `--letra` / `--letra-titulos` (fuentes: Patrick Hand y Caveat).
+Todo está al principio de `static/css/style.css`: `--papel` (fondo), `--grafito` (texto), `--grafito-fuerte` (títulos), `--tenue` (fechas), `--trazo` (líneas), y `--letra` / `--letra-titulos` (fuentes: Kalam fina y Caveat).
 Los tonos del modo oscuro están justo debajo, repetidos en dos bloques: cambia ambos.
 El grano de lápiz de los títulos es el filtro `lapiz` en `layouts/_default/baseof.html`; para quitarlo, borra las líneas `filter: url(#lapiz);` del CSS.
 Las fotos se muestran en grises y recuperan el color al pasar el mouse (reglas `img { ... filter: grayscale(1) ... }` e `img:hover`). Para dejarlas siempre a color, borra `filter: grayscale(1) contrast(1.05);`.

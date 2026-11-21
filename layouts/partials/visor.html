@@ -11,5 +11,15 @@
       <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19"/></svg>
     </button>
   </div>
-  <div class="visor-lienzo"><img alt=""></div>
+  <button type="button" class="visor-flecha visor-anterior" data-accion="anterior" aria-label="{{ i18n "anterior" }}" title="{{ i18n "anterior" }}">
+    <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path d="M15 4 7 12l8 8"/></svg>
+  </button>
+  <button type="button" class="visor-flecha visor-siguiente" data-accion="siguiente" aria-label="{{ i18n "siguiente" }}" title="{{ i18n "siguiente" }}">
+    <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path d="M9 4l8 8-8 8"/></svg>
+  </button>
+  <div class="visor-lienzo">
+    <img class="visor-vecino visor-vecino-izq" alt="" data-paso="-1">
+    <img class="visor-principal" alt="">
+    <img class="visor-vecino visor-vecino-der" alt="" data-paso="1">
+  </div>
 </div>

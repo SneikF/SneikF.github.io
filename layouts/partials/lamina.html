@@ -1,7 +1,9 @@
 {{/* Una imagen presentada como lámina.
      Recibe: dict "img" (recurso de imagen), y opcionales:
-       "numero" (int, muestra «Lámina I, II…»), "titulo" (minititulo), "descripcion" (texto en Markdown).
-     Con título o descripción: texto a la izquierda (1/4) e imagen a la derecha (3/4).
+       "numero" (int, muestra «Lámina I, II…»), "titulo" (minititulo), "descripcion" (texto en Markdown),
+       "lado" ("derecha" para poner el texto a la derecha; por defecto va a la izquierda),
+       "nota" (texto pequeño extra, por ejemplo cuántas fotos tiene una secuencia).
+     Con título o descripción: texto en 1/4 del ancho e imagen en 3/4.
      Sin ellos: imagen centrada, como antes. Solo se publican versiones redimensionadas. */}}
 {{ $img := .img }}
 {{ $vista := $img.Fit "1600x1600" }}
@@ -11,11 +13,12 @@
 {{ $imagen := printf `<a class="ampliable" href="%s"><img src="%s" width="%d" height="%d" alt="%s" loading="lazy"></a>` $grande.RelPermalink $vista.RelPermalink $vista.Width $vista.Height $alt }}
 
 {{ if or .titulo .descripcion }}
-<figure class="lamina descrita">
+<figure class="lamina descrita{{ if eq (.lado | default "") "derecha" }} texto-derecha{{ end }}">
   <figcaption class="lamina-texto">
     {{ with .numero }}<span class="lamina-numero">{{ i18n "lamina" }} {{ partial "romano.html" . }}</span>{{ end }}
     {{ with .titulo }}<span class="lamina-minititulo">{{ . }}</span>{{ end }}
     {{ with .descripcion }}<div class="lamina-descripcion">{{ . | markdownify }}</div>{{ end }}
+    {{ with .nota }}<span class="lamina-nota">{{ . }}</span>{{ end }}
     {{ $acciones | safeHTML }}
   </figcaption>
   {{ $imagen | safeHTML }}
@@ -23,6 +26,7 @@
 {{ else }}
 <figure class="lamina">
   {{ with .numero }}<p class="lamina-titulo">{{ i18n "lamina" }} {{ partial "romano.html" . }}</p>{{ end }}
+  {{ with .nota }}<p class="lamina-nota">{{ . }}</p>{{ end }}
   {{ $acciones | safeHTML }}
   {{ $imagen | safeHTML }}
 </figure>
