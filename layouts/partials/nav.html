@@ -1,0 +1,17 @@
+{{/* Enlaces del menú, el idioma y el botón de tema. Lo usan la barra y el menú flotante. */}}
+{{ $actual := . }}
+<nav class="menu">
+  {{ range site.Menus.main }}
+    <a href="{{ .URL }}"{{ if or ($actual.IsMenuCurrent "main" .) ($actual.HasMenuCurrent "main" .) }} aria-current="page"{{ end }}>{{ .Name }}</a>
+  {{ end }}
+</nav>
+<div class="controles">
+  {{ $traducciones := .Translations }}
+  {{ if not $traducciones }}{{ $traducciones = site.Home.Translations }}{{ end }}
+  {{ range $traducciones }}
+    <a class="idioma" href="{{ .RelPermalink }}" hreflang="{{ .Language.Lang }}" title="{{ i18n "idioma" }} {{ .Language.LanguageName }}">{{ upper .Language.Lang }}</a>
+  {{ end }}
+  <button class="boton-tema" type="button" aria-label="{{ i18n "cambiarTema" }}" title="{{ i18n "cambiarTema" }}">
+    <span class="icono-oscuro" aria-hidden="true">☾</span><span class="icono-claro" aria-hidden="true">☀</span>
+  </button>
+</div>

@@ -1,0 +1,15 @@
+{{/* Visor de imágenes: se abre al hacer clic en una imagen o en «Ampliar» */}}
+<div class="visor" id="visor" role="dialog" aria-modal="true" aria-label="{{ i18n "visor" }}" hidden>
+  <div class="visor-barra">
+    <button type="button" data-accion="zoom" aria-label="{{ i18n "zoom" }}" title="{{ i18n "zoom" }}">
+      <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6"/></svg>
+    </button>
+    <button type="button" data-accion="pantalla" aria-label="{{ i18n "pantallaCompleta" }}" title="{{ i18n "pantallaCompleta" }}">
+      <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/></svg>
+    </button>
+    <button type="button" data-accion="cerrar" aria-label="{{ i18n "cerrar" }}" title="{{ i18n "cerrar" }}">
+      <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19"/></svg>
+    </button>
+  </div>
+  <div class="visor-lienzo"><img alt=""></div>
+</div>

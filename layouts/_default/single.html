@@ -5,7 +5,7 @@
     {{ if not .Date.IsZero }}
     <p class="meta">
       <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_long" }}</time>
-      {{ if ne .Section "fotos" }} · {{ i18n "lectura" .ReadingTime }}{{ end }}
+      {{ if and (ne .Section "fotos") (ne .Section "") }} · {{ i18n "lectura" .ReadingTime }}{{ end }}
     </p>
     {{ end }}
   </header>
@@ -24,9 +24,11 @@
   </p>
   {{ end }}
 
+  {{ if ne .Section "" }}
   <nav class="vecinos">
     {{ with .PrevInSection }}<a href="{{ .RelPermalink }}">← {{ .Title }}</a>{{ else }}<span></span>{{ end }}
     {{ with .NextInSection }}<a href="{{ .RelPermalink }}">{{ .Title }} →</a>{{ end }}
   </nav>
+  {{ end }}
 </article>
 {{ end }}

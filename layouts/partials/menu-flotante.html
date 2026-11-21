@@ -1,0 +1,8 @@
+{{/* Botón ☰ que aparece al bajar por la página */}}
+<button class="menu-boton" type="button" aria-label="{{ i18n "menu" }}" aria-expanded="false" aria-controls="menu-flotante">
+  <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="1.6" fill="none"/></svg>
+</button>
+<div class="menu-flotante" id="menu-flotante" hidden>
+  <a class="nombre" href="{{ "/" | relLangURL }}">{{ site.Title }}</a>
+  {{ partial "nav.html" . }}
+</div>

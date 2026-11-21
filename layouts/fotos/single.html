@@ -1,4 +1,5 @@
 {{ define "main" }}
+{{/* Solo se publican versiones redimensionadas, nunca el archivo original */}}
 <article>
   <header class="entrada">
     <h1>{{ .Title }}</h1>
@@ -7,18 +8,10 @@
 
   {{ with .Content }}<div class="contenido">{{ . }}</div>{{ end }}
 
-  {{/* Solo se publican las versiones redimensionadas, nunca el archivo original */}}
-  <div class="galeria fotos">
-    {{ range .Resources.ByType "image" }}
-      {{ $grande := .Fit "1800x1800" }}
-      {{ $mini := .Fill "600x600 Center" }}
-      {{ $pie := "" }}{{ if ne .Title .Name }}{{ $pie = .Title }}{{ end }}
-      <figure>
-        <a href="{{ $grande.RelPermalink }}">
-          <img src="{{ $mini.RelPermalink }}" width="{{ $mini.Width }}" height="{{ $mini.Height }}" alt="{{ $pie }}" loading="lazy">
-        </a>
-        {{ with $pie }}<figcaption>{{ . }}</figcaption>{{ end }}
-      </figure>
+  <div class="laminas">
+    {{ range $i, $img := .Resources.ByType "image" }}
+      {{ $pie := "" }}{{ if ne $img.Title $img.Name }}{{ $pie = $img.Title }}{{ end }}
+      {{ partial "lamina.html" (dict "img" $img "numero" (add $i 1) "pie" $pie) }}
     {{ end }}
   </div>
 

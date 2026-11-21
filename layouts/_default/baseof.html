@@ -4,19 +4,22 @@
   {{ partial "head.html" . }}
 </head>
 <body class="{{ .Section | default "inicio" }}">
+  {{/* Filtro de «lápiz»: grano de grafito y trazo levemente irregular */}}
+  <svg class="filtros" width="0" height="0" aria-hidden="true" focusable="false">
+    <filter id="lapiz" x="-2%" y="-10%" width="104%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="3" seed="7" result="grano"/>
+      <feColorMatrix in="grano" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2.2 2" result="mascara"/>
+      <feComposite in="SourceGraphic" in2="mascara" operator="in" result="granulado"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="1" seed="2" result="onda"/>
+      <feDisplacementMap in="granulado" in2="onda" scale="2.2" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </svg>
   {{ partial "header.html" . }}
-  <main>
+  {{ partial "menu-flotante.html" . }}
+  <main class="columna">
     {{ block "main" . }}{{ end }}
   </main>
   {{ partial "footer.html" . }}
-  <script>
-    document.getElementById('tema').addEventListener('click', function () {
-      var r = document.documentElement;
-      var actual = r.dataset.tema || (matchMedia('(prefers-color-scheme: dark)').matches ? 'oscuro' : 'claro');
-      var nuevo = actual === 'oscuro' ? 'claro' : 'oscuro';
-      r.dataset.tema = nuevo;
-      try { localStorage.setItem('tema', nuevo); } catch (e) {}
-    });
-  </script>
+  {{ partial "visor.html" . }}
 </body>
 </html>

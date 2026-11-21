@@ -78,6 +78,9 @@ enableRobotsTXT = true
 [markup]
   [markup.goldmark.renderer]
     unsafe = true
+  # Una imagen sola en su línea se convierte en figura (no queda dentro de un párrafo)
+  [markup.goldmark.parser]
+    wrapStandAloneImageWithinParagraph = false
   # Deja pasar el LaTeX intacto para que KaTeX lo renderice
   [markup.goldmark.extensions.passthrough]
     enable = true
@@ -85,7 +88,7 @@ enableRobotsTXT = true
       block = [['\[', '\]'], ['$$', '$$']]
       inline = [['\(', '\)'], ['$', '$']]
   [markup.highlight]
-    style = 'nord'
+    style = 'bw'
     noClasses = true
 
 [imaging]

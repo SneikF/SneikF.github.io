@@ -1,0 +1,15 @@
+{{- $src := .Destination -}}
+{{- $img := .Page.Resources.Get .Destination -}}
+{{- if $img -}}
+  {{- $vista := $img.Fit "1600x1600" -}}
+  {{- $grande := $img.Fit "3000x3000" -}}
+  <figure class="imagen">
+    <a class="ampliable" href="{{ $grande.RelPermalink }}"><img src="{{ $vista.RelPermalink }}" width="{{ $vista.Width }}" height="{{ $vista.Height }}" alt="{{ .Text }}" loading="lazy"></a>
+    {{- with .Title }}<figcaption>{{ . }}</figcaption>{{ end }}
+  </figure>
+{{- else -}}
+  <figure class="imagen">
+    <a class="ampliable" href="{{ $src | safeURL }}"><img src="{{ $src | safeURL }}" alt="{{ .Text }}" loading="lazy"></a>
+    {{- with .Title }}<figcaption>{{ . }}</figcaption>{{ end }}
+  </figure>
+{{- end -}}

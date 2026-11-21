@@ -21,3 +21,27 @@ other = "Cambiar entre modo claro y oscuro"
 
 [idioma]
 other = "Leer en"
+
+[menu]
+other = "Menú"
+
+[visor]
+other = "Visor de imágenes"
+
+[zoom]
+other = "Acercar o alejar"
+
+[pantallaCompleta]
+other = "Pantalla completa"
+
+[cerrar]
+other = "Cerrar"
+
+[lamina]
+other = "Lámina"
+
+[ampliar]
+other = "Ampliar"
+
+[descargar]
+other = "Descargar"

@@ -74,6 +74,35 @@ No es obligatorio traducir todo: si una entrada no tiene versión en inglés, si
   mogrify -auto-orient -strip -resize '2400x2400>' -quality 85 *.jpg   # ImageMagick, trabaja sobre copias
   ```
 
+### Portada
+
+El texto grande del inicio se configura al principio de `content/_index.md` (y de `_index.en.md` para inglés):
+
+```yaml
+etiqueta: "Blog personal"          # texto pequeño arriba
+titular: "Esneider Sierra"         # título grande
+subtitulo: "Matemáticas, computación, cuentos y fotos"
+imagen: "img/inicio.jpg"           # opcional: imagen debajo (archivo en static/img/)
+```
+
+### Imágenes dentro de una entrada
+
+Convierte la entrada en carpeta (`content/posts/mi-nota/index.md`), pon la imagen al lado y escríbela sola en una línea:
+
+```markdown
+![Descripción para lectores de pantalla](foto.jpg "Pie de foto opcional")
+```
+
+Al hacer clic se abre el visor: lupa para acercar (o clic sobre la imagen), botón de pantalla completa, flechas ← → para pasar entre imágenes y Esc para cerrar.
+En los álbumes de `fotos/`, cada imagen sale como «Lámina I, II, III…» con los enlaces Ampliar y Descargar.
+
+### Tonos y letras
+
+Todo está al principio de `static/css/style.css`: `--papel` (fondo), `--grafito` (texto), `--grafito-fuerte` (títulos), `--tenue` (fechas), `--trazo` (líneas), y `--letra` / `--letra-titulos` (fuentes: Patrick Hand y Caveat).
+Los tonos del modo oscuro están justo debajo, repetidos en dos bloques: cambia ambos.
+El grano de lápiz de los títulos es el filtro `lapiz` en `layouts/_default/baseof.html`; para quitarlo, borra las líneas `filter: url(#lapiz);` del CSS.
+Las fotos se muestran en blanco y negro por la línea `img { ... filter: grayscale(1) ... }`.
+
 ## 4. Publicar
 
 Cada vez que quieras publicar (una entrada nueva, una corrección o fotos):

@@ -21,3 +21,27 @@ other = "Toggle light and dark mode"
 
 [idioma]
 other = "Read in"
+
+[menu]
+other = "Menu"
+
+[visor]
+other = "Image viewer"
+
+[zoom]
+other = "Zoom in or out"
+
+[pantallaCompleta]
+other = "Full screen"
+
+[cerrar]
+other = "Close"
+
+[lamina]
+other = "Plate"
+
+[ampliar]
+other = "Magnify"
+
+[descargar]
+other = "Download"

@@ -1,4 +1,11 @@
 {{ define "main" }}
+<section class="portada">
+  {{ with .Params.etiqueta }}<p class="portada-etiqueta">{{ . }}</p>{{ end }}
+  <h1>{{ .Params.titular | default site.Title }}</h1>
+  {{ with .Params.subtitulo }}<p class="portada-subtitulo">{{ . }}</p>{{ end }}
+  {{ with .Params.imagen }}<img class="portada-imagen" src="{{ . | relURL }}" alt="">{{ end }}
+</section>
+
 <section class="intro">
   {{ .Content }}
 </section>
@@ -8,12 +15,12 @@
     {{ if .Pages }}
     <section class="bloque">
       <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
-      {{ with .Description }}<p class="tenue">{{ . }}</p>{{ end }}
       <ul class="lista">
         {{ range first 5 .Pages }}
         <li>
-          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format "Jan 2006" }}</time>
           <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format "Jan 2006" }}</time>
+          {{ with .Description }}<span class="resumen">{{ . }}</span>{{ end }}
         </li>
         {{ end }}
       </ul>
