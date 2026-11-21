@@ -1,5 +1,5 @@
 # Cambia TU-USUARIO por tu usuario de Codeberg
-baseURL = 'https://TU-USUARIO.codeberg.page/'
+baseURL = 'https://sneikf.codeberg.page/'
 languageCode = 'es-co'
 defaultContentLanguage = 'es'
 title = 'Esneider Sierra'
