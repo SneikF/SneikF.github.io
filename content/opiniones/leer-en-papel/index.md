@@ -7,7 +7,7 @@ tags: ["lectura"]
 draft: false
 ---
 
-*En cada página una foto*
+<!-- *Espera papel, espérame* -->
 
 Hace cerca de un mes conseguí un lector de libros electrónicos (no un Kindle porque no me agrada Amazon) en el que leí dos libros, no me costó hacerlo y me sentí muy enfocado en leer. Es muy fácil conseguir libros electrónicos, descargarlos e instalarlos en el aparato este; además conseguirlos cuesta tres veces menos que un libro en papel, ya sea en tiempo o en dinero. Otro punto a favor: puedes modificar cómo lees, si eres de las personas que les incomoda estar pendiente del número de la página porque te hace pensar que no lo estas disfrutando puedes eliminarlos, o si por el contrario quieres ver incluso tu lectura como un porcentaje, puedes hacerlo.
 

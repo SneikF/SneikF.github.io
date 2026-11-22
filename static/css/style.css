@@ -23,6 +23,7 @@
     18. Crédito de autoría                      §6 Autoría
     19. Varias fotos en una fila                §6 Filas
     20. Números de lámina                       §6
+    21. Altura del texto junto a la foto        §6 alinear_texto
 
    Unidades: 1rem = 16 px (el tamaño de letra normal del navegador).
    vw / vh = porcentaje del ancho / alto de la ventana (100vw = todo el ancho).
@@ -719,3 +720,11 @@ h1 .titulo-lateral:hover { color: var(--grafito-fuerte); }
   color: var(--tenue); filter: none; margin: 0;
 }
 figure.lamina:not(.descrita) .lamina-titulo { margin-bottom: 0.4rem; }
+
+/* ---------- 21. Altura del texto junto a la foto (alinear_texto, Guía §6) ----------
+   En el bloque de una foto:  alinear_texto: "arriba" | "centro" | "abajo".
+   Sin la opción: arriba en las fotos sueltas y a media altura en las filas.
+   (Se repite con .fila-laminas para ganarle a la regla de las filas, bloque 19.) */
+figure.lamina.descrita.vertical-arriba, .fila-laminas figure.lamina.descrita.al-lado.vertical-arriba { align-items: start; }
+figure.lamina.descrita.vertical-centro, .fila-laminas figure.lamina.descrita.al-lado.vertical-centro { align-items: center; }
+figure.lamina.descrita.vertical-abajo,  .fila-laminas figure.lamina.descrita.al-lado.vertical-abajo  { align-items: end; }

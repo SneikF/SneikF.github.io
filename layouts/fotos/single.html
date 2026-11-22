@@ -21,7 +21,7 @@
   {{/* Texto del álbum (lo que escribas debajo del encabezado del index.md) */}}
   {{ with .Content }}<div class="contenido">{{ . }}</div>{{ end }}
 
-  {{/* Todas las imágenes de la carpeta del álbum, en orden alfabético de nombre */}}
+  {{/* Todas las imágenes de la carpeta del álbum (orden: ver más abajo) */}}
   {{ $imgs := .Resources.ByType "image" }}
   {{/* Minititulo y descripción de cada foto: se leen SOLO de «resources:» en el archivo
        de este idioma (index.md o index.en.md). Así, si una foto falta en index.en.md o su
@@ -31,6 +31,30 @@
   {{ range $r := .Params.resources }}
     {{ with $r.src }}{{ $meta = merge $meta (dict (lower .) $r) }}{{ end }}
   {{ end }}
+  {{/* Orden de las fotos (Guía §6, «Orden de las fotos»):
+       1. las que tienen bloque en «resources:», en el orden en que aparecen los bloques
+          (del archivo de este idioma);
+       2. después, las que no tienen bloque, en orden alfabético de nombre;
+       3. la portada (portada.jpg) siempre al final.
+       Con  orden: N  en el bloque, la foto toma el puesto N (manda sobre lo anterior). */}}
+  {{ $pos := dict }}
+  {{ range $n, $r := .Params.resources }}
+    {{ with $r.src }}{{ if not (isset $pos (lower .)) }}{{ $pos = merge $pos (dict (lower .) (add $n 1)) }}{{ end }}{{ end }}
+  {{ end }}
+  {{ $conClave := slice }}
+  {{ range $i, $img := $imgs }}
+    {{ $nombre := lower $img.Name }}
+    {{ $mp := (index $meta $nombre | default dict).params | default dict }}
+    {{ $o := $mp.orden | default $img.Params.orden }}
+    {{ $k := add 1000.0 (float $i) }}
+    {{ with index $pos $nombre }}{{ $k = float . }}{{ end }}
+    {{ if hasPrefix $nombre "portada" }}{{ $k = add 100000.0 (float $i) }}{{ end }}
+    {{ with $o }}{{ $k = float . }}{{ end }}
+    {{ $conClave = $conClave | append (dict "k" (add $k (mul (float $i) 0.001)) "img" $img) }}
+  {{ end }}
+  {{ $ordenadas := slice }}
+  {{ range sort $conClave "k" }}{{ $ordenadas = $ordenadas | append .img }}{{ end }}
+  {{ with $ordenadas }}{{ $imgs = . }}{{ end }}
   {{/* .laminas es más ancho que la columna de texto (style.css: .laminas) */}}
   <div class="laminas">
   {{ if .Params.secuencia }}
@@ -111,7 +135,7 @@
         {{ $m := index $meta (lower $img.Name) | default dict }}
         {{ $mp := $m.params | default dict }}
         {{/* girar: del archivo de este idioma o, si no está, del otro (el giro es el mismo) */}}
-        {{ partial "lamina.html" (dict "img" $img "numero" (add $i 1) "titulo" ($m.title | default "") "descripcion" ($mp.descripcion | default "") "lado" ($mp.lado | default "") "girar" ($mp.girar | default $img.Params.girar)) }}
+        {{ partial "lamina.html" (dict "img" $img "numero" (add $i 1) "titulo" ($m.title | default "") "descripcion" ($mp.descripcion | default "") "lado" ($mp.lado | default "") "girar" ($mp.girar | default $img.Params.girar) "vertical" ($mp.alinear_texto | default "")) }}
       {{ end }}
       {{ if $varias }}</div>{{ end }}
     {{ end }}

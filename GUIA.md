@@ -157,6 +157,29 @@ hugo new content microcuentos/la-lluvia/index.md
 
 `title` es opcional. `date` ordena la hoja: el más reciente queda de último, abajo. Con `ocultar_fecha: true` la fecha no se muestra. Las imágenes van en la misma carpeta y se insertan con `![](foto.jpg)`. Apariencia: bloque 17 de `style.css`. Si un microcuento nuevo no aparece, reinicia `hugo server`. Detalles en la guía PDF, §4.
 
+### Opciones de cada foto de un álbum
+
+Dentro del bloque de cada foto en `resources:` (en `index.md` y también en `index.en.md`):
+
+```yaml
+resources:
+  - src: "IMG_0803.JPG"      # a qué foto se refiere (nombre exacto del archivo)
+    title: "Cazadores"       # minititulo
+    params:
+      descripcion: "…"       # descripción
+      lado: "izquierda"      # texto a la izquierda o "derecha"; en una fila, lo pone al lado
+      fila: 1                # fotos seguidas con el mismo número van en la misma fila
+      orden: 1               # fuerza el puesto (casi nunca hace falta: ver abajo)
+      girar: "derecha"       # enderezar: "derecha", "izquierda", "180" o "no"
+      alinear_texto: "centro" # altura del texto junto a la foto: "arriba", "centro" o "abajo"
+```
+
+- **Orden:** las fotos salen en el orden de sus bloques en `resources:`; las que no tienen bloque van después (por nombre) y la portada siempre al final. Para mover una foto, mueve su bloque entero; si solo cambias el `src`, intercambias los textos, no las fotos.
+- En el encabezado del álbum: `secuencia: true` (fila circular) y `alinear_titulo: "centro"` o `"derecha"`; el subtítulo sigue al título.
+- «Descargar» y el crédito aparecen solo al abrir la foto en el visor.
+
+Detalles y ejemplos en la guía PDF (versión 5), §6.
+
 ### Tonos y letras
 
 Todo está al principio de `static/css/style.css`: `--papel` (fondo), `--grafito` (texto), `--grafito-fuerte` (títulos), `--tenue` (fechas), `--trazo` (líneas), y `--letra` / `--letra-titulos` (fuentes: Kalam fina y Caveat).

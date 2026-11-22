@@ -1,7 +1,7 @@
 ---
 title: "Cenizas dispersas"
 date: 2024-10-14
-description: "Escribaciones y Creaturas"
+description: "Taller Escribaciones y Creaturas"
 draft: false
 ---
 

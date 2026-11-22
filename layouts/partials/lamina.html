@@ -5,6 +5,7 @@
                "izquierda" o "derecha" en una foto SIN descripción también ponen su texto
                —«Lámina I», Descargar y crédito— al lado de la foto, incluso dentro de una fila),
        "girar" ("derecha", "izquierda" o "180": endereza la foto; ver orientar.html),
+       "vertical" ("arriba", "centro" o "abajo": a qué altura de la foto va el texto),
        "nota" (texto pequeño extra, por ejemplo cuántas fotos tiene una secuencia).
      Con título o descripción: texto en 1/4 del ancho e imagen en 3/4.
      Sin ellos: imagen centrada, como antes. Solo se publican versiones redimensionadas. */}}
@@ -28,7 +29,9 @@
 {{ if or .titulo .descripcion (ne $lado "") }}
 {{/* «al-lado»: el lado se pidió explícitamente; dentro de una fila, el texto se queda al
      lado de la foto en vez de pasar debajo (style.css, bloque 19) */}}
-<figure class="lamina descrita{{ if eq $lado "derecha" }} texto-derecha{{ end }}{{ if ne $lado "" }} al-lado{{ end }}">
+{{/* vertical-arriba / -centro / -abajo: altura del texto respecto a su foto (style.css, bloque 21) */}}
+{{ $vertical := lower (.vertical | default "") }}
+<figure class="lamina descrita{{ if eq $lado "derecha" }} texto-derecha{{ end }}{{ if ne $lado "" }} al-lado{{ end }}{{ with $vertical }} vertical-{{ . }}{{ end }}">
   <figcaption class="lamina-texto">
     {{ with .numero }}<span class="lamina-numero">{{ i18n "lamina" }} {{ partial "romano.html" . }}</span>{{ end }}
     {{ with .titulo }}<span class="lamina-minititulo">{{ . }}</span>{{ end }}
