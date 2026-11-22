@@ -147,6 +147,16 @@ En la sección Fotos, los álbumes aparecen regados y en orden aleatorio (cambia
 Las fotos se numeran solas (Lámina I, II, III…) en orden alfabético por nombre de archivo; para cambiar el orden, renómbralas (`01-cerros.jpg`, `02-mediodia.jpg`…).
 En cualquier imagen, el clic abre el visor (lupa para acercar, pantalla completa, flechas ← → y Esc para cerrar).
 
+### Microcuentos
+
+En Cuentos, en la esquina superior derecha, está el enlace **Microcuentos**: una hoja que parece en blanco, donde cada microcuento aparece al pasar el mouse (o al tocarlo). Cada uno es una carpeta:
+
+```
+hugo new content microcuentos/la-lluvia/index.md
+```
+
+`title` es opcional. `date` ordena la hoja: el más reciente queda de último, abajo. Con `ocultar_fecha: true` la fecha no se muestra. Las imágenes van en la misma carpeta y se insertan con `![](foto.jpg)`. Apariencia: bloque 17 de `style.css`. Si un microcuento nuevo no aparece, reinicia `hugo server`. Detalles en la guía PDF, §4.
+
 ### Tonos y letras
 
 Todo está al principio de `static/css/style.css`: `--papel` (fondo), `--grafito` (texto), `--grafito-fuerte` (títulos), `--tenue` (fechas), `--trazo` (líneas), y `--letra` / `--letra-titulos` (fuentes: Kalam fina y Caveat).
@@ -169,6 +179,19 @@ GitHub construye el sitio solo. En uno o dos minutos está en https://sneikf.git
 El avance se ve en la pestaña **Actions** del repositorio; si sale en rojo, ahí está el error.
 
 Para guardar un borrador sin publicarlo, déjalo con `draft: true`: se sube al repositorio pero no aparece en el sitio.
+
+## Comentarios en el código
+
+Todos los archivos del diseño tienen comentarios en español que explican qué hace cada parte. Cada uno indica en qué capítulo de la guía en PDF (*Cómo actualizar el blog*, versión 4) se trata, por ejemplo `(Guía §8, «Página de inicio»)`. El capítulo 15 del PDF trae el mapa completo de archivos.
+
+| Archivo | Comentario |
+|---|---|
+| `hugo.toml`, `i18n/*.toml` | `# hasta el final de la línea` |
+| `layouts/**/*.html` | `{{/* … */}}` |
+| `static/css/style.css` | `/* … */` (al principio hay un índice de 16 bloques) |
+| `static/js/sitio.js` | `// …` o `/* … */` |
+
+Dentro de un comentario no escribas `*/`: ahí termina el comentario.
 
 ## Licencia
 

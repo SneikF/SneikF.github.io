@@ -6,8 +6,8 @@ foto: "img/yo.jpg"
 # Fotos invisibles (archivos en static/img/): la primera va arriba a la izquierda
 # del texto y la segunda, abajo a la derecha.
 fotos:
-  - "img/yo-1.jpg"
-  - "img/yo-4.jpg"
+  - "img/yo-index-1.JPG"
+  - "img/yo-index-2.JPG"
 ---
 
 Hace ya un par de décadas que nació quien esto escribe, al parecer en la noche. Es un muchacho ensimismado y por tanto se le oye hablar poco, dice lo que debe decir y no más que eso. Es usual que se le vea caminar encorvado y lo mismo sucede cuando se le ve sentado; menciona que es un rastro que le ha dejado el querer meterse en lo que está leyendo o escribiendo. También añade lo gratificante que le resulta el abstraerse resolviendo problemas matemáticos y computacionales, no lo desmotiva el hecho de que las máquinas de hoy en día lo hagan en fracción de segundos; menciona que le gusta resolver problemas. Sus aspiraciones en el mundo se encaminan al entendimiento y a hacer con ello algo práctico y real. 

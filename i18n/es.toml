@@ -1,12 +1,23 @@
+# =====================================================================
+#  Frases fijas del sitio en español (Guía §12, «Frases fijas»)
+#  Las plantillas las piden con  i18n "nombre"  y Hugo pone aquí la del idioma.
+#  Cambia solo el texto entre comillas; el nombre entre [ ] debe quedar igual
+#  en es.toml y en.toml. Para un idioma nuevo, copia este archivo (p. ej. fr.toml).
+# =====================================================================
+
+# Tiempo de lectura (ya no se muestra; se conserva por si lo quieres volver a usar)
 [lectura]
 other = "{{ .Count }} min de lectura"
 
+# Enlace al final de una lista resumida (sin uso actual)
 [verTodas]
 other = "Ver las {{ .Count }} entradas →"
 
+# Título del índice desplegable de una entrada con  toc: true  (Guía §2, «El encabezado»)
 [contenido]
 other = "Contenido"
 
+# ---------- Pie de página (layouts/partials/footer.html, Guía §10) ----------
 [licenciaTexto]
 other = "Contenido bajo"
 
@@ -16,15 +27,18 @@ other = "Hecho con"
 [alojado]
 other = "alojado en"
 
+# ---------- Barra superior: botones de tema e idioma (partials/nav.html) ----------
 [cambiarTema]
 other = "Cambiar entre modo claro y oscuro"
 
 [idioma]
 other = "Leer en"
 
+# Botón ☰ del menú flotante (partials/menu-flotante.html)
 [menu]
 other = "Menú"
 
+# ---------- Visor de imágenes (partials/visor.html, Guía §6 «El visor») ----------
 [visor]
 other = "Visor de imágenes"
 
@@ -37,20 +51,25 @@ other = "Pantalla completa"
 [cerrar]
 other = "Cerrar"
 
+# ---------- Láminas de los álbumes (partials/lamina.html, Guía §6) ----------
 [lamina]
 other = "Lámina"
 
+# «ampliar» ya no se usa (se quitó el enlace Ampliar de las láminas); se puede borrar
 [ampliar]
 other = "Ampliar"
 
 [descargar]
 other = "Descargar"
 
+# Flechas ‹ › del visor, de las secuencias y enlaces a la entrada anterior/siguiente
 [anterior]
 other = "Anterior"
 
 [siguiente]
 other = "Siguiente"
 
+# Nota bajo la descripción de un álbum en secuencia (Guía §6 «Álbum en secuencia»).
+# {{ .Count }} se reemplaza por el número de fotos.
 [secuencia]
 other = "Secuencia de {{ .Count }} fotos: usa ‹ › para recorrerla (no tiene fin) y toca una para verla en grande."

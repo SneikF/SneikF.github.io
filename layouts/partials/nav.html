@@ -1,16 +1,24 @@
 {{/* Enlaces del menú, el idioma y el botón de tema. Lo usan la barra y el menú flotante. */}}
+{{/* Los nombres y el orden del menú están en hugo.toml (Guía §11). */}}
 {{ $actual := . }}
 <nav class="menu">
   {{ range site.Menus.main }}
-    <a href="{{ .URL }}"{{ if or ($actual.IsMenuCurrent "main" .) ($actual.HasMenuCurrent "main" .) }} aria-current="page"{{ end }}>{{ .Name }}</a>
+    {{/* aria-current marca la sección en la que estás; style.css la subraya
+         (regla .menu a[aria-current]). En Microcuentos se marca Cuentos, porque no tiene
+         entrada propia en el menú. */}}
+    <a href="{{ .URL }}"{{ if or ($actual.IsMenuCurrent "main" .) ($actual.HasMenuCurrent "main" .) (and (eq $actual.Section "microcuentos") (eq .PageRef "/cuentos")) }} aria-current="page"{{ end }}>{{ .Name }}</a>
   {{ end }}
 </nav>
 <div class="controles">
+  {{/* Botón de idioma: lleva a la traducción de esta misma página (el archivo .en.md);
+       si la página no está traducida, lleva al inicio del otro idioma (Guía §12). */}}
   {{ $traducciones := .Translations }}
   {{ if not $traducciones }}{{ $traducciones = site.Home.Translations }}{{ end }}
   {{ range $traducciones }}
     <a class="idioma" href="{{ .RelPermalink }}" hreflang="{{ .Language.Lang }}" title="{{ i18n "idioma" }} {{ .Language.LanguageName }}">{{ upper .Language.Lang }}</a>
   {{ end }}
+  {{/* Botón de tema claro/oscuro: lo hace funcionar sitio.js («Tema»). Se ve ☾ en modo
+       claro y ☀ en modo oscuro (reglas .icono-claro / .icono-oscuro en style.css). */}}
   <button class="boton-tema" type="button" aria-label="{{ i18n "cambiarTema" }}" title="{{ i18n "cambiarTema" }}">
     <span class="icono-oscuro" aria-hidden="true">☾</span><span class="icono-claro" aria-hidden="true">☀</span>
   </button>

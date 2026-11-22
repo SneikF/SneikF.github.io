@@ -1,33 +1,54 @@
-# Al publicar, GitHub Actions reemplaza esta dirección por la real
+# =====================================================================
+#  hugo.toml: configuración general del blog
+#  Guía: §1 Cómo funciona · §11 Menú y secciones · §12 Idiomas · §5 Diálogos
+#  Las líneas que empiezan con # son comentarios: Hugo las ignora.
+#  Después de cambiar este archivo, detén «hugo server» (Ctrl+C) y vuelve a
+#  arrancarlo: algunos ajustes de aquí solo se leen al iniciar.
+# =====================================================================
+
+# Dirección pública del sitio. Al publicar, GitHub Actions reemplaza esta dirección por la real
 baseURL = 'https://sneikf.github.io/'
+# Idioma principal: el español va en la raíz (/) y el inglés en /en/ (Guía §12)
 defaultContentLanguage = 'es'
 defaultContentLanguageInSubdir = false
+# Crea robots.txt para que los buscadores puedan leer el sitio
 enableRobotsTXT = true
 # Archivos viejos que Hugo no debe leer (las entradas se movieron a sus propias carpetas).
 # Cuando borres esos archivos, puedes quitar esta línea.
+# (Guía §5, «Mover una entrada a su propia carpeta»). Ya los borraste, así que es opcional.
 ignoreFiles = ['cuentos/ejemplo(\.en)?\.md$', 'opiniones/ejemplo(\.en)?\.md$']
 
+# Datos que usan las plantillas: el autor y la licencia aparecen en el pie de página
+# (layouts/partials/footer.html).
 [params]
   autor = 'Esneider Sierra'
   licencia = 'CC BY-SA 4.0'
 
+# Etiquetas: «tags: [algebra, grafos]» en el encabezado de una entrada crea /tags/algebra/…
 [taxonomies]
   tag = 'tags'
 
-# ---------- Idiomas ----------
+# ---------- Idiomas (Guía §12) ----------
 # Español en https://sneikf.github.io/  ·  inglés en https://sneikf.github.io/en/
 # Una entrada en inglés es el mismo archivo con .en antes de .md:
 #   posts/mi-nota.md  ->  posts/mi-nota.en.md
+# Cada idioma tiene su título, su descripción y su propio menú.
 
 [languages]
   [languages.es]
-    languageName = 'Español'
+    languageName = 'Español'   # nombre que se muestra en el botón de idioma
     languageCode = 'es-co'
-    title = 'Esneider Sierra'
-    weight = 1
+    title = 'Esneider Sierra'  # el nombre de la barra superior (Guía §10, «Barra superior»)
+    weight = 1                 # orden de los idiomas: el 1 es el principal
     [languages.es.params]
+      # Descripción para buscadores (cuando una página no tiene description propia)
       descripcion = 'Matemáticas, computación, cuentos, opiniones y fotos.'
       licenciaURL = 'https://creativecommons.org/licenses/by-sa/4.0/deed.es'
+
+    # ---------- Menú en español (Guía §11) ----------
+    # name    = el texto que se ve
+    # pageRef = la carpeta de content/ a la que lleva (no cambiarla al renombrar)
+    # weight  = el orden: los números menores van primero
     [[languages.es.menus.main]]
       name = 'Notas'
       pageRef = '/posts'
@@ -57,6 +78,8 @@ ignoreFiles = ['cuentos/ejemplo(\.en)?\.md$', 'opiniones/ejemplo(\.en)?\.md$']
     [languages.en.params]
       descripcion = 'Mathematics, computer science, stories, opinions and photos.'
       licenciaURL = 'https://creativecommons.org/licenses/by-sa/4.0/deed.en'
+
+    # ---------- Menú en inglés: mismas pageRef, otros nombres ----------
     [[languages.en.menus.main]]
       name = 'Notes'
       pageRef = '/posts'
@@ -78,33 +101,52 @@ ignoreFiles = ['cuentos/ejemplo(\.en)?\.md$', 'opiniones/ejemplo(\.en)?\.md$']
       pageRef = '/acerca'
       weight = 50
 
+# ---------- Cómo se convierte el Markdown en HTML ----------
 [markup]
+  # Permite escribir HTML dentro del Markdown (por ejemplo <div class="teorema">, Guía §3)
   [markup.goldmark.renderer]
     unsafe = true
   # Una imagen sola en su línea se convierte en figura (no queda dentro de un párrafo)
+  # (Guía §7, «Imagen centrada»)
   [markup.goldmark.parser]
     wrapStandAloneImageWithinParagraph = false
   # Diálogos: «--» se convierte en raya larga (—), como se usa en español.
   # Escribe:  -- No me creerás --le dice.   y se verá:  — No me creerás —le dice.
+  # (Guía §5, «Diálogos»)
   [markup.goldmark.extensions.typographer]
     enDash = '&mdash;'
     # Comillas angulares: escribe <<así>> y se verá «así», dibujadas con la letra de los títulos.
+    # La clase «comilla» se ajusta en style.css (Guía §5, «Comillas angulares»).
     leftAngleQuote = '<span class="comilla">&laquo;</span>'
     rightAngleQuote = '<span class="comilla">&raquo;</span>'
-  # Deja pasar el LaTeX intacto para que KaTeX lo renderice
+  # Deja pasar el LaTeX intacto para que KaTeX lo renderice (Guía §3, «Fórmulas»)
+  # $…$ o \(…\) en línea;  $$…$$ o \[…\] en bloque aparte.
   [markup.goldmark.extensions.passthrough]
     enable = true
     [markup.goldmark.extensions.passthrough.delimiters]
       block = [['\[', '\]'], ['$$', '$$']]
       inline = [['\(', '\)'], ['$', '$']]
+  # Colores del código (Guía §3, «Código»): 'bw' es blanco y negro, acorde al estilo lápiz
   [markup.highlight]
     style = 'bw'
     noClasses = true
 
+# ---------- Fotos ----------
+# Calidad (1–100) de las versiones reducidas que Hugo genera de cada foto.
+# Más alto = mejor calidad pero archivos más pesados (Guía §6).
 [imaging]
   quality = 82
   resampleFilter = 'Lanczos'
 
+# Solo para «hugo server» (tu computador; no afecta el sitio publicado): le pide al
+# navegador que no guarde copias, para ver al instante los cambios en style.css y sitio.js.
+[server]
+  [[server.headers]]
+    for = '/**'
+    [server.headers.values]
+      Cache-Control = 'no-store'
+
+# Dónde guarda Hugo las fotos ya reducidas, para no repetir el trabajo cada vez
 [caches]
   [caches.images]
     dir = ':cacheDir/images'

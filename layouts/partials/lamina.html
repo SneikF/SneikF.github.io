@@ -5,13 +5,24 @@
        "nota" (texto pequeño extra, por ejemplo cuántas fotos tiene una secuencia).
      Con título o descripción: texto en 1/4 del ancho e imagen en 3/4.
      Sin ellos: imagen centrada, como antes. Solo se publican versiones redimensionadas. */}}
+{{/* (Guía §6 «Descripción de cada foto» y §7 «Imagen con descripción al lado»).
+     La usan dos lugares: fotos/single.html (álbumes normales) y shortcodes/foto.html.
+     Estilos: figure.lamina, .descrita, .texto-derecha, .lamina-* en style.css. */}}
 {{ $img := .img }}
+{{/* Copias reducidas: «vista» (hasta 1600 px) en la página, «grande» (hasta 3000 px)
+     para el visor y el botón Descargar. */}}
 {{ $vista := $img.Fit "1600x1600" }}
 {{ $grande := $img.Fit "3000x3000" }}
 {{ $alt := .titulo | default "" }}
-{{ $acciones := printf `<p class="lamina-acciones"><a class="ampliar" href="%s" data-zoom><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6"/></svg>%s</a><a class="descargar" href="%s" download><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M4 15v5h16v-5"/></svg>%s</a></p>` $grande.RelPermalink (i18n "ampliar") $grande.RelPermalink (i18n "descargar") }}
+{{/* El enlace «Descargar» (la versión grande de la foto). Se arma una vez como texto y se
+     inserta abajo con safeHTML. La palabra viene de i18n (clave «descargar»).
+     Para ver la foto en grande basta hacer clic en ella: abre el visor. */}}
+{{ $acciones := printf `<p class="lamina-acciones"><a class="descargar" href="%s" download><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M4 15v5h16v-5"/></svg>%s</a></p>` $grande.RelPermalink (i18n "descargar") }}
+{{/* La imagen, envuelta en un enlace «ampliable»: al hacer clic se abre el visor */}}
 {{ $imagen := printf `<a class="ampliable" href="%s"><img src="%s" width="%d" height="%d" alt="%s" loading="lazy"></a>` $grande.RelPermalink $vista.RelPermalink $vista.Width $vista.Height $alt }}
 
+{{/* Con minititulo o descripción → lámina «descrita» (cuadrícula texto 1/4 + imagen 3/4);
+     con lado "derecha" se agrega «texto-derecha» y se invierte (imagen 3/4 + texto 1/4). */}}
 {{ if or .titulo .descripcion }}
 <figure class="lamina descrita{{ if eq (.lado | default "") "derecha" }} texto-derecha{{ end }}">
   <figcaption class="lamina-texto">
@@ -24,6 +35,7 @@
   {{ $imagen | safeHTML }}
 </figure>
 {{ else }}
+{{/* Sin texto: solo el número de lámina, los enlaces y la imagen centrada */}}
 <figure class="lamina">
   {{ with .numero }}<p class="lamina-titulo">{{ i18n "lamina" }} {{ partial "romano.html" . }}</p>{{ end }}
   {{ with .nota }}<p class="lamina-nota">{{ . }}</p>{{ end }}

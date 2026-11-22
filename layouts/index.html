@@ -1,5 +1,15 @@
+{{/* =====================================================================
+     index.html: la página de inicio (Guía §8, «Página de inicio»).
+     El contenido sale de content/_index.md (y _index.en.md para inglés):
+       subtitulo: "…"   → la frase gris de arriba
+       fotos: [ … ]     → las fotos invisibles (archivos en static/img/)
+       el texto debajo del encabezado → tu presentación
+     El tamaño y la posición de las fotos se cambian en style.css: .foto-1 y .foto-2.
+     ===================================================================== */}}
 {{ define "main" }}
 <section class="portada">
+  {{/* El nombre como título principal, oculto a la vista (ya está en la barra superior)
+       pero visible para buscadores y lectores de pantalla (clase .solo-lectores). */}}
   <h1 class="solo-lectores">{{ site.Title }}</h1>
   {{ with .Params.subtitulo }}<p class="portada-subtitulo">{{ . }}</p>{{ end }}
 </section>
@@ -11,6 +21,9 @@
   <div class="intro">
     {{ .Content }}
   </div>
+  {{/* Por cada foto de la lista crea <img class="foto-oculta foto-1">, foto-2, foto-3…
+       ($i empieza en 0, por eso se le suma 1). Si agregas una tercera foto a la lista,
+       necesitas también una regla .foto-3 en style.css que diga dónde va. */}}
   {{ range $i, $f := .Params.fotos }}
     <img class="foto-oculta foto-{{ add $i 1 }}" src="{{ $f | relURL }}" alt="" tabindex="0" loading="lazy">
   {{ end }}

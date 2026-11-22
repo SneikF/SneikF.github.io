@@ -1,3 +1,12 @@
+{{/* =====================================================================
+     single.html: una entrada (nota, cuento, opinión) y la página «Acerca»
+     (Guía §2 «El encabezado», §4, §5 «Una nota, epígrafe o dedicatoria»).
+     Las partes opcionales se activan con líneas del encabezado de la entrada:
+       imagen: "foto.jpg"   → imagen junto al título
+       nota: "…"            → nota pequeña debajo del título
+       toc: true            → índice desplegable al principio
+       tags: [ … ]          → etiquetas al final
+     ===================================================================== */}}
 {{ define "main" }}
 <article>
   {{/* Imagen junto al título: en el encabezado de la entrada,  imagen: "archivo.jpg"
@@ -5,11 +14,15 @@
   {{ $imagenTitulo := false }}
   {{ with .Params.imagen }}
     {{ $imagenTitulo = $.Resources.Get . }}
+    {{/* Si el archivo no está, Hugo se detiene con este mensaje (Guía §13) */}}
     {{ if not $imagenTitulo }}{{ errorf "imagen: no encuentro %q junto a %s (la entrada debe ser una carpeta con index.md)" . $.File.Path }}{{ end }}
   {{ end }}
+  {{/* Con imagen, el encabezado recibe la clase «con-imagen»: título a la izquierda e
+       imagen a la derecha (style.css: header.entrada.con-imagen) */}}
   <header class="entrada{{ if $imagenTitulo }} con-imagen{{ end }}">
     <div class="entrada-titulo">
       <h1>{{ .Title }}</h1>
+      {{/* Fecha larga («21 de noviembre de 2026»), en el idioma de la página */}}
       {{ if not .Date.IsZero }}
       <p class="meta">
         <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_long" }}</time>
@@ -18,6 +31,8 @@
       {{/* Nota opcional justo debajo del título (encabezado:  nota: "…"). Admite cursiva y enlaces. */}}
       {{ with .Params.nota }}<p class="nota-titulo">{{ . | markdownify }}</p>{{ end }}
     </div>
+    {{/* Hugo crea dos copias reducidas: «vista» (hasta 1000 px) para la página y
+         «grande» (hasta 3000 px) para el visor. Nunca se publica el original. */}}
     {{ with $imagenTitulo }}
       {{ $vista := .Fit "1000x1000" }}
       {{ $grande := .Fit "3000x3000" }}
@@ -25,10 +40,13 @@
     {{ end }}
   </header>
 
+  {{/* Índice desplegable (toc: true). Se arma con los subtítulos ## del texto. */}}
   {{ if .Params.toc }}
     <details class="toc"><summary>{{ i18n "contenido" }}</summary>{{ .TableOfContents }}</details>
   {{ end }}
 
+  {{/* El texto de la entrada. Las imágenes que contiene pasan por
+       _default/_markup/render-image.html (Guía §7). */}}
   <div class="contenido">
     {{ .Content }}
   </div>
@@ -39,6 +57,8 @@
   </p>
   {{ end }}
 
+  {{/* Enlaces a la entrada anterior y a la siguiente de la misma sección.
+       No aparecen en páginas sueltas como «Acerca» (no tienen sección). */}}
   {{ if ne .Section "" }}
   <nav class="vecinos">
     {{ with .PrevInSection }}<a href="{{ .RelPermalink }}">← {{ .Title }}</a>{{ else }}<span></span>{{ end }}

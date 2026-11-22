@@ -1,4 +1,6 @@
 {{/* Convierte un número entero en número romano: 3 → III */}}
+{{/* Lo usa lamina.html para «Lámina I, II, III…». Recorre los valores de mayor a menor:
+     cuántas veces cabe cada uno (div), escribe su letra esas veces y sigue con el resto (mod). */}}
 {{ $n := . }}
 {{ $salida := "" }}
 {{ range slice (slice 1000 "M") (slice 900 "CM") (slice 500 "D") (slice 400 "CD") (slice 100 "C") (slice 90 "XC") (slice 50 "L") (slice 40 "XL") (slice 10 "X") (slice 9 "IX") (slice 5 "V") (slice 4 "IV") (slice 1 "I") }}

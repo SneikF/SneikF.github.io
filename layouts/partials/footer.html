@@ -1,7 +1,13 @@
+{{/* Pie de página (Guía §10, «Pie de página»).
+     Autor y licencia: [params] en hugo.toml · enlace de la licencia: licenciaURL por idioma.
+     Frases «Contenido bajo», «Hecho con», «alojado en»: i18n/es.toml y en.toml.
+     Estilo: footer.sitio en style.css. */}}
 <footer class="sitio columna">
   <p>
+    {{/* now.Year = el año en que se publica el sitio */}}
     © {{ now.Year }} {{ site.Params.autor }} ·
     {{ i18n "licenciaTexto" }} <a href="{{ site.Params.licenciaURL }}">{{ site.Params.licencia }}</a> ·
+    {{/* RSS: lista de entradas para lectores de noticias (index.xml lo genera Hugo) */}}
     <a href="{{ "index.xml" | relLangURL }}">RSS</a>
   </p>
   <p class="tenue">{{ i18n "hecho" }} <a href="https://gohugo.io">Hugo</a> · {{ i18n "alojado" }} <a href="https://pages.github.com">GitHub Pages</a></p>

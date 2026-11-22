@@ -1,3 +1,12 @@
+{{/* =====================================================================
+     fotos/single.html: un álbum (Guía §6).
+     Dos formatos, según el encabezado del index.md del álbum:
+       normal (sin «secuencia»)  → una foto debajo de otra, «Lámina I, II…»
+                                   cada una dibujada por partials/lamina.html
+       secuencia: true           → descripción arriba y una fila circular de fotos
+                                   con botones ‹ › (como la Montaña)
+     Los datos de cada foto (title, descripcion, lado) van en «resources:».
+     ===================================================================== */}}
 {{ define "main" }}
 {{/* Solo se publican versiones redimensionadas, nunca el archivo original */}}
 <article>
@@ -6,35 +15,48 @@
     {{ if not .Date.IsZero }}<p class="meta"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_long" }}</time></p>{{ end }}
   </header>
 
+  {{/* Texto del álbum (lo que escribas debajo del encabezado del index.md) */}}
   {{ with .Content }}<div class="contenido">{{ . }}</div>{{ end }}
 
+  {{/* Todas las imágenes de la carpeta del álbum, en orden alfabético de nombre */}}
   {{ $imgs := .Resources.ByType "image" }}
+  {{/* .laminas es más ancho que la columna de texto (style.css: .laminas) */}}
   <div class="laminas">
   {{ if .Params.secuencia }}
     {{/* Secuencia: la descripción arriba y debajo una fila de tres fotos con botones ‹ ›.
          Con › entra una foto nueva por la derecha y se conservan las dos anteriores.
          Al abrir una foto, el visor la muestra en grande con la anterior y la siguiente
          a los lados. El orden es el de los nombres de archivo (01.jpg, 02.jpg…). */}}
+    {{/* El minititulo y la descripción de la secuencia se toman de la PRIMERA foto
+         (la 01.jpg) en «resources:». */}}
     {{ with $imgs }}{{ with index . 0 }}{{ $primera := . }}
     <figure class="secuencia-bloque">
       <figcaption class="secuencia-texto">
+        {{/* Si la foto no tiene title propio, Title = nombre de archivo: no se muestra */}}
         {{ if ne $primera.Title $primera.Name }}<span class="lamina-minititulo">{{ $primera.Title }}</span>{{ end }}
         {{ with $primera.Params.descripcion }}<div class="lamina-descripcion">{{ . | markdownify }}</div>{{ end }}
+        {{/* «Secuencia de N fotos…»: texto en i18n/es.toml, clave «secuencia» */}}
         <span class="lamina-nota">{{ i18n "secuencia" (len $imgs) }}</span>
       </figcaption>
       <div class="secuencia">
+        {{/* Botón ‹ ; data-paso="-1" le dice a sitio.js que retroceda */}}
         <button type="button" class="secuencia-boton" data-paso="-1" aria-label="{{ i18n "anterior" }}" title="{{ i18n "anterior" }}">
           <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
         </button>
+        {{/* La ventana deja ver tres fotos; la pista lleva todas y sitio.js la desliza */}}
         <div class="secuencia-ventana">
           <div class="secuencia-pista">
             {{ range $imgs }}
+              {{/* .Fill recorta todas al mismo formato 3:2 (1200×800) para la fila;
+                   el visor muestra la foto entera ($grande). Cambia "1200x800" para
+                   otro formato, por ejemplo "800x1000" para verticales (Guía §9). */}}
               {{ $vista := .Fill "1200x800 Center" }}
               {{ $grande := .Fit "3000x3000" }}
               <a class="ampliable secuencia-foto" href="{{ $grande.RelPermalink }}"><img src="{{ $vista.RelPermalink }}" width="{{ $vista.Width }}" height="{{ $vista.Height }}" alt="{{ if ne .Title .Name }}{{ .Title }}{{ end }}" loading="lazy"></a>
             {{ end }}
           </div>
         </div>
+        {{/* Botón › ; data-paso="1" avanza */}}
         <button type="button" class="secuencia-boton" data-paso="1" aria-label="{{ i18n "siguiente" }}" title="{{ i18n "siguiente" }}">
           <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
         </button>
@@ -42,6 +64,9 @@
     </figure>
     {{ end }}{{ end }}
   {{ else }}
+    {{/* Álbum normal: una lámina por foto. Para cada una se le pasan a lamina.html
+         su número (para «Lámina I, II…»), su minititulo, su descripción y su lado
+         (Guía §6, «Descripción de cada foto: izquierda, derecha o ninguna»). */}}
     {{ range $i, $img := $imgs }}
       {{ $titulo := "" }}{{ if ne $img.Title $img.Name }}{{ $titulo = $img.Title }}{{ end }}
       {{ partial "lamina.html" (dict "img" $img "numero" (add $i 1) "titulo" $titulo "descripcion" ($img.Params.descripcion | default "") "lado" ($img.Params.lado | default "")) }}
@@ -49,6 +74,7 @@
   {{ end }}
   </div>
 
+  {{/* Enlaces al álbum anterior y al siguiente */}}
   <nav class="vecinos">
     {{ with .PrevInSection }}<a href="{{ .RelPermalink }}">← {{ .Title }}</a>{{ else }}<span></span>{{ end }}
     {{ with .NextInSection }}<a href="{{ .RelPermalink }}">{{ .Title }} →</a>{{ end }}

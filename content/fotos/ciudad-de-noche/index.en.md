@@ -3,7 +3,7 @@ title: "City at night"
 date: 2026-11-19
 draft: false
 resources:
-  - src: "portada.jpg"
+  - src: "portada.JPG"
     title: "Lit buildings"
     params:
       descripcion: "From the rooftop, windows light up one by one as night falls."

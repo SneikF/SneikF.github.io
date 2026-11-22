@@ -1,4 +1,8 @@
 {{/* Botón ☰ que aparece al bajar por la página */}}
+{{/* Lo muestra y oculta sitio.js («Menú flotante»): cuando bajas más allá de la barra
+     superior, el body recibe la clase «desplazado» y el botón se hace visible.
+     Al tocarlo se abre el panel con el nombre y el mismo menú (partials/nav.html).
+     Estilos: .menu-boton y .menu-flotante en style.css. */}}
 <button class="menu-boton" type="button" aria-label="{{ i18n "menu" }}" aria-expanded="false" aria-controls="menu-flotante">
   <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="1.6" fill="none"/></svg>
 </button>

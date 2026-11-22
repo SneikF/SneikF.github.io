@@ -1,16 +1,16 @@
 ---
-title: "Ciudad de noche"
-date: 2026-11-19
+title: "Museos vivos, un pleonasmo"
+date: 2026-06-14
 draft: false
 # Cada foto puede tener un minititulo (title) y una descripción (params.descripcion).
 # Si no tiene ninguno de los dos, la foto se muestra sola y centrada.
 # La descripción va a la izquierda; para ponerla a la derecha, agrega  lado: "derecha"  dentro de params.
 resources:
-  - src: "portada.jpg"
-    title: "Edificios encendidos"
+  - src: "portada.JPG"
+    title: "Qué dolor de muelas"
     params:
-      descripcion: "Desde la azotea, las ventanas se encienden una por una mientras oscurece."
-  - src: "foto-2.jpg"
+      descripcion: "Dentro de la boca en león tiene una bolita que no puede sacar."
+  - src: "foto-1.JPG"
     title: "Último atardecer"
     params:
       lado: "derecha"
@@ -18,4 +18,4 @@ resources:
   - src: "foto-3.jpg"
 ---
 
-*Álbum de ejemplo con imágenes de prueba.*
+*La historia de otros y yo afortunado de sentir el tiempo en mis ojos.*

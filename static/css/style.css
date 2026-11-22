@@ -1,7 +1,34 @@
 /* =========================================================
+   style.css: toda la apariencia del blog (Guía §9 y §10).
    Minimalista, en escala de grises, como escrito a lápiz.
-   Para cambiar tonos o letras, edita solo este bloque.
+
+   ÍNDICE (busca el título con Ctrl+F)          Guía
+     1. Colores y letras (:root)                §9 Colores, Letras
+     2. Modo oscuro                             §9 Colores
+     3. Base: texto, enlaces, imágenes grises   §9 Tamaños
+     4. Cabecera                                §10 Barra superior
+     5. Menú flotante                           §10
+     6. Títulos alineados a la izquierda        §9 Otros ajustes
+     7. Portada / Presentación del inicio       §8 Página de inicio
+     8. Nombre y menú en las secciones          §10
+     9. Listas de entradas                      §4, §10
+    10. Entradas (nota del título, comillas)    §2, §5
+    11. Citas, teoremas, código, tablas         §3
+    12. Imágenes y láminas                      §6, §7
+    13. Secuencia                               §6, §9 Secuencias
+    14. Álbumes regados                         §6, §9
+    15. Visor                                   §6 El visor
+    16. Pantallas pequeñas                      §9
+    17. Microcuentos (al final del archivo)     §4 Microcuentos
+
+   Unidades: 1rem = 16 px (el tamaño de letra normal del navegador).
+   vw / vh = porcentaje del ancho / alto de la ventana (100vw = todo el ancho).
+   @media (max-width: 48rem) { … } = reglas que solo valen en pantallas angostas.
+   var(--nombre) usa una variable definida con  --nombre: valor;
    ========================================================= */
+
+/* ---------- 1. Colores y letras ----------
+   Para cambiar tonos o letras, edita solo este bloque. */
 :root {
   --papel: #f6f5f2;          /* fondo */
   --grafito: #3c3c3c;        /* texto */
@@ -14,7 +41,10 @@
   --ancho: 40rem;
   color-scheme: light;
 }
-/* Modo oscuro: grafito claro sobre papel oscuro */
+/* ---------- 2. Modo oscuro: grafito claro sobre papel oscuro ----------
+   Se repite dos veces a propósito: el primer bloque sigue la preferencia del sistema
+   (si no tocaste el botón ☾/☀) y el segundo se aplica cuando eliges oscuro con el botón.
+   Si cambias un color oscuro, cámbialo en LOS DOS bloques. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-tema="claro"]) {
     --papel: #1d1d1c; --grafito: #cfcfcd; --grafito-fuerte: #e6e6e4;
@@ -28,17 +58,19 @@
   color-scheme: dark;
 }
 
-/* Línea trazada a mano (dos pasadas de lápiz), usada en separadores */
+/* Línea trazada a mano (dos pasadas de lápiz), usada en separadores:
+   bajo la cabecera, en los --- del texto (hr) y sobre los enlaces anterior/siguiente */
 :root {
   --linea-lapiz: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='8' viewBox='0 0 400 8' preserveAspectRatio='none'%3E%3Cpath d='M0 4.2 C40 3.1 80 5 120 4 S200 2.9 240 4.4 S330 5.2 400 3.8' fill='none' stroke='%23999' stroke-width='1.1' stroke-linecap='round' opacity='.8'/%3E%3Cpath d='M0 4.8 C50 4.4 90 3.6 140 4.6 S230 5 280 3.9 S360 4.2 400 4.5' fill='none' stroke='%23999' stroke-width='.7' opacity='.5'/%3E%3C/svg%3E");
 }
 
-/* ---------- Base ---------- */
+/* ---------- 3. Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
 [hidden] { display: none !important; }
 html { -webkit-text-size-adjust: 100%; }
 .filtros { position: absolute; width: 0; height: 0; }
 
+/* Letra del texto: tamaño, grosor y separación (Guía §9, «Letras» y «Tamaños») */
 body {
   margin: 0;
   background-color: var(--papel);
@@ -53,6 +85,7 @@ body {
   line-height: 1.75;
 }
 
+/* La columna centrada de texto; su ancho es --ancho (bloque 1) */
 .columna { max-width: var(--ancho); margin: 0 auto; padding: 0 1.5rem; }
 main.columna { padding-top: 3rem; padding-bottom: 1rem; }
 
@@ -64,6 +97,7 @@ p, ul, ol, blockquote, pre, table, figure, details { margin: 0 0 1.3rem; }
 img { max-width: 100%; height: auto; filter: grayscale(1) contrast(1.05); transition: filter 0.4s ease; }
 img:hover, a:hover > img, a:focus-visible > img { filter: none; }
 
+/* Títulos: letra de títulos (Caveat) con el filtro de lápiz (definido en baseof.html) */
 h1, h2, h3, h4 {
   font-family: var(--letra-titulos);
   font-weight: 500;
@@ -72,6 +106,7 @@ h1, h2, h3, h4 {
   margin: 2.4rem 0 0.8rem;
   filter: url(#lapiz);
 }
+/* clamp(mínimo, preferido, máximo): el h1 crece con la ventana entre 2.6rem y 3.6rem */
 h1 { font-size: clamp(2.6rem, 7vw, 3.6rem); margin-top: 0; }
 h2 { font-size: 2.1rem; }
 h3 { font-size: 1.7rem; }
@@ -86,7 +121,8 @@ hr {
 .tenue, .meta, time, .resumen { color: var(--tenue); }
 .subtitulo { margin-top: -0.4rem; }
 
-/* ---------- Cabecera ---------- */
+/* ---------- 4. Cabecera ----------
+   Plantilla: partials/header.html y partials/nav.html */
 header.sitio {
   max-width: calc(var(--ancho) + 20rem);
   margin: 0 auto;
@@ -104,11 +140,13 @@ header.sitio {
   filter: url(#lapiz);
   transition: color 0.2s;
 }
+/* .derecha agrupa el menú y los botones */
 .derecha { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.4rem 1.6rem; margin-left: auto; }
 .menu { display: flex; flex-wrap: wrap; gap: 0.2rem 1.3rem; }
 .menu a { color: var(--grafito); text-decoration: none; font-size: 1.25rem; transition: color 0.2s; }
 .menu a:hover { text-decoration: underline; text-decoration-color: var(--trazo); }
 
+/* Botones de idioma (ES/EN) y de tema (☾/☀) */
 .controles { display: flex; align-items: center; gap: 0.8rem; }
 .controles .idioma { color: var(--tenue); text-decoration: none; font-size: 1.05rem; }
 .controles .idioma:hover { color: var(--grafito-fuerte); }
@@ -142,12 +180,14 @@ header.sitio .controles {
 }
 .controles .idioma:hover { border-color: var(--grafito); color: var(--grafito-fuerte); }
 .controles .boton-tema { width: 2.1rem; height: 2.1rem; font-size: 1rem; }
+/* En pantallas de menos de 64rem (~1024 px) los botones vuelven a la fila del menú */
 @media (max-width: 64rem) {
   header.sitio .derecha { margin-right: 0; }
   header.sitio .controles { position: static; flex-direction: row; }
 }
 
-/* ---------- Menú flotante (☰, aparece al bajar) ---------- */
+/* ---------- 5. Menú flotante (☰, aparece al bajar) ----------
+   Plantilla: partials/menu-flotante.html · lógica: sitio.js «Menú flotante» */
 .menu-boton {
   position: fixed; top: 1rem; left: 1rem; z-index: 50;
   width: 2.8rem; height: 2.8rem; display: grid; place-items: center;
@@ -165,14 +205,17 @@ body.desplazado .menu-boton { opacity: 1; pointer-events: auto; }
 .menu-flotante .nombre { font-size: 1.5rem; }
 .menu-flotante .menu { flex-direction: column; margin: 0; }
 
-/* ---------- Títulos principales: alineados a la izquierda con el nombre ---------- */
+/* ---------- 6. Títulos principales: alineados a la izquierda con el nombre ----------
+   10rem es cuánto sobresalen; aparece varias veces en este archivo (busca «min(10rem»)
+   y conviene cambiarlo en todas a la vez (Guía §9, «Otros ajustes rápidos»). */
 /* Sobresalen de la columna de texto hasta el borde izquierdo de la cabecera */
 .portada, header.entrada, main > h1, main > h1 + .subtitulo {
   margin-left: calc(-1 * min(10rem, max(0rem, (100vw - var(--ancho)) / 2)));
   text-align: left;
 }
 
-/* Entrada con imagen junto al título: título a la izquierda, imagen a la derecha */
+/* Entrada con imagen junto al título (imagen: "…" en el encabezado, Guía §4):
+   título a la izquierda, imagen a la derecha. 1fr / 0.8fr = proporción entre ambos. */
 header.entrada.con-imagen {
   display: grid; grid-template-columns: 1fr minmax(0, 0.8fr); gap: 2.5rem; align-items: center;
   margin-right: calc(-1 * min(10rem, max(0rem, (100vw - var(--ancho)) / 2)));
@@ -183,35 +226,45 @@ header.entrada.con-imagen {
   header.entrada.con-imagen { grid-template-columns: 1fr; gap: 1.2rem; }
 }
 
-/* ---------- Portada ---------- */
+/* ---------- 7. Portada (página de inicio, layouts/index.html) ---------- */
 .portada { margin-top: 0.5rem; margin-bottom: 2.5rem; }
 .portada-subtitulo { color: var(--tenue); margin: 0; }
+/* (sin uso actual; se puede borrar) */
 .portada-imagen { display: block; margin: 2rem 0 0; max-height: 60vh; }
 /* Oculto a la vista, pero lo leen buscadores y lectores de pantalla */
 .solo-lectores { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 /* Presentación del inicio: el texto queda centrado y lo acompañan dos fotos invisibles,
    una arriba a la izquierda y otra abajo a la derecha.
-   Cada una aparece a color al pasar el mouse sobre ella. */
-.presentacion { position: relative; min-height: 16.5rem; }   /* espacio para la foto de arriba */
+   Cada una aparece a color al pasar el mouse sobre ella.
+   (Guía §8, «Página de inicio»)
+     width         = ancho de la foto (16rem ≈ 256 px)
+     aspect-ratio  = forma: 4 / 5 vertical, 1 / 1 cuadrada, 3 / 2 horizontal
+     top / bottom  = distancia al borde de arriba / de abajo del texto
+     right: calc(100% + 2rem) = la foto queda 2rem a la IZQUIERDA del texto
+     left:  calc(100% + 2rem) = la foto queda 2rem a la DERECHA del texto
+   Si agrandas .foto-1, sube también min-height de .presentacion (alto de la foto + un poco).
+   opacity: 0 = invisible; pon 1 para que se vean siempre. */
+.presentacion { position: relative; min-height: 21rem; }   /* espacio para la foto de arriba (su alto + un poco) */
 .foto-oculta {
   position: absolute; object-fit: cover;
   opacity: 0;
   transition: opacity 0.5s ease, filter 0.5s ease;
 }
 .foto-oculta:hover, .foto-oculta:focus { opacity: 1; filter: none; z-index: 2; }
-.foto-1 { width: 12.5rem; aspect-ratio: 4 / 5; top: 0.4rem; right: calc(100% + 2rem); }   /* arriba a la izquierda */
-.foto-2 { width: 10rem;  aspect-ratio: 3 / 4; bottom: 0;   left: calc(100% + 2rem); }    /* abajo a la derecha */
+.foto-1 { width: 16rem; aspect-ratio: 4 / 5; top: 0.4rem; right: calc(100% + 2rem); }   /* arriba a la izquierda */
+.foto-2 { width: 13rem;  aspect-ratio: 3 / 4; bottom: 0;   left: calc(100% + 2rem); }    /* abajo a la derecha */
 .presentacion .intro p:last-child { margin-bottom: 0; }
 /* Sin espacio a los lados (pantallas angostas): una foto arriba y otra abajo del texto */
-@media (max-width: 64rem) {
+/* Si no caben a los lados (pantallas de menos de ~1280 px), van arriba y abajo del texto */
+@media (max-width: 80rem) {
   .presentacion { min-height: 0; display: flex; flex-direction: column; }
-  .foto-oculta { position: static; width: 10rem; }
+  .foto-oculta { position: static; width: 13rem; }
   .foto-1 { order: -1; margin-bottom: 1.2rem; }
   .foto-2 { align-self: flex-end; margin-top: 1.2rem; }
 }
 
-/* ---------- En las secciones: nombre y menú en gris, negro al pasar el mouse ---------- */
+/* ---------- 8. En las secciones: nombre y menú en gris, negro al pasar el mouse ---------- */
 .seccion .nombre,
 .seccion .menu a { color: var(--tenue); }
 .seccion .nombre:hover,
@@ -226,7 +279,8 @@ header.entrada.con-imagen {
   text-underline-offset: 0.25em;
 }
 
-/* ---------- Listas de entradas ---------- */
+/* ---------- 9. Listas de entradas (layouts/_default/list.html) ---------- */
+/* .bloque y .mas: sin uso actual; se pueden borrar */
 .bloque { margin-top: 2.6rem; }
 .bloque h2 { margin-top: 0; }
 h2.anio { font-size: 1.7rem; color: var(--tenue); }
@@ -238,7 +292,7 @@ h2.anio { font-size: 1.7rem; color: var(--tenue); }
 .lista .resumen { display: block; font-size: 1.1rem; line-height: 1.45; }
 .mas { font-size: 1.1rem; color: var(--tenue); }
 
-/* ---------- Entradas ---------- */
+/* ---------- 10. Entradas (layouts/_default/single.html) ---------- */
 header.entrada { margin-bottom: 2rem; }
 header.entrada h1 { margin-bottom: 0.3rem; }
 .meta { margin: 0; font-size: 1.1rem; }
@@ -254,6 +308,7 @@ header.entrada h1 { margin-bottom: 0.3rem; }
 .a-la-izquierda > :last-child { margin-bottom: 1.3rem; }
 /* Comillas angulares « » (se escriben << >>): con la letra de los títulos, que las dibuja mejor */
 .comilla { font-family: var(--letra-titulos); font-weight: 500; font-size: 1.15em; line-height: 1; }
+/* Etiquetas (#algebra) y enlaces a la entrada anterior / siguiente */
 .etiquetas { margin-top: 2.5rem; font-size: 1.1rem; }
 .etiquetas a { margin-right: 0.8rem; color: var(--tenue); text-decoration: none; }
 .etiquetas a:hover { color: var(--grafito-fuerte); }
@@ -266,13 +321,16 @@ header.entrada h1 { margin-bottom: 0.3rem; }
 .vecinos a:hover { text-decoration: underline; text-decoration-color: var(--trazo); }
 .toc { font-size: 1.1rem; }
 
+/* ---------- 11. Citas, teoremas, código y tablas (Guía §3) ---------- */
+/* Citas: líneas que empiezan con > */
 blockquote {
   margin: 1.8rem 0; padding: 0 0 0 1.4rem; color: var(--tenue);
   border-left: 2px solid var(--trazo); border-image: none;
 }
 blockquote p:last-child { margin-bottom: 0; }
 
-/* Teoremas y definiciones: <div class="teorema"> ... </div> */
+/* Teoremas y definiciones: <div class="teorema"> ... </div>
+   El texto «Teorema.» lo pone ::before; cámbialo aquí. :lang(en) es la versión en inglés. */
 .teorema, .definicion, .prueba { margin: 1.6rem 0; }
 .teorema > :last-child, .definicion > :last-child, .prueba > :last-child { margin-bottom: 0; }
 .teorema > p:first-child, .definicion > p:first-child, .prueba > p:first-child { display: inline; }
@@ -292,6 +350,7 @@ pre { padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; background: var(
 .highlight pre { margin: 0; }
 .highlight pre span { color: inherit !important; background: none !important; }
 
+/* Fórmulas (KaTeX) */
 .katex { font-size: 1.05em; text-shadow: none; }
 .katex-display { overflow-x: auto; overflow-y: hidden; padding: 0.3rem 0; }
 
@@ -299,7 +358,9 @@ table { border-collapse: collapse; width: 100%; font-size: 1.1rem; }
 th, td { padding: 0.35rem 0.6rem; text-align: left; border-bottom: 1px solid var(--codigo); }
 thead th { border-bottom: 1px solid var(--trazo); }
 
-/* ---------- Imágenes y láminas ---------- */
+/* ---------- 12. Imágenes y láminas ----------
+   Plantillas: _markup/render-image.html (imágenes del texto), partials/lamina.html
+   (fotos de álbumes y {{< foto >}}). */
 a.ampliable { display: block; cursor: zoom-in; }
 figure.imagen { margin: 2rem 0; text-align: center; }
 figure.imagen img { display: block; margin: 0 auto; }
@@ -313,8 +374,10 @@ figure.imagen img { display: block; margin: 0 auto; }
 @media (max-width: 40rem) { .contenido { --ancho-imagen: 100%; } }
 figcaption { color: var(--tenue); font-size: 1.1rem; text-align: center; margin-top: 0.5rem; }
 
+/* Ancho de la zona de fotos de un álbum: el 92% de la ventana, sin pasar de 64rem.
+   margin-left 50% + translateX(-50%) = centrada en la página aunque sea más ancha que el texto. */
 .laminas { width: min(92vw, 64rem); margin-left: 50%; transform: translateX(-50%); }
-figure.lamina { margin: 0 0 6.5rem; text-align: center; }   /* separación entre foto y foto */
+figure.lamina { margin: 0 0 6.5rem; text-align: center; }   /* separación entre foto y foto (Guía §9) */
 .lamina-titulo { font-family: var(--letra-titulos); font-size: 1.8rem; font-weight: 500; color: var(--grafito-fuerte); margin: 0; filter: url(#lapiz); }
 .lamina-acciones { margin: 0 0 1.2rem; }
 .lamina-acciones a {
@@ -325,7 +388,8 @@ figure.lamina { margin: 0 0 6.5rem; text-align: center; }   /* separación entre
 .lamina-acciones svg, .visor-barra svg { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 figure.lamina img { display: block; margin: 0 auto; max-height: 85vh; width: auto; }
 
-/* Lámina con descripción: texto a la izquierda (1/4), imagen a la derecha (3/4) */
+/* (Versión anterior, sin uso: las plantillas ahora usan «descrita», más abajo.
+    Este bloque, de aquí hasta el @media siguiente, se puede borrar.) */
 figure.lamina.con-descripcion {
   display: grid; grid-template-columns: 1fr 3fr; gap: 2.5rem;
   align-items: start; text-align: left;
@@ -346,7 +410,8 @@ figure.lamina.con-descripcion {
   .con-descripcion .lamina-acciones { flex-direction: row; gap: 1.2rem; }
 }
 
-/* Lámina con descripción: texto a la izquierda (1/4), imagen a la derecha (3/4) */
+/* Lámina con descripción: texto a la izquierda (1/4), imagen a la derecha (3/4)
+   1fr 3fr = proporción texto / imagen. Para mitad y mitad: 1fr 1fr. */
 figure.lamina.descrita {
   display: grid; grid-template-columns: 1fr 3fr; gap: 2.2rem;
   align-items: start; text-align: left;
@@ -382,7 +447,10 @@ p.lamina-nota { margin: 0.1rem 0 0.4rem; }
   .texto-derecha .lamina-texto { order: 0; }
 }
 
-/* Secuencia: descripción arriba y una fila de tres fotos con botones ‹ › */
+/* ---------- 13. Secuencia: descripción arriba y una fila de tres fotos con botones ‹ › ----------
+   Plantilla: fotos/single.html · movimiento: sitio.js «Secuencias».
+   Fotos visibles a la vez: en .secuencia-foto, el 3 de «/ 3» y el 2 de «2 *» (huecos = fotos − 1).
+   Para 4: calc((100% - 3 * var(--hueco)) / 4)   (Guía §9, «Secuencias»). */
 figure.secuencia-bloque { margin: 0 0 6.5rem; }
 .secuencia-texto { display: flex; flex-direction: column; gap: 0.3rem; max-width: 40rem; margin: 0 0 1.6rem; text-align: left; }
 .secuencia { display: flex; align-items: center; gap: 0.8rem; }
@@ -402,7 +470,8 @@ figure.secuencia-bloque { margin: 0 0 6.5rem; }
 .secuencia:not(.activa) .secuencia-boton { display: none; }
 @media (max-width: 48rem) { .secuencia-foto { flex-basis: 100%; } }
 
-/* Álbumes: regados como fotos impresas sobre una mesa */
+/* ---------- 14. Álbumes: regados como fotos impresas sobre una mesa ----------
+   Plantilla: partials/albumes.html (Guía §6, §9). */
 .albumes {
   display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
   gap: 2.5rem 3rem; padding: 2rem 0 3rem;
@@ -425,7 +494,9 @@ figure.secuencia-bloque { margin: 0 0 6.5rem; }
   box-shadow: 0 8px 26px rgba(0, 0, 0, 0.2);
   z-index: 2;
 }
-/* Tamaños, giros y desfases distintos para que no queden en fila */
+/* Tamaños, giros y desfases distintos para que no queden en fila.
+   7n+1 = álbumes 1, 8, 15…; 7n+2 = 2, 9, 16…  Se repite cada 7 álbumes.
+   --ancho-foto = ancho · --giro = inclinación (0deg = recta) · --desfase = sube (−) o baja (+) */
 .album:nth-child(7n+1) { --ancho-foto: 17rem; --giro: -3deg;   --desfase: 1.2rem; }
 .album:nth-child(7n+2) { --ancho-foto: 13rem; --giro: 2.5deg;  --desfase: -1.6rem; }
 .album:nth-child(7n+3) { --ancho-foto: 20rem; --giro: -1.2deg; --desfase: 2.2rem; }
@@ -449,7 +520,7 @@ figure.secuencia-bloque { margin: 0 0 6.5rem; }
   .album-titulo { font-size: 1.5rem; }
 }
 
-/* ---------- Visor ---------- */
+/* ---------- 15. Visor (partials/visor.html · sitio.js «Visor», Guía §6) ---------- */
 .visor { position: fixed; inset: 0; z-index: 100; background: rgba(24, 24, 24, 0.95); }
 .visor-lienzo { position: absolute; inset: 0; display: grid; place-items: center; overflow: hidden; }
 .visor-lienzo img { max-width: 94vw; max-height: 94vh; cursor: zoom-in; }
@@ -487,12 +558,73 @@ figure.secuencia-bloque { margin: 0 0 6.5rem; }
 .visor-flecha svg { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 .visor-anterior { left: 0.6rem; border-radius: 4px; }
 .visor-siguiente { right: 0.6rem; border-radius: 4px; }
+/* Nota: esta regla quedó mezclada en una edición anterior (une el visor con el pie de página)
+   y hoy no tiene efecto visible. Las flechas del visor siguen apareciendo aunque haya una
+   sola foto, y el pie de página usa los estilos generales. Se deja igual para no cambiar
+   cómo se ve el sitio. */
 .visor.una-sola .visor-flecha, .visor.una-sola footer.sitio p { margin: 0.1rem 0; }
+/* Pie de página (partials/footer.html) */
 footer.sitio a { color: var(--tenue); }
 
-/* ---------- Pantallas pequeñas ---------- */
+/* ---------- 16. Pantallas pequeñas (celular: menos de 40rem ≈ 640 px) ---------- */
 @media (max-width: 40rem) {
   body { font-size: 1.2rem; }
   header.sitio { padding-top: 1.2rem; }
   .derecha { margin-left: 0; }
+}
+
+/* ---------- 17. Microcuentos (layouts/microcuentos/list.html, Guía §4) ----------
+   La página parece en blanco: cada microcuento tiene opacity: 0 (invisible) y aparece
+   al pasar el mouse o al tocarlo. Para que se vean siempre, cambia 0 por 1.
+   Para que se insinúen apenas, usa algo como 0.06. */
+/* Título lateral en la esquina superior derecha («Microcuentos» en la página de Cuentos).
+   El h1 se estira hasta la derecha lo mismo que sobresale a la izquierda (el mismo
+   «min(10rem…» del bloque 6) y el enlace se va al extremo derecho. */
+h1.con-lateral {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;
+  margin-right: calc(-1 * min(10rem, max(0rem, (100vw - var(--ancho)) / 2)));
+}
+h1 .titulo-lateral {
+  font-size: 0.5em;
+  color: var(--tenue); text-decoration: none; transition: color 0.2s;
+}
+h1 .titulo-lateral:hover { color: var(--grafito-fuerte); }
+/* La hoja (no se llama .microcuentos porque así se llama también el body de la sección): más ancha que la columna de texto y con alto mínimo, para que haya
+   «papel en blanco» que recorrer. minmax(15rem, 1fr) = ancho mínimo de cada microcuento. */
+.microcuentos-hoja {
+  width: min(94vw, 72rem); margin-left: 50%; transform: translateX(-50%);
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 3rem 3rem; align-items: start;
+  min-height: 70vh; padding: 2rem 0 5rem;
+}
+.microcuento {
+  opacity: 0;                         /* invisible hasta pasar el mouse */
+  transition: opacity 0.6s ease;
+  padding: 0.6rem 0.8rem; outline: none;
+  font-size: 1.12rem; line-height: 1.55;
+}
+.microcuento:hover, .microcuento:focus, .microcuento:focus-within { opacity: 1; }
+.microcuento-titulo {
+  margin: 0 0 0.4rem; font-size: 1.7rem;  /* letra de títulos y filtro de lápiz (bloque 3) */
+}
+.microcuento-texto p { margin: 0 0 0.7rem; }
+.microcuento-texto figure.imagen { margin: 0.6rem 0 0.8rem; }
+.microcuento-texto figure.imagen img { max-height: 16rem; width: auto; margin: 0; }
+.microcuento-fecha { display: block; font-size: 0.95rem; color: var(--tenue); }
+/* Sin JavaScript se ven en cuadrícula, con estos desfases. Con JavaScript (lo normal)
+   sitio.js los riega por la hoja («Microcuentos regados») y estas reglas solo aportan
+   la leve inclinación (rotate). */
+.microcuento:nth-child(6n+1) { margin-top: 1rem; }
+.microcuento:nth-child(6n+2) { margin-top: 4rem; transform: rotate(0.6deg); }
+.microcuento:nth-child(6n+3) { margin-top: 0; grid-column: span 2; max-width: 30rem; justify-self: center; }
+.microcuento:nth-child(6n+4) { margin-top: 2.5rem; transform: rotate(-0.8deg); }
+.microcuento:nth-child(6n+5) { margin-top: 5rem; }
+.microcuento:nth-child(6n+6) { margin-top: 1.5rem; justify-self: end; transform: rotate(0.4deg); }
+/* Hoja regada: sitio.js le pone la clase «regada» y calcula la posición (left, top) y el
+   ancho de cada microcuento. Los rangos de ancho y de separación están en sitio.js. */
+.microcuentos-hoja.regada { display: block; position: relative; min-height: 0; padding: 0; margin-top: 1rem; }
+.microcuentos-hoja.regada .microcuento { position: absolute; margin: 0; max-width: none; }
+@media (max-width: 40rem) {
+  .microcuentos-hoja { grid-template-columns: 1fr; gap: 2rem; }
+  .microcuento:nth-child(n) { grid-column: auto; margin-top: 0; transform: none; }
 }

@@ -1,15 +1,20 @@
 {{/* Recibe una lista de álbumes y los muestra «regados», como fotos sobre una mesa:
      solo la portada y el título centrado encima. */}}
+{{/* (Guía §6 y §9: tamaños, giros y desfases en style.css, reglas .album:nth-child) */}}
 <div class="albumes">
   {{ range . }}
     {{ $imgs := .Resources.ByType "image" }}
+    {{/* Portada: una foto llamada portada.jpg (o portada-algo.jpg); si no hay,
+         la primera foto del álbum en orden alfabético. */}}
     {{ $portada := $imgs.GetMatch "portada*" }}
     {{ if not $portada }}{{ with $imgs }}{{ $portada = index . 0 }}{{ end }}{{ end }}
     <a class="album" href="{{ .RelPermalink }}">
       {{ with $portada }}
+        {{/* Copia reducida de hasta 900 px: suficiente para la portada */}}
         {{ $t := .Fit "900x900" }}
         <img src="{{ $t.RelPermalink }}" width="{{ $t.Width }}" height="{{ $t.Height }}" alt="" loading="lazy">
       {{ end }}
+      {{/* El título del álbum (title del index.md), centrado sobre la foto */}}
       <span class="album-titulo">{{ .Title }}</span>
     </a>
   {{ end }}

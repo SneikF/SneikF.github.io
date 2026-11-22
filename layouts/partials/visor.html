@@ -1,5 +1,9 @@
 {{/* Visor de imágenes: se abre al hacer clic en una imagen o en «Ampliar» */}}
+{{/* (Guía §6, «El visor»). Está oculto (hidden) hasta que sitio.js lo abre.
+     Cada botón lleva data-accion="…", que sitio.js lee para saber qué hacer.
+     Teclado: Esc cierra, ← → cambian de foto, + − acercan, f pantalla completa. */}}
 <div class="visor" id="visor" role="dialog" aria-modal="true" aria-label="{{ i18n "visor" }}" hidden>
+  {{/* Barra de la esquina superior derecha: acercar, pantalla completa y cerrar */}}
   <div class="visor-barra">
     <button type="button" data-accion="zoom" aria-label="{{ i18n "zoom" }}" title="{{ i18n "zoom" }}">
       <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6"/></svg>
@@ -11,12 +15,15 @@
       <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19"/></svg>
     </button>
   </div>
+  {{/* Flechas ‹ › a los lados: pasan a la foto anterior o siguiente (dan la vuelta) */}}
   <button type="button" class="visor-flecha visor-anterior" data-accion="anterior" aria-label="{{ i18n "anterior" }}" title="{{ i18n "anterior" }}">
     <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path d="M15 4 7 12l8 8"/></svg>
   </button>
   <button type="button" class="visor-flecha visor-siguiente" data-accion="siguiente" aria-label="{{ i18n "siguiente" }}" title="{{ i18n "siguiente" }}">
     <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path d="M9 4l8 8-8 8"/></svg>
   </button>
+  {{/* El lienzo: la foto principal al centro. En las secuencias también se ven las
+       vecinas a los lados (clase «modo-secuencia», regla .visor-vecino en style.css). */}}
   <div class="visor-lienzo">
     <img class="visor-vecino visor-vecino-izq" alt="" data-paso="-1">
     <img class="visor-principal" alt="">

@@ -1,10 +1,25 @@
+{{/* =====================================================================
+     baseof.html: el esqueleto común de TODAS las páginas (Guía §1, §15).
+     Cada página rellena el hueco {{ block "main" }} con su propia plantilla:
+       inicio → layouts/index.html          listas → layouts/_default/list.html
+       entradas → layouts/_default/single.html
+       Fotos → layouts/fotos/list.html y layouts/fotos/single.html
+     Lo demás (cabecera, menú, pie y visor) viene de layouts/partials/.
+     Los comentarios como este (entre llaves, con barra y asterisco) no se publican.
+     ===================================================================== */}}
 <!doctype html>
 <html lang="{{ site.Language.Lang }}">
 <head>
+  {{/* Título, fuentes, style.css, sitio.js y KaTeX: partials/head.html */}}
   {{ partial "head.html" . }}
 </head>
+{{/* La clase del body permite estilos distintos en el inicio («inicio») y en las
+     secciones («seccion cuentos», «seccion fotos»…). En style.css: .inicio, .seccion,
+     .fotos (Guía §9; por ejemplo, el nombre y el menú en gris dentro de las secciones). */}}
 <body class="{{ if .IsHome }}inicio{{ else }}seccion {{ .Section }}{{ end }}">
-  {{/* Filtro de «lápiz»: grano de grafito y trazo levemente irregular */}}
+  {{/* Filtro de «lápiz»: grano de grafito y trazo levemente irregular.
+       Se aplica en style.css con  filter: url(#lapiz)  (títulos, nombre, minititulos).
+       baseFrequency = finura del grano; scale = cuánto tiembla el trazo (0 = recto). */}}
   <svg class="filtros" width="0" height="0" aria-hidden="true" focusable="false">
     <filter id="lapiz" x="-2%" y="-10%" width="104%" height="120%">
       <feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="3" seed="7" result="grano"/>
@@ -14,12 +29,16 @@
       <feDisplacementMap in="granulado" in2="onda" scale="2.2" xChannelSelector="R" yChannelSelector="G"/>
     </filter>
   </svg>
+  {{/* Barra superior: nombre, menú, idioma y tema */}}
   {{ partial "header.html" . }}
+  {{/* Botón ☰ que aparece al bajar por la página */}}
   {{ partial "menu-flotante.html" . }}
+  {{/* La columna central de texto (ancho: --ancho en style.css, Guía §9 «Tamaños») */}}
   <main class="columna">
     {{ block "main" . }}{{ end }}
   </main>
   {{ partial "footer.html" . }}
+  {{/* El visor de fotos está en todas las páginas, oculto hasta que haces clic en una foto */}}
   {{ partial "visor.html" . }}
 </body>
 </html>

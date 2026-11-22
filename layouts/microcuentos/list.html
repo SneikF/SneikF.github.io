@@ -1,0 +1,34 @@
+{{/* =====================================================================
+     microcuentos/list.html: la página de Microcuentos (Guía §4, «Microcuentos»).
+     Se ve como una hoja en blanco: cada microcuento es invisible hasta que pasas
+     el mouse sobre él (en el celular, hasta que lo tocas).
+     Cada microcuento es una carpeta en content/microcuentos/ con su index.md, y
+     cualquier imagen que use va en esa misma carpeta. Todo es opcional menos el texto:
+       title: "…"            → título (si no lo pones, no aparece)
+       date: …               → fecha: ordena los microcuentos y se muestra debajo del texto
+       ocultar_fecha: true   → la fecha sigue ordenando, pero no se muestra
+       el texto     → debajo del encabezado; puede tener imágenes ![](foto.jpg)
+     Los microcuentos no tienen página propia: solo se ven aquí (cascade en el
+     _index.md de la sección). Estilos: bloque 17 de style.css.
+     ===================================================================== */}}
+{{ define "main" }}
+{{/* Título con «Cuentos» en la esquina derecha, para volver */}}
+<h1 class="con-lateral">{{ .Title }}{{ with site.GetPage "/cuentos" }} <a class="titulo-lateral" href="{{ .RelPermalink }}">{{ .Title }}</a>{{ end }}</h1>
+{{ with .Description }}<p class="tenue subtitulo">{{ . }}</p>{{ end }}
+{{ with .Content }}<div class="intro-seccion">{{ . }}</div>{{ end }}
+
+{{/* Orden: por fecha, del más antiguo al más reciente. Así cada microcuento nuevo
+     (hugo new … le pone la fecha del momento) aparece de último, abajo.
+     Un microcuento sin la línea date queda de primero.
+     Para que cambie al azar en cada publicación, cambia  .Pages.ByDate  por  (shuffle .Pages)  */}}
+<div class="microcuentos-hoja">
+  {{ range .Pages.ByDate }}
+  {{/* tabindex="0" permite revelarlo con un toque (celular) o con la tecla Tab */}}
+  <article class="microcuento" tabindex="0">
+    {{ with .Params.title }}<h2 class="microcuento-titulo">{{ . }}</h2>{{ end }}
+    <div class="microcuento-texto">{{ .Content }}</div>
+    {{ if and (not .Date.IsZero) (not .Params.ocultar_fecha) }}<time class="microcuento-fecha" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_long" }}</time>{{ end }}
+  </article>
+  {{ end }}
+</div>
+{{ end }}

@@ -1,8 +1,24 @@
+{{/* =====================================================================
+     list.html: la página de una sección (Notas, Cuentos, Opiniones) y de las
+     etiquetas (Guía §4, «Los apartados de cada sección»; §10).
+     Título y apartado: title y description en content/<sección>/_index.md.
+     Fotos tiene su propia plantilla: layouts/fotos/list.html.
+     ===================================================================== */}}
 {{ define "main" }}
-<h1>{{ .Title }}</h1>
+{{/* Título lateral: en la página de Cuentos aparece «Microcuentos» en la esquina superior
+     derecha, como enlace a esa sección (Guía §4, «Microcuentos»). Para ponerle un título lateral a otra
+     sección, copia la línea del if con su nombre y la página a la que debe llevar. */}}
+{{ $lateral := false }}
+{{ if eq .Section "cuentos" }}{{ $lateral = site.GetPage "/microcuentos" }}{{ end }}
+<h1{{ if $lateral }} class="con-lateral"{{ end }}>{{ .Title }}{{ with $lateral }} <a class="titulo-lateral" href="{{ .RelPermalink }}">{{ .Title }}</a>{{ end }}</h1>
+{{/* El apartado gris bajo el título (description del _index.md) */}}
 {{ with .Description }}<p class="tenue subtitulo">{{ . }}</p>{{ end }}
+{{/* Si el _index.md tiene texto debajo del encabezado, se muestra aquí */}}
 {{ with .Content }}<div class="intro-seccion">{{ . }}</div>{{ end }}
 
+{{/* Entradas agrupadas por año, de la más reciente a la más antigua.
+     "2006" y "2 Jan" son el formato de fecha de Hugo (año; día y mes).
+     Estilos: .anio, .lista, .resumen en style.css. */}}
 {{ range .Pages.GroupByDate "2006" }}
   <h2 class="anio">{{ .Key }}</h2>
   <ul class="lista">
@@ -10,6 +26,7 @@
     <li>
       <a href="{{ .RelPermalink }}">{{ .Title }}</a>
       <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format "2 Jan" }}</time>
+      {{/* Resumen bajo el título: description del encabezado de cada entrada */}}
       {{ with .Description }}<span class="resumen">{{ . }}</span>{{ end }}
     </li>
     {{ end }}

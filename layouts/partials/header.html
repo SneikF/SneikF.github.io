@@ -1,3 +1,6 @@
+{{/* Barra superior (Guía §10, «Barra superior»): el nombre a la izquierda, que lleva
+     al inicio del idioma actual, y a la derecha el menú y los botones (partials/nav.html).
+     El nombre es title en hugo.toml. Estilos: header.sitio, .nombre, .derecha. */}}
 <header class="sitio">
   <a class="nombre" href="{{ "/" | relLangURL }}">{{ site.Title }}</a>
   <div class="derecha">{{ partial "nav.html" . }}</div>

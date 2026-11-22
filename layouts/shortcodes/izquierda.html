@@ -3,6 +3,8 @@
      *Cualquier texto en Markdown.*
      {{< /izquierda >}}
      Sin la etiqueta, el texto queda en la columna centrada como siempre. */}}
+{{/* (Guía §5, «Una nota, epígrafe o dedicatoria»). Estilo: .contenido .a-la-izquierda en
+     style.css. RenderString convierte el Markdown de adentro (cursiva, enlaces) en HTML. */}}
 <div class="a-la-izquierda">
 {{ .Inner | .Page.RenderString (dict "display" "block") }}
 </div>

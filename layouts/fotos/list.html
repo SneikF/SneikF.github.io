@@ -1,7 +1,13 @@
+{{/* =====================================================================
+     fotos/list.html: la página «Fotos», con las portadas de los álbumes regadas
+     (Guía §6). Título y frase: title y description en content/fotos/_index.md.
+     Las portadas se dibujan en partials/albumes.html.
+     ===================================================================== */}}
 {{ define "main" }}
 <h1>{{ .Title }}</h1>
 {{ with .Description }}<p class="tenue subtitulo">{{ . }}</p>{{ end }}
 {{ with .Content }}<div class="intro-seccion">{{ . }}</div>{{ end }}
-{{/* Orden aleatorio: cambia cada vez que se publica el sitio */}}
+{{/* Orden aleatorio: cambia cada vez que se publica el sitio.
+     Para un orden fijo (por fecha), cambia  (shuffle .Pages)  por  .Pages  */}}
 {{ partial "albumes.html" (shuffle .Pages) }}
 {{ end }}

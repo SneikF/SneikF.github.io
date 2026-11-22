@@ -1,12 +1,23 @@
+# =====================================================================
+#  Frases fijas del sitio en inglés (Guía §12, «Frases fijas»)
+#  Las plantillas las piden con  i18n "nombre"  y Hugo pone aquí la del idioma.
+#  Cambia solo el texto entre comillas; el nombre entre [ ] debe quedar igual
+#  en es.toml y en.toml. Para un idioma nuevo, copia este archivo (p. ej. fr.toml).
+# =====================================================================
+
+# Tiempo de lectura (ya no se muestra; se conserva por si lo quieres volver a usar)
 [lectura]
 other = "{{ .Count }} min read"
 
+# Enlace al final de una lista resumida (sin uso actual)
 [verTodas]
 other = "See all {{ .Count }} posts →"
 
+# Título del índice desplegable de una entrada con  toc: true  (Guía §2, «El encabezado»)
 [contenido]
 other = "Contents"
 
+# ---------- Pie de página (layouts/partials/footer.html, Guía §10) ----------
 [licenciaTexto]
 other = "Content under"
 
@@ -16,15 +27,18 @@ other = "Made with"
 [alojado]
 other = "hosted on"
 
+# ---------- Barra superior: botones de tema e idioma (partials/nav.html) ----------
 [cambiarTema]
 other = "Toggle light and dark mode"
 
 [idioma]
 other = "Read in"
 
+# Botón ☰ del menú flotante (partials/menu-flotante.html)
 [menu]
 other = "Menu"
 
+# ---------- Visor de imágenes (partials/visor.html, Guía §6 «El visor») ----------
 [visor]
 other = "Image viewer"
 
@@ -37,20 +51,25 @@ other = "Full screen"
 [cerrar]
 other = "Close"
 
+# ---------- Láminas de los álbumes (partials/lamina.html, Guía §6) ----------
 [lamina]
 other = "Plate"
 
+# «ampliar» ya no se usa (se quitó el enlace Ampliar de las láminas); se puede borrar
 [ampliar]
 other = "Magnify"
 
 [descargar]
 other = "Download"
 
+# Flechas ‹ › del visor, de las secuencias y enlaces a la entrada anterior/siguiente
 [anterior]
 other = "Previous"
 
 [siguiente]
 other = "Next"
 
+# Nota bajo la descripción de un álbum en secuencia (Guía §6 «Álbum en secuencia»).
+# {{ .Count }} se reemplaza por el número de fotos.
 [secuencia]
 other = "A sequence of {{ .Count }} photos: use ‹ › to go through it (it loops) and tap one to see it large."
