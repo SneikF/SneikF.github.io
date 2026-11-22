@@ -41,6 +41,9 @@
   {{ range $n, $r := .Params.resources }}
     {{ with $r.src }}{{ if not (isset $pos (lower .)) }}{{ $pos = merge $pos (dict (lower .) (add $n 1)) }}{{ end }}{{ end }}
   {{ end }}
+  {{/* Firma en las fotos ampliadas y descargadas: sí, salvo  firma: false  en el encabezado
+       del álbum (todas sus fotos) o en el bloque de una foto (solo esa). Guía §6, «Autoría». */}}
+  {{ $firmarAlbum := ne .Params.firma false }}
   {{ $conClave := slice }}
   {{ range $i, $img := $imgs }}
     {{ $nombre := lower $img.Name }}
@@ -72,8 +75,15 @@
         {{/* Si la foto no tiene title propio, Title = nombre de archivo: no se muestra */}}
         {{ with $m.title }}<span class="lamina-minititulo">{{ . }}</span>{{ end }}
         {{ with $mp.descripcion }}<div class="lamina-descripcion">{{ . | markdownify }}</div>{{ end }}
-        {{/* «Secuencia de N fotos…»: texto en i18n/es.toml, clave «secuencia» */}}
-        <span class="lamina-nota">{{ i18n "secuencia" (len $imgs) }}</span>
+        {{/* Nota bajo la descripción (Guía §6, «Álbum en secuencia»):
+             - por defecto, la frase de i18n/es.toml y en.toml, clave «secuencia»
+               ({{ .Count }} = número de fotos); cambiarla allí la cambia en todos los álbumes;
+             - en el encabezado de un álbum,  nota_secuencia: "otro texto"  la cambia solo ahí;
+             - con  nota_secuencia: false  no se muestra ninguna nota. */}}
+        {{ $notaSec := $.Params.nota_secuencia }}
+        {{ if eq $notaSec false }}
+        {{ else if $notaSec }}<span class="lamina-nota">{{ $notaSec | markdownify }}</span>
+        {{ else }}<span class="lamina-nota">{{ i18n "secuencia" (len $imgs) }}</span>{{ end }}
       </figcaption>
       <div class="secuencia">
         {{/* Botón ‹ ; data-paso="-1" le dice a sitio.js que retroceda */}}
@@ -91,7 +101,8 @@
                    el visor muestra la foto entera ($grande). Cambia "1200x800" para
                    otro formato, por ejemplo "800x1000" para verticales (Guía §9). */}}
               {{ $vista := $o.Fill "1200x800 Center" }}
-              {{ $grande := partial "firma.html" ($o.Fit "3000x3000") }}
+              {{ $grande := $o.Fit "3000x3000" }}
+              {{ if and $firmarAlbum (ne (($mg.params | default dict).firma) false) }}{{ $grande = partial "firma.html" $grande }}{{ end }}
               <a class="ampliable secuencia-foto" href="{{ $grande.RelPermalink }}"><img src="{{ $vista.RelPermalink }}" width="{{ $vista.Width }}" height="{{ $vista.Height }}" alt="{{ with index $meta (lower .Name) }}{{ .title }}{{ end }}" loading="lazy"></a>
             {{ end }}
           </div>
@@ -135,15 +146,14 @@
         {{ $m := index $meta (lower $img.Name) | default dict }}
         {{ $mp := $m.params | default dict }}
         {{/* girar: del archivo de este idioma o, si no está, del otro (el giro es el mismo) */}}
-        {{ partial "lamina.html" (dict "img" $img "numero" (add $i 1) "titulo" ($m.title | default "") "descripcion" ($mp.descripcion | default "") "lado" ($mp.lado | default "") "girar" ($mp.girar | default $img.Params.girar) "vertical" ($mp.alinear_texto | default "")) }}
+        {{ partial "lamina.html" (dict "img" $img "numero" (add $i 1) "titulo" ($m.title | default "") "descripcion" ($mp.descripcion | default "") "lado" ($mp.lado | default "") "girar" ($mp.girar | default $img.Params.girar) "vertical" ($mp.alinear_texto | default "") "firma" (and $firmarAlbum (ne $mp.firma false))) }}
       {{ end }}
       {{ if $varias }}</div>{{ end }}
     {{ end }}
   {{ end }}
   </div>
 
-  {{/* Autoría del álbum completo */}}
-  {{ partial "credito.html" (dict "anio" (cond .Date.IsZero now.Year .Date.Year)) }}
+  {{/* La autoría está una sola vez, en el pie de página (partials/footer.html) */}}
 
   {{/* Enlaces al álbum anterior y al siguiente */}}
   <nav class="vecinos">

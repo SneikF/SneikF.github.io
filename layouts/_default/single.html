@@ -53,10 +53,9 @@
     {{ .Content }}
   </div>
 
-  {{/* Autoría al final de cada nota, cuento u opinión (no en páginas sueltas como Acerca) */}}
-  {{ if ne .Section "" }}
-    {{ partial "credito.html" (dict "anio" (cond .Date.IsZero now.Year .Date.Year)) }}
-  {{ end }}
+  {{/* La autoría («© … · CC BY-SA 4.0 · Cómo citar») está una sola vez, en el pie de página
+       (partials/footer.html). Para repetirla aquí al final de cada entrada:
+       {{ partial "credito.html" (dict "anio" .Date.Year) }} */}}
 
   {{ with .GetTerms "tags" }}
   <p class="etiquetas">

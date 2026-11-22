@@ -16,7 +16,9 @@
 {{/* Copias reducidas: «vista» (hasta 1600 px) en la página, «grande» (hasta 3000 px)
      para el visor y el botón Descargar. La grande lleva tu firma (partials/firma.html). */}}
 {{ $vista := $img.Fit "1600x1600" }}
-{{ $grande := partial "firma.html" ($img.Fit "3000x3000") }}
+{{/* Firma: sí, salvo que el álbum o la foto tengan  firma: false  ("firma" llega en el dict) */}}
+{{ $grande := $img.Fit "3000x3000" }}
+{{ if ne .firma false }}{{ $grande = partial "firma.html" $grande }}{{ end }}
 {{ $alt := .titulo | default "" }}
 {{/* «Descargar» y el crédito ya no van debajo de la foto: aparecen en el visor al
      abrirla en grande (partials/visor.html). */}}

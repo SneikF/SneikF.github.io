@@ -91,6 +91,12 @@ body {
 
 /* La columna centrada de texto; su ancho es --ancho (bloque 1) */
 .columna { max-width: var(--ancho); margin: 0 auto; padding: 0 1.5rem; }
+/* Pie de página siempre al fondo de la ventana, aunque la página tenga poco contenido:
+   la página es una columna del alto de la ventana y el contenido (main) crece para llenar
+   el espacio que sobre. (width: 100% mantiene centrados la cabecera, el contenido y el pie.) */
+body { min-height: 100vh; display: flex; flex-direction: column; }
+body > header.sitio, body > main, body > footer.sitio { width: 100%; }
+body > main { flex: 1 0 auto; }
 main.columna { padding-top: 3rem; padding-bottom: 1rem; }
 
 a { color: var(--grafito-fuerte); text-decoration: underline; text-decoration-color: var(--trazo); text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
@@ -402,6 +408,8 @@ figcaption { color: var(--tenue); font-size: 1.1rem; text-align: center; margin-
 /* Espacio entre el texto del álbum (o su título) y la primera foto.
    Más grande = las fotos empiezan más abajo. (Guía §9, «Tamaños») */
 .laminas { margin-top: 10rem; }
+/* Espacio entre la última foto y los enlaces anterior/siguiente y el pie de página */
+.laminas { margin-bottom: 7rem; }
 figure.lamina { margin: 0 0 6.5rem; text-align: center; }   /* separación entre foto y foto (Guía §9) */
 .lamina-titulo { font-family: var(--letra-titulos); font-size: 1.8rem; font-weight: 500; color: var(--grafito-fuerte); margin: 0; filter: url(#lapiz); }
 /* .lamina-acciones: el enlace Descargar ya no va bajo las fotos (ahora está en el visor);
@@ -478,7 +486,13 @@ p.lamina-nota { margin: 0.1rem 0 0.4rem; }
    Plantilla: fotos/single.html · movimiento: sitio.js «Secuencias».
    Fotos visibles a la vez: en .secuencia-foto, el 3 de «/ 3» y el 2 de «2 *» (huecos = fotos − 1).
    Para 4: calc((100% - 3 * var(--hueco)) / 4)   (Guía §9, «Secuencias»). */
-figure.secuencia-bloque { margin: 0 0 6.5rem; }
+figure.secuencia-bloque { margin: 0; }
+/* La fila de fotos tiene una franja propia del alto de la ventana (100vh), con las fotos al
+   centro: al llegar a ellas solo se ven las imágenes; subiendo aparecen el título y la
+   descripción, y bajando el pie de página. Bájalo (por ejemplo, 70vh) para menos espacio. */
+.secuencia-bloque .secuencia { min-height: 100vh; }
+/* En un álbum en secuencia, el espacio de arriba ya lo da el bloque centrado */
+.laminas:has(> .secuencia-bloque) { margin-top: 3rem; margin-bottom: 0; }
 .secuencia-texto { display: flex; flex-direction: column; gap: 0.3rem; max-width: 40rem; margin: 0 0 1.6rem; text-align: left; }
 .secuencia { display: flex; align-items: center; gap: 0.8rem; }
 .secuencia-ventana { flex: 1; min-width: 0; }

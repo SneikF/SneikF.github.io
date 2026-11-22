@@ -176,6 +176,8 @@ resources:
 
 - **Orden:** las fotos salen en el orden de sus bloques en `resources:`; las que no tienen bloque van después (por nombre) y la portada siempre al final. Para mover una foto, mueve su bloque entero; si solo cambias el `src`, intercambias los textos, no las fotos.
 - En el encabezado del álbum: `secuencia: true` (fila circular) y `alinear_titulo: "centro"` o `"derecha"`; el subtítulo sigue al título.
+- `firma: false` en el encabezado del álbum: sus fotos se ven y se descargan sin firma (así está la Montaña). En el bloque de una foto: solo esa.
+- Nota «Secuencia de N fotos…»: el texto está en `[secuencia]` de `i18n/es.toml` y `i18n/en.toml` (todos los álbumes); en un solo álbum, `nota_secuencia: "Mi texto"` en su encabezado, o `nota_secuencia: false` para quitarla.
 - «Descargar» y el crédito aparecen solo al abrir la foto en el visor.
 
 Detalles y ejemplos en la guía PDF (versión 5), §6.

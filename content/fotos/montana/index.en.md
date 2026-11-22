@@ -1,13 +1,15 @@
 ---
 title: "Mountain"
-date: 2026-11-21
+date: 2026-08-21
 draft: false
 secuencia: true
+nota_secuencia: false
+# No signature on enlarged and downloaded photos
+firma: false
 resources:
-  - src: "01.jpg"
-    title: "The same mountain, all day long"
+  - src: "IMG_0155.JPG"
     params:
-      descripcion: "Eight photos from the same spot, from dawn to night."
+      descripcion: "The place I live in has this view; it had been a long time since I felt at ease."
 ---
 
-*Example album with placeholder images.*
+*There is a book I like that reminds me of the magic of nature: When I Sing, Mountains Dance*

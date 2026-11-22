@@ -31,6 +31,5 @@
   </article>
   {{ end }}
 </div>
-{{/* Autoría de todos los microcuentos */}}
-{{ partial "credito.html" (dict "anio" now.Year) }}
+{{/* La autoría está una sola vez, en el pie de página (partials/footer.html) */}}
 {{ end }}

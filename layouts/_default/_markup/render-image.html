@@ -13,9 +13,15 @@
   {{- /* Foto encontrada: Hugo publica una versión de hasta 1600 px para la página y
          otra de hasta 3000 px para el visor (al hacer clic). */ -}}
   {{- $vista := $img.Fit "1600x1600" -}}
-  {{- $grande := partial "firma.html" ($img.Fit "3000x3000") -}}   {{- /* con tu firma */ -}}
   <figure class="imagen">
+  {{- /* En Microcuentos las imágenes no se amplían: van sin el enlace que abre el visor.
+         Para otra sección, agrégala aquí:  (in (slice "microcuentos" "otra") .Page.Section) */ -}}
+  {{- if eq .Page.Section "microcuentos" }}
+    <img src="{{ $vista.RelPermalink }}" width="{{ $vista.Width }}" height="{{ $vista.Height }}" alt="{{ .Text }}" loading="lazy">
+  {{- else }}
+    {{- $grande := partial "firma.html" ($img.Fit "3000x3000") -}}   {{- /* con tu firma */ -}}
     <a class="ampliable" href="{{ $grande.RelPermalink }}"><img src="{{ $vista.RelPermalink }}" width="{{ $vista.Width }}" height="{{ $vista.Height }}" alt="{{ .Text }}" loading="lazy"></a>
+  {{- end }}
     {{- /* El texto entre comillas de ![…](foto.jpg "así") se vuelve el pie de foto */ -}}
     {{- with .Title }}<figcaption>{{ . }}</figcaption>{{ end }}
   </figure>
