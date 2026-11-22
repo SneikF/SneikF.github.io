@@ -1,0 +1,25 @@
+{{/* =====================================================================
+     firma.html: escribe tu firma en la esquina inferior izquierda de una foto
+     (Guía §6, «Autoría de tus fotos»). Se usa en la versión grande de cada foto:
+     la que se abre en el visor y la que se descarga. Así el crédito viaja con el
+     archivo, porque Hugo borra los datos internos (EXIF) al reducir las fotos.
+       Recibe: una imagen ya reducida.  Devuelve: la misma imagen con la firma.
+     El texto sale de hugo.toml ([params]: autor, licencia, dominio):
+       «© Esneider Sierra · CC BY-SA 4.0 · sneikf.github.io»
+     Para cambiar el tamaño: el 55 de abajo (más grande = letra más pequeña).
+     Para no firmar las fotos: en lamina.html, render-image.html, single.html y
+     fotos/single.html cambia  partial "firma.html" (…)  por lo que está entre paréntesis.
+     ===================================================================== */}}
+{{ $img := . }}
+{{ $texto := printf "© %s · %s · %s" site.Params.autor site.Params.licencia site.Params.dominio }}
+{{/* Tamaño de la letra: 1/55 del ancho de la foto, mínimo 16 px */}}
+{{ $tam := div $img.Width 55 }}
+{{ if lt $tam 16 }}{{ $tam = 16 }}{{ end }}
+{{ $x := div (mul $tam 6) 5 }}
+{{ $y := sub $img.Height (div (mul $tam 22) 10) }}
+{{ $d := div $tam 14 }}{{ if lt $d 1 }}{{ $d = 1 }}{{ end }}
+{{/* Primero una sombra oscura, corrida unos píxeles, y encima el texto claro:
+     así se lee sobre fotos claras y oscuras. */}}
+{{ $sombra := images.Text $texto (dict "color" "#000000" "size" $tam "x" (add $x $d) "y" (add $y $d)) }}
+{{ $luz := images.Text $texto (dict "color" "#f2f2f2" "size" $tam "x" $x "y" $y) }}
+{{ return $img.Filter $sombra $luz }}

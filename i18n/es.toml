@@ -73,3 +73,7 @@ other = "Siguiente"
 # {{ .Count }} se reemplaza por el número de fotos.
 [secuencia]
 other = "Secuencia de {{ .Count }} fotos: usa ‹ › para recorrerla (no tiene fin) y toca una para verla en grande."
+
+# ---------- Autoría (partials/credito.html y content/como-citar.md, Guía §6) ----------
+[comoCitar]
+other = "Cómo citar"

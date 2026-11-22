@@ -1,36 +1,39 @@
 {{/* Una imagen presentada como lámina.
      Recibe: dict "img" (recurso de imagen), y opcionales:
        "numero" (int, muestra «Lámina I, II…»), "titulo" (minititulo), "descripcion" (texto en Markdown),
-       "lado" ("derecha" para poner el texto a la derecha; por defecto va a la izquierda),
+       "lado" ("derecha" para poner el texto a la derecha; por defecto va a la izquierda;
+               "izquierda" o "derecha" en una foto SIN descripción también ponen su texto
+               —«Lámina I», Descargar y crédito— al lado de la foto, incluso dentro de una fila),
+       "girar" ("derecha", "izquierda" o "180": endereza la foto; ver orientar.html),
        "nota" (texto pequeño extra, por ejemplo cuántas fotos tiene una secuencia).
      Con título o descripción: texto en 1/4 del ancho e imagen en 3/4.
      Sin ellos: imagen centrada, como antes. Solo se publican versiones redimensionadas. */}}
 {{/* (Guía §6 «Descripción de cada foto» y §7 «Imagen con descripción al lado»).
      La usan dos lugares: fotos/single.html (álbumes normales) y shortcodes/foto.html.
      Estilos: figure.lamina, .descrita, .texto-derecha, .lamina-* en style.css. */}}
-{{ $img := .img }}
+{{ $img := partial "orientar.html" (dict "img" .img "girar" .girar) }}
 {{/* Copias reducidas: «vista» (hasta 1600 px) en la página, «grande» (hasta 3000 px)
-     para el visor y el botón Descargar. */}}
+     para el visor y el botón Descargar. La grande lleva tu firma (partials/firma.html). */}}
 {{ $vista := $img.Fit "1600x1600" }}
-{{ $grande := $img.Fit "3000x3000" }}
+{{ $grande := partial "firma.html" ($img.Fit "3000x3000") }}
 {{ $alt := .titulo | default "" }}
-{{/* El enlace «Descargar» (la versión grande de la foto). Se arma una vez como texto y se
-     inserta abajo con safeHTML. La palabra viene de i18n (clave «descargar»).
-     Para ver la foto en grande basta hacer clic en ella: abre el visor. */}}
-{{ $acciones := printf `<p class="lamina-acciones"><a class="descargar" href="%s" download><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M4 15v5h16v-5"/></svg>%s</a></p>` $grande.RelPermalink (i18n "descargar") }}
+{{/* «Descargar» y el crédito ya no van debajo de la foto: aparecen en el visor al
+     abrirla en grande (partials/visor.html). */}}
 {{/* La imagen, envuelta en un enlace «ampliable»: al hacer clic se abre el visor */}}
 {{ $imagen := printf `<a class="ampliable" href="%s"><img src="%s" width="%d" height="%d" alt="%s" loading="lazy"></a>` $grande.RelPermalink $vista.RelPermalink $vista.Width $vista.Height $alt }}
 
 {{/* Con minititulo o descripción → lámina «descrita» (cuadrícula texto 1/4 + imagen 3/4);
      con lado "derecha" se agrega «texto-derecha» y se invierte (imagen 3/4 + texto 1/4). */}}
-{{ if or .titulo .descripcion }}
-<figure class="lamina descrita{{ if eq (.lado | default "") "derecha" }} texto-derecha{{ end }}">
+{{ $lado := .lado | default "" }}
+{{ if or .titulo .descripcion (ne $lado "") }}
+{{/* «al-lado»: el lado se pidió explícitamente; dentro de una fila, el texto se queda al
+     lado de la foto en vez de pasar debajo (style.css, bloque 19) */}}
+<figure class="lamina descrita{{ if eq $lado "derecha" }} texto-derecha{{ end }}{{ if ne $lado "" }} al-lado{{ end }}">
   <figcaption class="lamina-texto">
     {{ with .numero }}<span class="lamina-numero">{{ i18n "lamina" }} {{ partial "romano.html" . }}</span>{{ end }}
     {{ with .titulo }}<span class="lamina-minititulo">{{ . }}</span>{{ end }}
     {{ with .descripcion }}<div class="lamina-descripcion">{{ . | markdownify }}</div>{{ end }}
     {{ with .nota }}<span class="lamina-nota">{{ . }}</span>{{ end }}
-    {{ $acciones | safeHTML }}
   </figcaption>
   {{ $imagen | safeHTML }}
 </figure>
@@ -39,7 +42,6 @@
 <figure class="lamina">
   {{ with .numero }}<p class="lamina-titulo">{{ i18n "lamina" }} {{ partial "romano.html" . }}</p>{{ end }}
   {{ with .nota }}<p class="lamina-nota">{{ . }}</p>{{ end }}
-  {{ $acciones | safeHTML }}
   {{ $imagen | safeHTML }}
 </figure>
 {{ end }}

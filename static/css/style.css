@@ -20,6 +20,9 @@
     15. Visor                                   §6 El visor
     16. Pantallas pequeñas                      §9
     17. Microcuentos (al final del archivo)     §4 Microcuentos
+    18. Crédito de autoría                      §6 Autoría
+    19. Varias fotos en una fila                §6 Filas
+    20. Números de lámina                       §6
 
    Unidades: 1rem = 16 px (el tamaño de letra normal del navegador).
    vw / vh = porcentaje del ancho / alto de la ventana (100vw = todo el ancho).
@@ -166,7 +169,11 @@ header.sitio {
 
 /* Botones de idioma y tema: en la barra superior van en el borde derecho de la página,
    uno debajo del otro. El menú conserva su lugar. */
-header.sitio .derecha { margin-right: 5.6rem; }   /* espacio que ocupaban antes los botones */
+/* Simetría: la cabecera deja libre a CADA lado el espacio de los botones (5.5rem), así
+   nunca pasa por debajo de ellos y sigue centrada; el menú llega hasta el borde derecho
+   de la cabecera igual que el nombre llega al izquierdo. */
+header.sitio { max-width: min(calc(var(--ancho) + 20rem), calc(100% - 11rem)); }
+header.sitio .derecha { margin-right: 0; }
 header.sitio .controles {
   position: absolute; top: 1.4rem; right: 1.6rem;
   flex-direction: column; align-items: center; gap: 0.5rem;
@@ -182,6 +189,7 @@ header.sitio .controles {
 .controles .boton-tema { width: 2.1rem; height: 2.1rem; font-size: 1rem; }
 /* En pantallas de menos de 64rem (~1024 px) los botones vuelven a la fila del menú */
 @media (max-width: 64rem) {
+  header.sitio { max-width: calc(var(--ancho) + 20rem); }   /* botones dentro de la barra */
   header.sitio .derecha { margin-right: 0; }
   header.sitio .controles { position: static; flex-direction: row; }
 }
@@ -212,6 +220,19 @@ body.desplazado .menu-boton { opacity: 1; pointer-events: auto; }
 .portada, header.entrada, main > h1, main > h1 + .subtitulo {
   margin-left: calc(-1 * min(10rem, max(0rem, (100vw - var(--ancho)) / 2)));
   text-align: left;
+}
+
+/* Título de un álbum centrado o a la derecha (alinear_titulo en su index.md, Guía §6):
+   el encabezado se estira lo mismo hacia la derecha, para que el centro sea el de la página */
+header.entrada.titulo-centro,
+header.entrada.titulo-derecha { margin-right: calc(-1 * min(10rem, max(0rem, (100vw - var(--ancho)) / 2))); }
+header.entrada.titulo-centro { text-align: center; }
+header.entrada.titulo-derecha { text-align: right; }
+/* El texto del álbum (el subtítulo debajo del título) sigue la misma posición */
+header.entrada.titulo-centro ~ .contenido { text-align: center; }
+header.entrada.titulo-derecha ~ .contenido {
+  text-align: right;
+  margin-right: calc(-1 * min(10rem, max(0rem, (100vw - var(--ancho)) / 2)));
 }
 
 /* Entrada con imagen junto al título (imagen: "…" en el encabezado, Guía §4):
@@ -377,8 +398,13 @@ figcaption { color: var(--tenue); font-size: 1.1rem; text-align: center; margin-
 /* Ancho de la zona de fotos de un álbum: el 92% de la ventana, sin pasar de 64rem.
    margin-left 50% + translateX(-50%) = centrada en la página aunque sea más ancha que el texto. */
 .laminas { width: min(92vw, 64rem); margin-left: 50%; transform: translateX(-50%); }
+/* Espacio entre el texto del álbum (o su título) y la primera foto.
+   Más grande = las fotos empiezan más abajo. (Guía §9, «Tamaños») */
+.laminas { margin-top: 10rem; }
 figure.lamina { margin: 0 0 6.5rem; text-align: center; }   /* separación entre foto y foto (Guía §9) */
 .lamina-titulo { font-family: var(--letra-titulos); font-size: 1.8rem; font-weight: 500; color: var(--grafito-fuerte); margin: 0; filter: url(#lapiz); }
+/* .lamina-acciones: el enlace Descargar ya no va bajo las fotos (ahora está en el visor);
+   estas reglas quedan sin uso y se pueden borrar */
 .lamina-acciones { margin: 0 0 1.2rem; }
 .lamina-acciones a {
   display: inline-flex; align-items: center; gap: 0.3rem;
@@ -548,6 +574,18 @@ figure.secuencia-bloque { margin: 0 0 6.5rem; }
   background: none; border: 0; color: #eee; cursor: pointer;
 }
 .visor-barra button:hover { background: rgba(255, 255, 255, 0.12); }
+/* Barra de abajo del visor: «Descargar» y el crédito (partials/visor.html) */
+.visor-pie {
+  position: absolute; bottom: 0.8rem; left: 50%; transform: translateX(-50%); z-index: 1;
+  display: flex; align-items: center; gap: 1.4rem; white-space: nowrap;
+  padding: 0.35rem 1rem; border-radius: 4px;
+  background: rgba(40, 40, 40, 0.85); color: #ddd; font-size: 1.05rem;
+}
+.visor-pie a { color: #eee; text-decoration-color: #888; }
+.visor-pie a:hover { color: #fff; }
+.visor-descargar { display: inline-flex; align-items: center; gap: 0.35rem; text-decoration: none; }
+.visor-descargar svg { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.visor-credito { font-size: 0.9rem; color: #bbb; }
 /* Flechas para pasar de foto */
 .visor-flecha {
   position: absolute; top: 50%; z-index: 1; transform: translateY(-50%);
@@ -628,3 +666,56 @@ h1 .titulo-lateral:hover { color: var(--grafito-fuerte); }
   .microcuentos-hoja { grid-template-columns: 1fr; gap: 2rem; }
   .microcuento:nth-child(n) { grid-column: auto; margin-top: 0; transform: none; }
 }
+
+/* ---------- 18. Crédito de autoría (partials/credito.html, Guía §6) ----------
+   La línea «© Esneider Sierra · CC BY-SA 4.0 · Cómo citar». */
+.credito { color: var(--tenue); font-size: 0.95rem; line-height: 1.4; margin: 2.5rem 0 0; }
+.credito a { color: var(--tenue); }
+.credito a:hover { color: var(--grafito-fuerte); }
+/* Debajo de cada foto: más pequeña y pegada al enlace Descargar */
+.lamina .credito, .secuencia-texto .credito { margin: 0.2rem 0 0.8rem; font-size: 0.85rem; }
+.descrita .credito { margin: 0.3rem 0 0; }
+/* Al final de un álbum o de la hoja de microcuentos, centrada */
+.laminas + .credito, .microcuentos-hoja + .credito { text-align: center; }
+
+/* ---------- 19. Varias fotos en una fila (fotos/single.html, Guía §6) ----------
+   Fotos seguidas con el mismo  fila: …  quedan lado a lado, todas del mismo ancho.
+   --fotos = cuántas hay en la fila (lo pone la plantilla). gap = espacio entre ellas.
+   Dentro de una fila, la descripción va debajo de cada foto (no al lado). */
+.fila-laminas {
+  display: grid; grid-template-columns: repeat(var(--fotos, 2), minmax(0, 1fr));
+  gap: 2.5rem; align-items: start; margin: 0 0 6.5rem;
+}
+.fila-laminas figure.lamina { margin: 0; }
+.fila-laminas figure.lamina img { max-height: 70vh; width: auto; max-width: 100%; }
+.fila-laminas figure.lamina.descrita,
+.fila-laminas figure.lamina.descrita.texto-derecha { grid-template-columns: 1fr; gap: 0.8rem; }
+.fila-laminas .descrita .ampliable { order: -1; justify-self: center; }
+.fila-laminas .descrita .lamina-texto { order: 0; }
+.fila-laminas .descrita .lamina-acciones { flex-direction: row; gap: 1.2rem; }
+/* Con  lado: "izquierda"  o  "derecha"  en su bloque, el texto de esa foto se queda AL LADO
+   de ella dentro de la fila (como en las láminas I y II del álbum de los museos).
+   La columna del texto mide lo que necesita, entre 6 y 11rem. */
+/* align-items: center = el texto queda a media altura de la foto (start = arriba, end = abajo) */
+.fila-laminas figure.lamina.descrita.al-lado { grid-template-columns: minmax(6rem, 11rem) minmax(0, 1fr); gap: 1.2rem; align-items: center; }
+.fila-laminas figure.lamina.descrita.al-lado.texto-derecha { grid-template-columns: minmax(0, 1fr) minmax(6rem, 11rem); }
+.fila-laminas .al-lado .ampliable { order: 0; justify-self: end; }
+.fila-laminas .al-lado.texto-derecha .ampliable { order: 0; justify-self: start; }
+.fila-laminas .al-lado .lamina-texto { order: 0; }
+.fila-laminas .al-lado.texto-derecha .lamina-texto { order: 2; }
+.fila-laminas .al-lado .lamina-acciones { flex-direction: column; gap: 0.2rem; }
+/* Simetría: el texto de la foto de la derecha se alinea a la derecha (contra el borde exterior) */
+.fila-laminas .al-lado.texto-derecha .lamina-texto { text-align: right; align-items: flex-end; }
+/* En el celular, una debajo de otra */
+@media (max-width: 48rem) {
+  .fila-laminas { grid-template-columns: 1fr; gap: 4rem; }
+}
+
+/* ---------- 20. «Lámina I, II, III…» (partials/lamina.html, Guía §6) ----------
+   Todos los números de lámina con el mismo tamaño: pequeños, en gris y con la letra
+   del texto, tengan o no descripción. Para hacerlos más grandes, sube font-size. */
+.lamina-titulo, .lamina-numero {
+  font-family: var(--letra); font-weight: 300; font-size: 1rem; line-height: 1.4;
+  color: var(--tenue); filter: none; margin: 0;
+}
+figure.lamina:not(.descrita) .lamina-titulo { margin-bottom: 0.4rem; }

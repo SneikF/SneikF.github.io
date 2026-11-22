@@ -181,6 +181,7 @@
   var foto = lienzo.querySelector('.visor-principal');
   var vecinoIzq = lienzo.querySelector('.visor-vecino-izq');
   var vecinoDer = lienzo.querySelector('.visor-vecino-der');
+  var descargar = visor.querySelector('.visor-descargar');   /* «Descargar» de la barra de abajo */
   var grupo = [];   /* imágenes entre las que se navega (toda la página o una secuencia) */
   var enlaces = Array.prototype.slice.call(document.querySelectorAll('a.ampliable'));
   var indice = -1;
@@ -194,6 +195,7 @@
     indice = grupo.indexOf(a);
     var img = a.querySelector('img');
     foto.src = a.href;
+    if (descargar) descargar.href = a.href;   /* descarga la foto abierta (con firma) */
     foto.alt = img ? img.alt : a.textContent.trim();
     visor.classList.toggle('ampliado', !!conZoom);
     visor.classList.toggle('una-sola', grupo.length < 2);

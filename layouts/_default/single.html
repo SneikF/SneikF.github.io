@@ -34,8 +34,10 @@
     {{/* Hugo crea dos copias reducidas: «vista» (hasta 1000 px) para la página y
          «grande» (hasta 3000 px) para el visor. Nunca se publica el original. */}}
     {{ with $imagenTitulo }}
-      {{ $vista := .Fit "1000x1000" }}
-      {{ $grande := .Fit "3000x3000" }}
+      {{/* Enderezada (orientar.html); si sale acostada:  girar_imagen: "derecha"  en el encabezado */}}
+      {{ $o := partial "orientar.html" (dict "img" . "girar" $.Params.girar_imagen) }}
+      {{ $vista := $o.Fit "1000x1000" }}
+      {{ $grande := partial "firma.html" ($o.Fit "3000x3000") }}
       <a class="ampliable imagen-titulo" href="{{ $grande.RelPermalink }}"><img src="{{ $vista.RelPermalink }}" width="{{ $vista.Width }}" height="{{ $vista.Height }}" alt=""></a>
     {{ end }}
   </header>
@@ -50,6 +52,11 @@
   <div class="contenido">
     {{ .Content }}
   </div>
+
+  {{/* Autoría al final de cada nota, cuento u opinión (no en páginas sueltas como Acerca) */}}
+  {{ if ne .Section "" }}
+    {{ partial "credito.html" (dict "anio" (cond .Date.IsZero now.Year .Date.Year)) }}
+  {{ end }}
 
   {{ with .GetTerms "tags" }}
   <p class="etiquetas">

@@ -24,6 +24,14 @@
   </button>
   {{/* El lienzo: la foto principal al centro. En las secuencias también se ven las
        vecinas a los lados (clase «modo-secuencia», regla .visor-vecino en style.css). */}}
+  {{/* Barra de abajo: «Descargar» (sitio.js le pone la dirección de la foto abierta, que
+       lleva tu firma) y el crédito con la licencia. Solo se ve con el visor abierto. */}}
+  <div class="visor-pie">
+    <a class="visor-descargar" href="#" download>
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M4 15v5h16v-5"/></svg>{{ i18n "descargar" }}
+    </a>
+    <span class="visor-credito">© {{ site.Params.autor }} · <a href="{{ site.Params.licenciaURL }}" rel="license">{{ site.Params.licencia }}</a></span>
+  </div>
   <div class="visor-lienzo">
     <img class="visor-vecino visor-vecino-izq" alt="" data-paso="-1">
     <img class="visor-principal" alt="">

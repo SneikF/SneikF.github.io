@@ -1,0 +1,21 @@
+{{/* =====================================================================
+     orientar.html: endereza una foto antes de reducirla (Guía §6, «Fotos acostadas»).
+       1. Automático: gira la foto según lo que anotó la cámara o el celular
+          (dato «Orientation» del EXIF). Hugo no lo hace por su cuenta al reducir.
+       2. Manual: si la foto sigue mal, en su bloque de «resources:» agrega
+             girar: "derecha"     → la gira 90° como las agujas del reloj
+             girar: "izquierda"   → la gira 90° al revés
+             girar: "180"         → la pone de cabeza
+             girar: "no"          → la deja tal como está guardada (sin enderezar)
+     Recibe: dict "img" (la foto) y "girar" (opcional). Devuelve: la foto enderezada.
+     Lo usan lamina.html, fotos/single.html, albumes.html, single.html y render-image.html.
+     ===================================================================== */}}
+{{ $g := lower (printf "%v" (.girar | default "")) }}
+{{ $img := .img }}
+{{ if ne $g "no" }}{{ $img = $img.Filter images.AutoOrient }}{{ end }}
+{{/* En Hugo, r90 gira a la izquierda y r270 a la derecha */}}
+{{ $r := "" }}
+{{ if eq $g "derecha" }}{{ $r = "r270" }}{{ else if eq $g "izquierda" }}{{ $r = "r90" }}{{ else if eq $g "180" }}{{ $r = "r180" }}{{ end }}
+{{/* Fit con una caja enorme no cambia el tamaño: solo aplica el giro */}}
+{{ with $r }}{{ $img = $img.Fit (printf "20000x20000 %s" .) }}{{ end }}
+{{ return $img }}

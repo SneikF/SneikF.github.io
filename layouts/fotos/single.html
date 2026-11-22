@@ -10,7 +10,10 @@
 {{ define "main" }}
 {{/* Solo se publican versiones redimensionadas, nunca el archivo original */}}
 <article>
-  <header class="entrada">
+  {{/* Posición del título: en el encabezado del álbum,  alinear_titulo: "centro"
+       (o "derecha"; sin la línea, o con "izquierda", queda a la izquierda como siempre).
+       Estilos: header.entrada.titulo-centro / .titulo-derecha (style.css, bloque 6). */}}
+  <header class="entrada{{ with .Params.alinear_titulo }} titulo-{{ lower . }}{{ end }}">
     <h1>{{ .Title }}</h1>
     {{ if not .Date.IsZero }}<p class="meta"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_long" }}</time></p>{{ end }}
   </header>
@@ -20,6 +23,14 @@
 
   {{/* Todas las imágenes de la carpeta del álbum, en orden alfabético de nombre */}}
   {{ $imgs := .Resources.ByType "image" }}
+  {{/* Minititulo y descripción de cada foto: se leen SOLO de «resources:» en el archivo
+       de este idioma (index.md o index.en.md). Así, si una foto falta en index.en.md o su
+       nombre está mal escrito, la versión en inglés queda sin descripción en vez de mostrar
+       la del español. El nombre (src) se compara sin distinguir mayúsculas. */}}
+  {{ $meta := dict }}
+  {{ range $r := .Params.resources }}
+    {{ with $r.src }}{{ $meta = merge $meta (dict (lower .) $r) }}{{ end }}
+  {{ end }}
   {{/* .laminas es más ancho que la columna de texto (style.css: .laminas) */}}
   <div class="laminas">
   {{ if .Params.secuencia }}
@@ -30,11 +41,13 @@
     {{/* El minititulo y la descripción de la secuencia se toman de la PRIMERA foto
          (la 01.jpg) en «resources:». */}}
     {{ with $imgs }}{{ with index . 0 }}{{ $primera := . }}
+    {{ $m := index $meta (lower $primera.Name) | default dict }}
+    {{ $mp := $m.params | default dict }}
     <figure class="secuencia-bloque">
       <figcaption class="secuencia-texto">
         {{/* Si la foto no tiene title propio, Title = nombre de archivo: no se muestra */}}
-        {{ if ne $primera.Title $primera.Name }}<span class="lamina-minititulo">{{ $primera.Title }}</span>{{ end }}
-        {{ with $primera.Params.descripcion }}<div class="lamina-descripcion">{{ . | markdownify }}</div>{{ end }}
+        {{ with $m.title }}<span class="lamina-minititulo">{{ . }}</span>{{ end }}
+        {{ with $mp.descripcion }}<div class="lamina-descripcion">{{ . | markdownify }}</div>{{ end }}
         {{/* «Secuencia de N fotos…»: texto en i18n/es.toml, clave «secuencia» */}}
         <span class="lamina-nota">{{ i18n "secuencia" (len $imgs) }}</span>
       </figcaption>
@@ -47,12 +60,15 @@
         <div class="secuencia-ventana">
           <div class="secuencia-pista">
             {{ range $imgs }}
+              {{/* Foto enderezada (orientar.html); girar se pone en su bloque de resources */}}
+              {{ $mg := index $meta (lower .Name) | default dict }}
+              {{ $o := partial "orientar.html" (dict "img" . "girar" (($mg.params | default dict).girar | default .Params.girar)) }}
               {{/* .Fill recorta todas al mismo formato 3:2 (1200×800) para la fila;
                    el visor muestra la foto entera ($grande). Cambia "1200x800" para
                    otro formato, por ejemplo "800x1000" para verticales (Guía §9). */}}
-              {{ $vista := .Fill "1200x800 Center" }}
-              {{ $grande := .Fit "3000x3000" }}
-              <a class="ampliable secuencia-foto" href="{{ $grande.RelPermalink }}"><img src="{{ $vista.RelPermalink }}" width="{{ $vista.Width }}" height="{{ $vista.Height }}" alt="{{ if ne .Title .Name }}{{ .Title }}{{ end }}" loading="lazy"></a>
+              {{ $vista := $o.Fill "1200x800 Center" }}
+              {{ $grande := partial "firma.html" ($o.Fit "3000x3000") }}
+              <a class="ampliable secuencia-foto" href="{{ $grande.RelPermalink }}"><img src="{{ $vista.RelPermalink }}" width="{{ $vista.Width }}" height="{{ $vista.Height }}" alt="{{ with index $meta (lower .Name) }}{{ .title }}{{ end }}" loading="lazy"></a>
             {{ end }}
           </div>
         </div>
@@ -67,12 +83,43 @@
     {{/* Álbum normal: una lámina por foto. Para cada una se le pasan a lamina.html
          su número (para «Lámina I, II…»), su minititulo, su descripción y su lado
          (Guía §6, «Descripción de cada foto: izquierda, derecha o ninguna»). */}}
+    {{/* Filas: fotos SEGUIDAS con el mismo valor de  fila  (en su bloque de resources)
+         van lado a lado (Guía §6, «Varias fotos en una fila»). Primero se arman los
+         grupos: cada grupo es una lista de posiciones; una foto sin fila es un grupo de 1. */}}
+    {{ $grupos := slice }}
+    {{ $actual := slice }}
+    {{ $filaAnterior := "" }}
     {{ range $i, $img := $imgs }}
-      {{ $titulo := "" }}{{ if ne $img.Title $img.Name }}{{ $titulo = $img.Title }}{{ end }}
-      {{ partial "lamina.html" (dict "img" $img "numero" (add $i 1) "titulo" $titulo "descripcion" ($img.Params.descripcion | default "") "lado" ($img.Params.lado | default "")) }}
+      {{ $mp := (index $meta (lower $img.Name) | default dict).params | default dict }}
+      {{ $f := printf "%v" ($mp.fila | default ($img.Params.fila | default "")) }}
+      {{ if and (ne $f "") (eq $f $filaAnterior) }}
+        {{ $actual = $actual | append $i }}
+      {{ else }}
+        {{ with $actual }}{{ $grupos = $grupos | append (dict "fotos" .) }}{{ end }}
+        {{ $actual = slice $i }}
+      {{ end }}
+      {{ $filaAnterior = $f }}
+    {{ end }}
+    {{ with $actual }}{{ $grupos = $grupos | append (dict "fotos" .) }}{{ end }}
+
+    {{/* Después se dibuja cada grupo: los de varias fotos dentro de .fila-laminas */}}
+    {{ range $grupos }}
+      {{ $varias := gt (len .fotos) 1 }}
+      {{ if $varias }}<div class="fila-laminas" style="--fotos: {{ len .fotos }}">{{ end }}
+      {{ range $i := .fotos }}
+        {{ $img := index $imgs $i }}
+        {{ $m := index $meta (lower $img.Name) | default dict }}
+        {{ $mp := $m.params | default dict }}
+        {{/* girar: del archivo de este idioma o, si no está, del otro (el giro es el mismo) */}}
+        {{ partial "lamina.html" (dict "img" $img "numero" (add $i 1) "titulo" ($m.title | default "") "descripcion" ($mp.descripcion | default "") "lado" ($mp.lado | default "") "girar" ($mp.girar | default $img.Params.girar)) }}
+      {{ end }}
+      {{ if $varias }}</div>{{ end }}
     {{ end }}
   {{ end }}
   </div>
+
+  {{/* Autoría del álbum completo */}}
+  {{ partial "credito.html" (dict "anio" (cond .Date.IsZero now.Year .Date.Year)) }}
 
   {{/* Enlaces al álbum anterior y al siguiente */}}
   <nav class="vecinos">

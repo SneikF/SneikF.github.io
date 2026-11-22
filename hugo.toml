@@ -23,6 +23,8 @@ ignoreFiles = ['cuentos/ejemplo(\.en)?\.md$', 'opiniones/ejemplo(\.en)?\.md$']
 [params]
   autor = 'Esneider Sierra'
   licencia = 'CC BY-SA 4.0'
+  # Dirección que aparece en la firma de las fotos (partials/firma.html)
+  dominio = 'sneikf.github.io'
 
 # Etiquetas: «tags: [algebra, grafos]» en el encabezado de una entrada crea /tags/algebra/…
 [taxonomies]

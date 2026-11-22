@@ -1,0 +1,14 @@
+{{/* =====================================================================
+     credito.html: la línea de autoría y licencia (Guía §6 y §15).
+       «© 2026 Esneider Sierra · CC BY-SA 4.0 · Cómo citar»
+     Recibe un dict con opciones:
+       "anio"  → año que se muestra (si no se da, no aparece año)
+       "corto" → true para la versión breve, sin «Cómo citar» (debajo de cada foto)
+     Autor y licencia: [params] en hugo.toml. «Cómo citar»: i18n y content/como-citar.md.
+     Estilo: .credito en style.css (bloque 18).
+     ===================================================================== */}}
+<p class="credito">
+  © {{ with .anio }}{{ . }} {{ end }}{{ site.Params.autor }} ·
+  <a href="{{ site.Params.licenciaURL }}" rel="license">{{ site.Params.licencia }}</a>
+  {{- if not .corto }}{{ with site.GetPage "/como-citar" }} · <a href="{{ .RelPermalink }}">{{ i18n "comoCitar" }}</a>{{ end }}{{ end }}
+</p>

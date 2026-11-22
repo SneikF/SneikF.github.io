@@ -180,6 +180,16 @@ El avance se ve en la pestaña **Actions** del repositorio; si sale en rojo, ah�
 
 Para guardar un borrador sin publicarlo, déjalo con `draft: true`: se sube al repositorio pero no aparece en el sitio.
 
+## Autoría de fotos y textos
+
+Todo el contenido está bajo CC BY-SA 4.0: quien lo use debe darte crédito. El blog lo deja claro de tres formas, en los dos idiomas:
+
+- **Línea de crédito** debajo de cada foto y al final de cada entrada, álbum y hoja de microcuentos: `layouts/partials/credito.html`.
+- **Firma** «© Esneider Sierra · CC BY-SA 4.0 · sneikf.github.io» en la versión grande de cada foto (la del visor y la descarga): `layouts/partials/firma.html`. Hugo borra los datos EXIF al reducir las fotos, así que esta es la forma de que el crédito viaje con el archivo.
+- **Página «Cómo citar»**, enlazada en el pie: `content/como-citar.md` y `como-citar.en.md`.
+
+Autor, licencia y dominio están en `[params]` de `hugo.toml`. Detalles en la guía PDF, §6.
+
 ## Comentarios en el código
 
 Todos los archivos del diseño tienen comentarios en español que explican qué hace cada parte. Cada uno indica en qué capítulo de la guía en PDF (*Cómo actualizar el blog*, versión 4) se trata, por ejemplo `(Guía §8, «Página de inicio»)`. El capítulo 15 del PDF trae el mapa completo de archivos.

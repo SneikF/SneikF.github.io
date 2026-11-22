@@ -3,6 +3,7 @@
      Descripción en Markdown (puede tener varios párrafos).
      {{< /foto >}}
      Para el texto a la derecha de la imagen: agrega  lado="derecha".
+     Si la foto sale acostada: agrega  girar="derecha"  (o "izquierda", o "180").
      La imagen debe estar en la misma carpeta que el index.md de la entrada. */}}
 {{/* (Guía §7, «Imagen con descripción al lado»). Por dentro usa partials/lamina.html,
      así que se ve igual que una foto descrita de un álbum. */}}
@@ -12,4 +13,4 @@
   {{ errorf "foto: no encuentro la imagen %q junto a %s (la entrada debe ser una carpeta con index.md)" $src .Page.File.Path }}
 {{ end }}
 {{/* .Inner es el texto entre la etiqueta de apertura y la de cierre */}}
-{{ partial "lamina.html" (dict "img" $img "titulo" (.Get "titulo") "descripcion" (trim .Inner "\n ") "lado" (.Get "lado")) }}
+{{ partial "lamina.html" (dict "img" $img "titulo" (.Get "titulo") "descripcion" (trim .Inner "\n ") "lado" (.Get "lado") "girar" (.Get "girar")) }}

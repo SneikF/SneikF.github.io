@@ -6,7 +6,9 @@
   <p>
     {{/* now.Year = el año en que se publica el sitio */}}
     © {{ now.Year }} {{ site.Params.autor }} ·
-    {{ i18n "licenciaTexto" }} <a href="{{ site.Params.licenciaURL }}">{{ site.Params.licencia }}</a> ·
+    {{ i18n "licenciaTexto" }} <a href="{{ site.Params.licenciaURL }}" rel="license">{{ site.Params.licencia }}</a> ·
+    {{/* Página que explica cómo dar crédito (content/como-citar.md) */}}
+    {{ with site.GetPage "/como-citar" }}<a href="{{ .RelPermalink }}">{{ i18n "comoCitar" }}</a> ·{{ end }}
     {{/* RSS: lista de entradas para lectores de noticias (index.xml lo genera Hugo) */}}
     <a href="{{ "index.xml" | relLangURL }}">RSS</a>
   </p>
