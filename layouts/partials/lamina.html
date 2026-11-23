@@ -6,6 +6,7 @@
                —«Lámina I», Descargar y crédito— al lado de la foto, incluso dentro de una fila),
        "girar" ("derecha", "izquierda" o "180": endereza la foto; ver orientar.html),
        "vertical" ("arriba", "centro" o "abajo": a qué altura de la foto va el texto),
+       "solo_numero" (true: «IV» en vez de «Lámina IV»; viene de  solo_numeros: true  en el álbum),
        "nota" (texto pequeño extra, por ejemplo cuántas fotos tiene una secuencia).
      Con título o descripción: texto en 1/4 del ancho e imagen en 3/4.
      Sin ellos: imagen centrada, como antes. Solo se publican versiones redimensionadas. */}}
@@ -35,7 +36,7 @@
 {{ $vertical := lower (.vertical | default "") }}
 <figure class="lamina descrita{{ if eq $lado "derecha" }} texto-derecha{{ end }}{{ if ne $lado "" }} al-lado{{ end }}{{ with $vertical }} vertical-{{ . }}{{ end }}">
   <figcaption class="lamina-texto">
-    {{ with .numero }}<span class="lamina-numero">{{ i18n "lamina" }} {{ partial "romano.html" . }}</span>{{ end }}
+    {{ with .numero }}<span class="lamina-numero">{{ if not $.solo_numero }}{{ i18n "lamina" }} {{ end }}{{ partial "romano.html" . }}</span>{{ end }}
     {{ with .titulo }}<span class="lamina-minititulo">{{ . }}</span>{{ end }}
     {{ with .descripcion }}<div class="lamina-descripcion">{{ . | markdownify }}</div>{{ end }}
     {{ with .nota }}<span class="lamina-nota">{{ . }}</span>{{ end }}
@@ -45,7 +46,7 @@
 {{ else }}
 {{/* Sin texto: solo el número de lámina, los enlaces y la imagen centrada */}}
 <figure class="lamina">
-  {{ with .numero }}<p class="lamina-titulo">{{ i18n "lamina" }} {{ partial "romano.html" . }}</p>{{ end }}
+  {{ with .numero }}<p class="lamina-titulo">{{ if not $.solo_numero }}{{ i18n "lamina" }} {{ end }}{{ partial "romano.html" . }}</p>{{ end }}
   {{ with .nota }}<p class="lamina-nota">{{ . }}</p>{{ end }}
   {{ $imagen | safeHTML }}
 </figure>

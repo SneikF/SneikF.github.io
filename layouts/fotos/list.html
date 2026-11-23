@@ -4,7 +4,8 @@
      Las portadas se dibujan en partials/albumes.html.
      ===================================================================== */}}
 {{ define "main" }}
-<h1>{{ .Title }}</h1>
+{{/* Sin título visible: «Fotos» ya está en el menú (partials/en-menu.html) */}}
+<h1{{ if partial "en-menu.html" . }} class="solo-lectores"{{ end }}>{{ .Title }}</h1>
 {{ with .Description }}<p class="tenue subtitulo">{{ . }}</p>{{ end }}
 {{ with .Content }}<div class="intro-seccion">{{ . }}</div>{{ end }}
 {{/* Orden aleatorio: cambia cada vez que se publica el sitio.

@@ -12,8 +12,10 @@
      _index.md de la sección). Estilos: bloque 17 de style.css.
      ===================================================================== */}}
 {{ define "main" }}
-{{/* Título con «Cuentos» en la esquina derecha, para volver */}}
-<h1 class="con-lateral">{{ .Title }}{{ with site.GetPage "/cuentos" }} <a class="titulo-lateral" href="{{ .RelPermalink }}">{{ .Title }}</a>{{ end }}</h1>
+{{/* Sin título visible (queda oculto para buscadores y lectores de pantalla); solo el
+     enlace «Cuentos» en la esquina derecha, para volver. Para mostrar el título, quita
+     class="solo-lectores" del span. */}}
+<h1 class="con-lateral"><span class="solo-lectores">{{ .Title }}</span>{{ with site.GetPage "/cuentos" }} <a class="titulo-lateral" href="{{ .RelPermalink }}">{{ .Title }}</a>{{ end }}</h1>
 {{ with .Description }}<p class="tenue subtitulo">{{ . }}</p>{{ end }}
 {{ with .Content }}<div class="intro-seccion">{{ . }}</div>{{ end }}
 

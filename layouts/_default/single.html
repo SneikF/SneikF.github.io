@@ -21,7 +21,8 @@
        imagen a la derecha (style.css: header.entrada.con-imagen) */}}
   <header class="entrada{{ if $imagenTitulo }} con-imagen{{ end }}">
     <div class="entrada-titulo">
-      <h1>{{ .Title }}</h1>
+      {{/* Páginas del menú (Acerca): sin título visible, ya está en el menú */}}
+      <h1{{ if partial "en-menu.html" . }} class="solo-lectores"{{ end }}>{{ .Title }}</h1>
       {{/* Fecha larga («21 de noviembre de 2026»), en el idioma de la página */}}
       {{ if not .Date.IsZero }}
       <p class="meta">

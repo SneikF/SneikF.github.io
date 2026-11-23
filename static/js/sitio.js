@@ -182,6 +182,7 @@
   var vecinoIzq = lienzo.querySelector('.visor-vecino-izq');
   var vecinoDer = lienzo.querySelector('.visor-vecino-der');
   var descargar = visor.querySelector('.visor-descargar');   /* «Descargar» de la barra de abajo */
+  var textoVisor = visor.querySelector('.visor-texto');      /* texto de la foto, debajo de ella */
   var grupo = [];   /* imágenes entre las que se navega (toda la página o una secuencia) */
   var enlaces = Array.prototype.slice.call(document.querySelectorAll('a.ampliable'));
   var indice = -1;
@@ -197,11 +198,20 @@
     foto.src = a.href;
     if (descargar) descargar.href = a.href;   /* descarga la foto abierta (con firma) */
     foto.alt = img ? img.alt : a.textContent.trim();
+    /* Si la foto tiene su texto debajo (secuencia de una foto), se muestra también en el visor */
+    var pie = a.closest('figure') && a.closest('figure').querySelector('.diapositiva-texto');
+    if (textoVisor) {
+      textoVisor.innerHTML = pie ? pie.innerHTML : '';
+      textoVisor.hidden = !(pie && pie.textContent.trim());
+      visor.classList.toggle('con-texto', !textoVisor.hidden);
+    }
     visor.classList.toggle('ampliado', !!conZoom);
     visor.classList.toggle('una-sola', grupo.length < 2);
-    /* En una secuencia se ven también la foto anterior y la siguiente, a los lados */
-    visor.classList.toggle('modo-secuencia', !!sec);
-    if (sec) {
+    /* En una secuencia se ven también la foto anterior y la siguiente, a los lados.
+       En la secuencia de una foto (clase «una») solo se ve la foto abierta. */
+    var conVecinos = !!sec && !sec.classList.contains('una');
+    visor.classList.toggle('modo-secuencia', conVecinos);
+    if (conVecinos) {
       var n = grupo.length;
       ponerVecino(vecinoIzq, n > 1 ? grupo[(indice - 1 + n) % n] : null);
       ponerVecino(vecinoDer, n > 2 ? grupo[(indice + 1) % n] : null);

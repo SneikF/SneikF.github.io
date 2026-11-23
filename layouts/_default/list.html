@@ -10,7 +10,15 @@
      sección, copia la línea del if con su nombre y la página a la que debe llevar. */}}
 {{ $lateral := false }}
 {{ if eq .Section "cuentos" }}{{ $lateral = site.GetPage "/microcuentos" }}{{ end }}
-<h1{{ if $lateral }} class="con-lateral"{{ end }}>{{ .Title }}{{ with $lateral }} <a class="titulo-lateral" href="{{ .RelPermalink }}">{{ .Title }}</a>{{ end }}</h1>
+{{/* Las secciones del menú (Notas, Cuentos, Opiniones…) no muestran su título: ya está
+     en el menú. Queda oculto (clase solo-lectores) para buscadores y lectores de pantalla.
+     Las páginas de etiquetas sí lo muestran. Para mostrarlo siempre, borra «$oculto». */}}
+{{ $oculto := partial "en-menu.html" . }}
+{{ if and $oculto (not $lateral) }}
+<h1 class="solo-lectores">{{ .Title }}</h1>
+{{ else }}
+<h1{{ if $lateral }} class="con-lateral"{{ end }}><span{{ if $oculto }} class="solo-lectores"{{ end }}>{{ .Title }}</span>{{ with $lateral }} <a class="titulo-lateral" href="{{ .RelPermalink }}">{{ .Title }}</a>{{ end }}</h1>
+{{ end }}
 {{/* El apartado gris bajo el título (description del _index.md) */}}
 {{ with .Description }}<p class="tenue subtitulo">{{ . }}</p>{{ end }}
 {{/* Si el _index.md tiene texto debajo del encabezado, se muestra aquí */}}

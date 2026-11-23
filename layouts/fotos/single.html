@@ -44,6 +44,8 @@
   {{/* Firma en las fotos ampliadas y descargadas: sí, salvo  firma: false  en el encabezado
        del álbum (todas sus fotos) o en el bloque de una foto (solo esa). Guía §6, «Autoría». */}}
   {{ $firmarAlbum := ne .Params.firma false }}
+  {{/* solo_numeros: true en el encabezado del álbum → «IV» en vez de «Lámina IV» */}}
+  {{ $soloNum := .Params.solo_numeros | default false }}
   {{ $conClave := slice }}
   {{ range $i, $img := $imgs }}
     {{ $nombre := lower $img.Name }}
@@ -67,14 +69,20 @@
          a los lados. El orden es el de los nombres de archivo (01.jpg, 02.jpg…). */}}
     {{/* El minititulo y la descripción de la secuencia se toman de la PRIMERA foto
          (la 01.jpg) en «resources:». */}}
+    {{/* secuencia: "una" → una sola foto a la vez, con su título y descripción DEBAJO; el
+         texto cambia junto con la foto (Guía §6, «Secuencia de una foto»).
+         secuencia: true → fila de tres fotos; título y descripción de la primera foto arriba. */}}
+    {{ $una := eq (printf "%v" .Params.secuencia) "una" }}
     {{ with $imgs }}{{ with index . 0 }}{{ $primera := . }}
     {{ $m := index $meta (lower $primera.Name) | default dict }}
     {{ $mp := $m.params | default dict }}
     <figure class="secuencia-bloque">
       <figcaption class="secuencia-texto">
+        {{ if not $una }}
         {{/* Si la foto no tiene title propio, Title = nombre de archivo: no se muestra */}}
         {{ with $m.title }}<span class="lamina-minititulo">{{ . }}</span>{{ end }}
         {{ with $mp.descripcion }}<div class="lamina-descripcion">{{ . | markdownify }}</div>{{ end }}
+        {{ end }}
         {{/* Nota bajo la descripción (Guía §6, «Álbum en secuencia»):
              - por defecto, la frase de i18n/es.toml y en.toml, clave «secuencia»
                ({{ .Count }} = número de fotos); cambiarla allí la cambia en todos los álbumes;
@@ -85,7 +93,7 @@
         {{ else if $notaSec }}<span class="lamina-nota">{{ $notaSec | markdownify }}</span>
         {{ else }}<span class="lamina-nota">{{ i18n "secuencia" (len $imgs) }}</span>{{ end }}
       </figcaption>
-      <div class="secuencia">
+      <div class="secuencia{{ if $una }} una{{ end }}">
         {{/* Botón ‹ ; data-paso="-1" le dice a sitio.js que retroceda */}}
         <button type="button" class="secuencia-boton" data-paso="-1" aria-label="{{ i18n "anterior" }}" title="{{ i18n "anterior" }}">
           <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
@@ -93,7 +101,8 @@
         {{/* La ventana deja ver tres fotos; la pista lleva todas y sitio.js la desliza */}}
         <div class="secuencia-ventana">
           <div class="secuencia-pista">
-            {{ range $imgs }}
+            {{/* $k = posición de la foto (0, 1, 2…), para «Lámina I, II, III…» */}}
+            {{ range $k, $foto := $imgs }}
               {{/* Foto enderezada (orientar.html); girar se pone en su bloque de resources */}}
               {{ $mg := index $meta (lower .Name) | default dict }}
               {{ $o := partial "orientar.html" (dict "img" . "girar" (($mg.params | default dict).girar | default .Params.girar)) }}
@@ -103,7 +112,22 @@
               {{ $vista := $o.Fill "1200x800 Center" }}
               {{ $grande := $o.Fit "3000x3000" }}
               {{ if and $firmarAlbum (ne (($mg.params | default dict).firma) false) }}{{ $grande = partial "firma.html" $grande }}{{ end }}
+              {{ if $una }}
+                {{/* Una foto a la vez: la foto entera (sin recortar) y su texto debajo */}}
+                {{ $vista = $o.Fit "1600x1600" }}
+                {{ $mgp := $mg.params | default dict }}
+                <figure class="secuencia-diapositiva">
+                  <a class="ampliable secuencia-foto" href="{{ $grande.RelPermalink }}"><img src="{{ $vista.RelPermalink }}" width="{{ $vista.Width }}" height="{{ $vista.Height }}" alt="{{ $mg.title }}" loading="lazy"></a>
+                  <figcaption class="diapositiva-texto">
+                    {{/* «Lámina I, II…»: palabra de i18n (clave «lamina») y número romano (partials/romano.html) */}}
+                    <span class="lamina-numero">{{ if not $soloNum }}{{ i18n "lamina" }} {{ end }}{{ partial "romano.html" (add $k 1) }}</span>
+                    {{ with $mg.title }}<span class="lamina-minititulo">{{ . }}</span>{{ end }}
+                    {{ with $mgp.descripcion }}<div class="lamina-descripcion">{{ . | markdownify }}</div>{{ end }}
+                  </figcaption>
+                </figure>
+              {{ else }}
               <a class="ampliable secuencia-foto" href="{{ $grande.RelPermalink }}"><img src="{{ $vista.RelPermalink }}" width="{{ $vista.Width }}" height="{{ $vista.Height }}" alt="{{ with index $meta (lower .Name) }}{{ .title }}{{ end }}" loading="lazy"></a>
+              {{ end }}
             {{ end }}
           </div>
         </div>
@@ -146,7 +170,7 @@
         {{ $m := index $meta (lower $img.Name) | default dict }}
         {{ $mp := $m.params | default dict }}
         {{/* girar: del archivo de este idioma o, si no está, del otro (el giro es el mismo) */}}
-        {{ partial "lamina.html" (dict "img" $img "numero" (add $i 1) "titulo" ($m.title | default "") "descripcion" ($mp.descripcion | default "") "lado" ($mp.lado | default "") "girar" ($mp.girar | default $img.Params.girar) "vertical" ($mp.alinear_texto | default "") "firma" (and $firmarAlbum (ne $mp.firma false))) }}
+        {{ partial "lamina.html" (dict "img" $img "numero" (add $i 1) "titulo" ($m.title | default "") "descripcion" ($mp.descripcion | default "") "lado" ($mp.lado | default "") "girar" ($mp.girar | default $img.Params.girar) "vertical" ($mp.alinear_texto | default "") "firma" (and $firmarAlbum (ne $mp.firma false)) "solo_numero" $soloNum) }}
       {{ end }}
       {{ if $varias }}</div>{{ end }}
     {{ end }}

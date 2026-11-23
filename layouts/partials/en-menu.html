@@ -1,0 +1,8 @@
+{{/* en-menu.html: responde si la página está en el menú principal (hugo.toml, Guía §11).
+     Se usa para ocultar el título grande de esas páginas (Notas, Cuentos, Opiniones, Fotos,
+     Acerca): su nombre ya está marcado en el menú de arriba. Devuelve true o false. */}}
+{{ $si := false }}
+{{ range site.Menus.main }}
+  {{ with .Page }}{{ if eq .RelPermalink $.RelPermalink }}{{ $si = true }}{{ end }}{{ end }}
+{{ end }}
+{{ return $si }}

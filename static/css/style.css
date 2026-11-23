@@ -510,6 +510,14 @@ figure.secuencia-bloque { margin: 0; }
 .secuencia-boton svg { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 .secuencia:not(.activa) .secuencia-boton { display: none; }
 @media (max-width: 48rem) { .secuencia-foto { flex-basis: 100%; } }
+/* Secuencia de una foto a la vez (secuencia: "una", Guía §6):
+   cada «diapositiva» lleva la foto entera y su texto debajo; se mueven juntos.
+   height: 68vh = alto de la foto (68% de la ventana); el texto va centrado debajo. */
+.secuencia.una .secuencia-diapositiva { flex: 0 0 100%; margin: 0; display: flex; flex-direction: column; align-items: center; }
+.secuencia.una .secuencia-foto { flex: none; display: block; width: 100%; }
+.secuencia.una .secuencia-foto img { width: 100%; height: 68vh; aspect-ratio: auto; object-fit: contain; }
+.diapositiva-texto { max-width: 36rem; margin: 1.2rem auto 0; text-align: center; min-height: 3.5rem; }
+.diapositiva-texto .lamina-minititulo { display: block; margin-bottom: 0.3rem; }
 
 /* ---------- 14. Álbumes: regados como fotos impresas sobre una mesa ----------
    Plantilla: partials/albumes.html (Guía §6, §9). */
@@ -589,6 +597,26 @@ figure.secuencia-bloque { margin: 0; }
   background: none; border: 0; color: #eee; cursor: pointer;
 }
 .visor-barra button:hover { background: rgba(255, 255, 255, 0.12); }
+/* Texto de la foto ampliada (número y descripción), entre la foto y la barra de abajo.
+   Con texto, la foto se achica un poco para dejarle lugar. */
+.visor-texto {
+  position: absolute; left: 50%; bottom: 3.8rem; transform: translateX(-50%); z-index: 1;
+  width: min(40rem, 90vw); text-align: center; color: #a8a8a8; font-size: 1.15rem; line-height: 1.5;
+  transition: color 0.3s ease;
+}
+.visor-texto .lamina-numero { color: #8f8f8f; display: block; transition: color 0.3s ease; }
+/* El título y la descripción toman el color del texto del visor (gris, y blanco al pasar el mouse) */
+.visor-texto .lamina-minititulo { color: inherit; display: block; }
+.visor-texto .lamina-descripcion, .visor-texto .lamina-descripcion * { color: inherit; transition: color 0.3s ease; }
+/* El texto del visor no cambia al pasar el mouse: se queda con su gris (#a8a8a8; el número,
+   #8f8f8f). Para que se aclare con el mouse, agrega una regla como:
+   .visor:has(.visor-principal:hover) .visor-texto { color: #fff; } */
+.visor-texto .lamina-descripcion p { margin: 0.2rem 0 0; }
+.visor.con-texto .visor-principal { max-height: 70vh; }
+.visor.con-texto.modo-secuencia .visor-principal { max-height: 66vh; }
+.visor.con-texto .visor-lienzo { padding-bottom: 7rem; }
+.visor.con-texto.modo-secuencia .visor-lienzo { padding-bottom: 7rem; }
+.visor.ampliado .visor-texto { display: none; }
 /* Barra de abajo del visor: «Descargar» y el crédito (partials/visor.html) */
 .visor-pie {
   position: absolute; bottom: 0.8rem; left: 50%; transform: translateX(-50%); z-index: 1;
@@ -637,6 +665,7 @@ h1.con-lateral {
   display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;
   margin-right: calc(-1 * min(10rem, max(0rem, (100vw - var(--ancho)) / 2)));
 }
+h1.con-lateral .titulo-lateral { margin-left: auto; }   /* a la derecha aunque el título esté oculto */
 h1 .titulo-lateral {
   font-size: 0.5em;
   color: var(--tenue); text-decoration: none; transition: color 0.2s;
