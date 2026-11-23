@@ -15,6 +15,7 @@ resources:
     params:
       lado: "derecha"
       girar: "no"
+      alinear_texto: "centro"
       descripcion: "Now the nonexistent knight is locked away. Inside, his soul held, hanging by a leaf."
   # Rows: consecutive photos with the same fila number sit side by side (guide §6)
   - src: "IMG_0803.JPG"
@@ -43,6 +44,11 @@ resources:
   - src: "IMG_0835.JPG"
     params:
       descripcion: "I like the nickname Sneik: as it happens, my name is Esneider (Schneider, which means tailor) and my Chinese zodiac animal is the Snake (which has green eyes)."
+      alinear_texto: "centro"
+  - src: "IMG_0746.JPG"
+    params:
+      descripcion: ""
+      lado: "derecha"
       alinear_texto: "centro"
 ---
 

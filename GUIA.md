@@ -147,6 +147,20 @@ En la sección Fotos, los álbumes aparecen regados y en orden aleatorio (cambia
 Las fotos se numeran solas (Lámina I, II, III…) en orden alfabético por nombre de archivo; para cambiar el orden, renómbralas (`01-cerros.jpg`, `02-mediodia.jpg`…).
 En cualquier imagen, el clic abre el visor (lupa para acercar, pantalla completa, flechas ← → y Esc para cerrar).
 
+### Citas: canciones, poemas y libros
+
+Dentro de una entrada:
+
+```
+{{< cita autor="Marta Gómez" obra="Título" >}}
+primer verso // segundo verso
+
+verso de la segunda estrofa // otro verso
+{{< /cita >}}
+```
+
+Cada `//` (o cada salto de línea) es un renglón nuevo y una línea en blanco separa estrofas o párrafos; para un libro, escribe el párrafo seguido. `autor` y `obra` son opcionales; el autor sale a la derecha, debajo del texto, con la letra de los títulos y más grande. Con `columnas="2"` las estrofas se reparten en dos columnas (mitad y mitad) sin partir estrofas ni cortar versos; en el celular quedan una debajo de la otra (así está la canción de Montaña). `{{< cancion >}}`, el nombre anterior, sigue funcionando igual. Lógica en `layouts/partials/cita.html`; estilos en el bloque 22 de `style.css`. Una canción que se deja en su idioma original no se copia en `index.en.md`: basta con escribir `{{< texto-original >}}` y la versión en inglés muestra el contenido de `index.md`. Detalles en la guía PDF, §5.
+
 ### Microcuentos
 
 En Cuentos, en la esquina superior derecha, está el enlace **Microcuentos**: una hoja que parece en blanco, donde cada microcuento aparece al pasar el mouse (o al tocarlo). Cada uno es una carpeta:

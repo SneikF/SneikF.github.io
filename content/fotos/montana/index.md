@@ -12,7 +12,37 @@ firma: false
 resources:
   - src: "IMG_0155.JPG"
     params:
-      descripcion: "El lugar que habito tiene esta vista, hace mucho no me sentía cómodo"
+      descripcion: "Despierto... despierto para ver cuánto te has movido"
 ---
 
-*Hay un libro que me recuerda la magia de la naturaleza: Canto yo y la Montaña baila*
+{{< cancion autor="Marta Gómez" columnas="2" >}}
+  Debajo'e la tierra duerme un dios // 
+dicen que es más fuerte que el dios de afuera // 
+que si le da la gana te hace una broma // 
+y te entierra con él dentro de la tierra //
+
+  Yo prefiero llevarle un ramito'e coca //
+pa tenerlo contento y que no se ofenda //
+y me deje salir corriendo del cerro //
+ha inventarme la vida que a mí me toca //
+
+  Kalma, Urku, Qhuya//
+Nina. Nocapi Kausay//
+Vida, ramito, Dios//
+Cerro, metal, la vida que me tocó//
+
+  La suerte que yo sufro nadie la entiende//
+solo el diablo que vive del mismo fuego//
+por eso al tío Diablo cosas le ofrendo//
+porque arriba del cerro ya ni Dios sube//
+
+  Un día al año el carnaval me alegra//
+y bajamos cantando de la montaña//
+vestido de colores el viento suena//
+como si con su voz él también dijera//
+
+  Kalma, Urku, Qhuya//
+Nina. Nocapi Kausay//
+Vida, ramito, Dios//
+Cerro, metal, la vida que me tocó//
+{{< /cancion >}}

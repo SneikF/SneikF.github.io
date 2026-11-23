@@ -9,7 +9,8 @@ firma: false
 resources:
   - src: "IMG_0155.JPG"
     params:
-      descripcion: "The place I live in has this view; it had been a long time since I felt at ease."
+      descripcion: "I wake... I wake to see how far you have moved."
 ---
 
-*There is a book I like that reminds me of the magic of nature: When I Sing, Mountains Dance*
+<!-- The song stays in its original language: it is taken from index.md (guide §5). -->
+{{< texto-original >}}

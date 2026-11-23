@@ -7,6 +7,14 @@
 <script>
   /* Aplica el tema guardado antes de pintar, para que no parpadee */
   try { var t = localStorage.getItem('tema'); if (t) document.documentElement.dataset.tema = t; } catch (e) {}
+  /* Al llegar desde el botón ES/EN: la página se oculta un instante hasta que sitio.js la pone
+     a la misma altura que la anterior (máximo 1,5 s, por si algo falla). */
+  try {
+    if (sessionStorage.getItem('posicionIdioma')) {
+      document.documentElement.classList.add('cambiando-idioma');
+      setTimeout(function () { document.documentElement.classList.remove('cambiando-idioma'); }, 1500);
+    }
+  } catch (e) {}
 </script>
 {{/* Título de la pestaña: «Entrada · Esneider Sierra» (en el inicio, solo el nombre) */}}
 <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} · {{ site.Title }}{{ end }}</title>

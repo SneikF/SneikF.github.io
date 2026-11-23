@@ -1,8 +1,6 @@
 ---
-title: "Luggage"
-date: 2026-09-02
+title: "Epitaph"
+date: 2026-11-05
 ---
 
-He packed carefully: two shirts, a book, the key to a house that no longer existed. At the border they asked what he was carrying.
-
-"Just the essentials," he said, and it was a lie: he was carrying the impossible.
+Buried here, two meters beneath your feet, a prisoner in this chest and sick with darkness, caring nothing for the dust my bones have become, I know I am alive, for you are reading me.

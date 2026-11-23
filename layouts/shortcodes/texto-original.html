@@ -1,0 +1,12 @@
+{{/* =====================================================================
+     texto-original.html: muestra en esta página el contenido de la versión en
+     español de la misma entrada (Guía §5, «Textos que no se traducen»).
+     Para canciones, poemas o citas que se dejan en su idioma original: así el
+     texto se escribe una sola vez (en index.md) y la versión en inglés lo repite
+     sin copiarlo. Uso en index.en.md:
+
+       {{< texto-original >}}
+
+     Si cambias la canción en index.md, la versión en inglés cambia sola.
+     ===================================================================== */}}
+{{ range .Page.Translations }}{{ if eq .Language.Lang "es" }}{{ .Content }}{{ end }}{{ end }}

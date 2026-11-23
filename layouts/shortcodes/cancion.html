@@ -1,0 +1,6 @@
+{{/* =====================================================================
+     cancion.html: nombre antiguo de {{< cita >}}; se conserva para que las
+     entradas que ya lo usan sigan funcionando. Hace exactamente lo mismo
+     (partials/cita.html). Para entradas nuevas usa {{< cita >}} (Guía §5).
+     ===================================================================== */}}
+{{ partial "cita.html" (dict "texto" .Inner "autor" (.Get "autor") "obra" (.Get "obra") "pagina" .Page "columnas" (.Get "columnas")) }}

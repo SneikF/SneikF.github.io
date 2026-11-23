@@ -6,7 +6,7 @@ tags: ["reading"]
 draft: false
 ---
 
-*A photo on every page*
+<!-- *Wait, paper, wait for me* -->
 
 About a month ago I got an e-reader (not a Kindle, because I don't like Amazon), and I read two books on it; it was easy, and I felt very focused on reading. It is very easy to find e-books, download them and load them onto the device; and getting them costs three times less than a paper book, whether in time or in money. Another point in its favor: you can change the way you read. If you are one of those people who find it uncomfortable to keep track of page numbers because it makes you feel you are not enjoying the book, you can remove them; or if, on the contrary, you even want to see your reading as a percentage, you can do that too.
 

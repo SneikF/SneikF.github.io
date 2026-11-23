@@ -1,0 +1,45 @@
+{{/* =====================================================================
+     partials/cita.html: dibuja una cita (canción, poema o fragmento de libro)
+     con el autor a la derecha al final (Guía §5, «Citas: canciones, poemas y libros»).
+     Lo usan los shortcodes cita.html y cancion.html; recibe un dict con:
+       texto  el contenido entre las etiquetas del shortcode (.Inner)
+       autor  opcional; obra opcional; pagina  la página (para RenderString)
+       columnas  opcional: "2" reparte las estrofas en dos columnas
+     - Cada «//» o cada salto de línea es un renglón nuevo.
+     - Una línea en blanco separa las estrofas (o los párrafos).
+     - Estilos en style.css, bloque 22.
+     ===================================================================== */}}
+{{/* Un «//» (con o sin salto de línea después) cuenta como UN solo salto de renglón;
+     así da igual escribir los versos seguidos con // o uno por línea terminando en //. */}}
+{{ $texto := replace .texto "\r\n" "\n" }}
+{{ $texto = replaceRE `[ \t]*//[ \t]*\n?` "\n" $texto }}
+{{ $texto = trim $texto "\n " }}
+{{ $pagina := .pagina }}
+{{/* Cada estrofa (o párrafo) se arma como un <p>; las estrofas van separadas
+     por una o más líneas en blanco. */}}
+{{ $estrofas := slice }}
+{{ range split (replaceRE `\n[ \t]*\n+` "\n\n" $texto) "\n\n" }}
+  {{ $renglones := slice }}
+  {{ range split (trim . "\n ") "\n" }}{{ with trim . " " }}{{ $renglones = $renglones | append ($pagina.RenderString .) }}{{ end }}{{ end }}
+  {{ with $renglones }}{{ $estrofas = $estrofas | append (printf "<p>%s</p>" (delimit . "<br>")) }}{{ end }}
+{{ end }}
+{{/* columnas="2": la primera mitad de las estrofas va a la izquierda y el resto a la
+     derecha (con un número impar, la columna izquierda lleva una más). Las estrofas
+     nunca se parten y cada columna es tan ancha como su verso más largo, así los versos
+     no se cortan; en pantallas pequeñas las columnas quedan una debajo de la otra
+     (style.css, bloque 22). */}}
+{{ $dos := eq (string .columnas) "2" }}
+<figure class="cita{{ if $dos }} cita-dos-columnas{{ end }}">
+  <div class="cita-texto">
+  {{ if $dos }}
+    {{ $mitad := int (math.Ceil (div (float (len $estrofas)) 2)) }}
+    <div class="cita-columna">{{ delimit (first $mitad $estrofas) "\n" | safeHTML }}</div>
+    <div class="cita-columna">{{ delimit (after $mitad $estrofas) "\n" | safeHTML }}</div>
+  {{ else }}
+    {{ delimit $estrofas "\n" | safeHTML }}
+  {{ end }}
+  </div>
+  {{ with .autor }}
+  <figcaption class="cita-autor">— {{ . }}{{ with $.obra }}<span class="cita-obra">, <cite>{{ . }}</cite></span>{{ end }}</figcaption>
+  {{ end }}
+</figure>

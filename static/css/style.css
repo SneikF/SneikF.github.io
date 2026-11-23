@@ -24,6 +24,7 @@
     19. Varias fotos en una fila                §6 Filas
     20. Números de lámina                       §6
     21. Altura del texto junto a la foto        §6 alinear_texto
+    22. Citas (canciones, poemas, libros)       §5
 
    Unidades: 1rem = 16 px (el tamaño de letra normal del navegador).
    vw / vh = porcentaje del ancho / alto de la ventana (100vw = todo el ancho).
@@ -91,6 +92,8 @@ body {
 
 /* La columna centrada de texto; su ancho es --ancho (bloque 1) */
 .columna { max-width: var(--ancho); margin: 0 auto; padding: 0 1.5rem; }
+/* Mientras la página llega a la altura de la anterior (cambio de idioma), no se muestra */
+html.cambiando-idioma body { visibility: hidden; }
 /* Pie de página siempre al fondo de la ventana, aunque la página tenga poco contenido:
    la página es una columna del alto de la ventana y el contenido (main) crece para llenar
    el espacio que sobre. (width: 100% mantiene centrados la cabecera, el contenido y el pie.) */
@@ -181,10 +184,14 @@ header.sitio {
    de la cabecera igual que el nombre llega al izquierdo. */
 header.sitio { max-width: min(calc(var(--ancho) + 20rem), calc(100% - 11rem)); }
 header.sitio .derecha { margin-right: 0; }
+/* Botones de idioma y tema: fijos en la esquina superior derecha, se quedan a la vista al
+   bajar o subir la página (position: fixed). Para que se vayan con la página, usa absolute.
+   El fondo color papel evita que se mezclen con el texto o las fotos que pasan por debajo. */
 header.sitio .controles {
-  position: absolute; top: 1.4rem; right: 1.6rem;
+  position: fixed; top: 1.4rem; right: 1.6rem; z-index: 50;
   flex-direction: column; align-items: center; gap: 0.5rem;
 }
+header.sitio .controles .idioma, header.sitio .controles .boton-tema { background-color: var(--papel); }
 .controles .idioma {
   display: grid; place-items: center;
   width: 2.4rem; height: 1.7rem;
@@ -771,3 +778,28 @@ figure.lamina:not(.descrita) .lamina-titulo { margin-bottom: 0.4rem; }
 figure.lamina.descrita.vertical-arriba, .fila-laminas figure.lamina.descrita.al-lado.vertical-arriba { align-items: start; }
 figure.lamina.descrita.vertical-centro, .fila-laminas figure.lamina.descrita.al-lado.vertical-centro { align-items: center; }
 figure.lamina.descrita.vertical-abajo,  .fila-laminas figure.lamina.descrita.al-lado.vertical-abajo  { align-items: end; }
+
+/* ---------- 22. Citas: canciones, poemas y libros (partials/cita.html, Guía §5) ----------
+   Shortcodes {{< cita >}} y {{< cancion >}} (son lo mismo). El texto va en cursiva, como un
+   bloque centrado en la columna; el autor va a la derecha, debajo del último renglón. */
+.cita { margin: 2.5rem auto; width: fit-content; max-width: 100%; }
+/* line-height = espacio entre renglones; margin = espacio entre estrofas o párrafos */
+.cita-texto p { margin: 0 0 1.6rem; font-style: italic; line-height: 1.6; }
+.cita-texto p:last-child { margin-bottom: 0; }
+/* Autor resaltado: letra de los títulos (Caveat), más grande y en el color fuerte */
+.cita-autor { margin-top: 1rem; text-align: right; font-family: var(--letra-titulos); font-size: 1.5rem; line-height: 1.2; color: var(--grafito-fuerte); }
+/* La obra va más discreta que el autor: letra normal, gris y en cursiva */
+.cita-obra { font-family: var(--letra); font-size: 0.95rem; color: var(--tenue); }
+.cita-obra cite { font-style: italic; }
+/* columnas="2": dos columnas de estrofas, una al lado de la otra. El bloque toma el ancho
+   de los versos más largos (sin cortarlos), aunque eso sea más que la columna del texto,
+   y se centra en la página (left + transform). Solo si la ventana no alcanza, los versos
+   se acomodan en dos renglones. gap = espacio entre las columnas.
+   En pantallas pequeñas (700px o menos): una columna debajo de la otra. */
+.cita-dos-columnas { width: max-content; max-width: calc(100vw - 3rem); margin-left: 0; margin-right: 0; position: relative; left: 50%; transform: translateX(-50%); }
+.cita-dos-columnas .cita-texto { display: flex; gap: 4rem; }
+@media (max-width: 700px) {
+  .cita-dos-columnas { width: auto; max-width: 100%; left: 0; transform: none; }
+  .cita-dos-columnas .cita-texto { display: block; }
+  .cita-columna + .cita-columna { margin-top: 1.6rem; }   /* mismo espacio que entre estrofas */
+}

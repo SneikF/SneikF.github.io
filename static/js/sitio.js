@@ -3,6 +3,7 @@
    sitio.js: todo lo que se mueve en el blog (Guía §15).
    Partes (busca el título con Ctrl+F):
      Tema            → botón ☾/☀            (partials/nav.html)
+     Idioma          → botón ES/EN conserva la altura de la página (partials/nav.html)
      Menú flotante   → botón ☰               (partials/menu-flotante.html)
      Secuencias      → fila circular ‹ ›     (fotos/single.html, Guía §6)
      Microcuentos    → hoja regada           (microcuentos/list.html, Guía §4)
@@ -27,6 +28,45 @@
       try { localStorage.setItem('tema', nuevo); } catch (e) {}
     });
   });
+
+  /* ---------- Idioma: cambiar sin volver al inicio ----------
+     El botón ES/EN lleva a la misma página en el otro idioma. Antes de irse se guarda qué
+     tan abajo estabas (como proporción: 0 = arriba, 1 = al final) y la página nueva se abre
+     a esa misma altura. Además, al acercar el mouse al botón, la otra versión se carga en
+     segundo plano para que el cambio sea casi instantáneo. */
+  var CLAVE_IDIOMA = 'posicionIdioma';
+  document.querySelectorAll('a.idioma').forEach(function (a) {
+    var precargada = false;
+    function precargar() {
+      if (precargada) return;
+      precargada = true;
+      var l = document.createElement('link');
+      l.rel = 'prefetch'; l.href = a.href;
+      document.head.appendChild(l);
+    }
+    a.addEventListener('mouseenter', precargar);
+    a.addEventListener('focus', precargar);
+    a.addEventListener('touchstart', precargar, { passive: true });
+    a.addEventListener('click', function () {
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      try {
+        sessionStorage.setItem(CLAVE_IDIOMA, JSON.stringify({ p: max > 0 ? window.scrollY / max : 0, t: Date.now() }));
+      } catch (e) {}
+    });
+  });
+  (function restaurarPosicion() {
+    var g = null;
+    try { g = JSON.parse(sessionStorage.getItem(CLAVE_IDIOMA) || 'null'); sessionStorage.removeItem(CLAVE_IDIOMA); } catch (e) {}
+    if (!g || Date.now() - g.t > 10000) { raiz.classList.remove('cambiando-idioma'); return; }
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    function ir() {
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      window.scrollTo(0, Math.round(g.p * Math.max(0, max)));
+    }
+    ir();
+    raiz.classList.remove('cambiando-idioma');
+    window.addEventListener('load', ir);   /* de nuevo cuando terminan de cargar las fotos */
+  })();
 
   /* ---------- Menú flotante (aparece al bajar) ----------
      Cuando bajas más que la altura de la barra superior, el body recibe la clase

@@ -1,6 +1,6 @@
 ---
 title: "Flash fiction"
-description: "Walk with the mouse"
+description: "Take that mouse for a walk"
 cascade:
   - _target:
       kind: page

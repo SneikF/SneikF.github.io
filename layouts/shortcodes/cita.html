@@ -1,0 +1,18 @@
+{{/* =====================================================================
+     cita.html: una cita de una canción, un poema o un libro (Guía §5).
+     Uso en una entrada:
+
+       {{< cita autor="Nombre del autor" obra="Título de la obra" >}}
+       primer verso // segundo verso // tercer verso
+
+       verso de la segunda estrofa // otro verso
+       {{< /cita >}}
+
+     - Cada «//» o cada salto de línea es un renglón nuevo; una línea en blanco
+       separa estrofas o párrafos.
+     - autor y obra son opcionales; si das los dos: «— Autor, Título».
+     - columnas="2" reparte las estrofas en dos columnas (para canciones largas).
+     - No hace falta poner *…*: el texto ya sale en cursiva.
+     - La lógica está en partials/cita.html (compartida con cancion.html).
+     ===================================================================== */}}
+{{ partial "cita.html" (dict "texto" .Inner "autor" (.Get "autor") "obra" (.Get "obra") "pagina" .Page "columnas" (.Get "columnas")) }}
