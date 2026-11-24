@@ -19,7 +19,7 @@ resources:
   Debajo'e la tierra duerme un dios // 
 dicen que es más fuerte que el dios de afuera // 
 que si le da la gana te hace una broma // 
-y te entierra con él dentro de la tierra //
+y te encierra con él dentro de la tierra //
 
   Yo prefiero llevarle un ramito'e coca //
 pa tenerlo contento y que no se ofenda //
