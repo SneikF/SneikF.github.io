@@ -1,6 +1,7 @@
 ---
 date: 2026-11-14
 ocultar_fecha: true
+draft: true
 ---
 
 Subí para verla de cerca. De cerca no era una montaña: era el camino.

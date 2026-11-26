@@ -1,7 +1,7 @@
 ---
 title: "Costa"
 date: 2026-11-15
-draft: false
+draft: true
 # Cada foto puede tener un minititulo (title) y una descripción (params.descripcion).
 # Si no tiene ninguno de los dos, la foto se muestra sola y centrada.
 # La descripción va a la izquierda; para ponerla a la derecha, agrega  lado: "derecha"  dentro de params.

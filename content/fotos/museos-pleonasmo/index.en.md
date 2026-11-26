@@ -1,5 +1,5 @@
 ---
-title: "Living museums, a pleonasm"
+title: "Museums..."
 date: 2026-06-14
 draft: false
 alinear_titulo: "centro"

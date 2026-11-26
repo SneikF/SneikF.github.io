@@ -3,9 +3,9 @@ title: "Stationary distribution of a two-state chain"
 date: 2026-11-21
 description: "A small example showing how to write formulas and code."
 tags: ["markov chains", "probability"]
-draft: false
+draft: true
 ---
-
+<!-- 
 *Example post: edit it or delete it.*
 
 Let $P$ be the transition matrix of a chain with states $\{1, 2\}$:
@@ -32,4 +32,4 @@ import numpy as np
 a, b = 0.3, 0.1
 P = np.array([[1 - a, a], [b, 1 - b]])
 print(np.linalg.matrix_power(P, 100)[0])  # ≈ [0.25, 0.75]
-```
+``` -->

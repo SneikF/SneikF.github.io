@@ -1,5 +1,6 @@
 ---
 title: "Acerca"
+draft: true
 ---
 
 Matemático (Universidad Nacional de Colombia, Sede Bogotá) y estudiante de Ciencias de la Computación. Me interesan el análisis topológico de datos, la teoría de representaciones de quivers, las cadenas de Markov y los algoritmos.

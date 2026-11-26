@@ -4,10 +4,10 @@ date: 2026-11-18
 description: "Lo que se ve a pie y no se ve desde un bus."
 tags: ["ciudad"]
 imagen: "calle.jpg"
-draft: false
+draft: true
 ---
 
-*Opinión de ejemplo con imagen junto al título e imágenes en el texto: reemplázala por una tuya.*
+<!-- *Opinión de ejemplo con imagen junto al título e imágenes en el texto: reemplázala por una tuya.*
 
 Durante años crucé la ciudad en bus, mirando el celular. Conocía las paradas, no las calles. Un día empecé a caminar parte del trayecto y descubrí que vivía en otra ciudad.
 
@@ -23,4 +23,4 @@ A dos cuadras de mi casa hay un mercado que nunca había visto desde el bus.
 Ahora paso todos los sábados.
 {{< /foto >}}
 
-Caminar es lento, y esa es justamente la ventaja: obliga a mirar.
+Caminar es lento, y esa es justamente la ventaja: obliga a mirar. -->

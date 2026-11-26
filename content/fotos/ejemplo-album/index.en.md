@@ -1,7 +1,7 @@
 ---
 title: "Eastern hills"
 date: 2026-11-21
-draft: false
+draft: true
 resources:
   - src: "portada.jpg"
     title: "Hills at dawn"

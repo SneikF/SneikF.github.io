@@ -2,8 +2,8 @@
 title: "The Window"
 date: 2026-11-20
 description: "Someone who watches the same window every night."
-imagen: "ventana.jpg"
-draft: false
+# imagen: "ventana.jpg"
+draft: true
 ---
 
 *Example story with an image next to the title: replace it with one of yours.*

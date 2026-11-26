@@ -1,7 +1,7 @@
 ---
 title: "Coast"
 date: 2026-11-15
-draft: false
+draft: true
 resources:
   - src: "portada.jpg"
     title: "Morning at the beach"

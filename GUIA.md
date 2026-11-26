@@ -118,6 +118,8 @@ y varios párrafos.
 
 En el celular la imagen queda arriba y la descripción debajo.
 
+Cada `{{< foto … >}}` necesita su `{{< /foto >}}`; si no lleva texto, ciérrala en la misma línea: `{{< foto src="foto.jpg" />}}`. Si no, Hugo da el error *shortcode "foto" must be closed or self-closed* (el número tras `index.md:` es la línea de la etiqueta abierta). Comentar el cierre con `<!-- -->` no sirve: Hugo lee las etiquetas aun dentro de comentarios.
+
 ### Fotos de un álbum con descripción
 
 En el encabezado del `index.md` del álbum, cada foto puede llevar un minititulo (`title`) y una descripción (`descripcion`):

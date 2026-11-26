@@ -2,6 +2,7 @@
 title: "Tide"
 date: 2026-10-25
 ocultar_fecha: true
+draft: true
 ---
 
 ![](marea.jpg)

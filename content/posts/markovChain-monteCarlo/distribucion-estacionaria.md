@@ -1,11 +1,11 @@
 ---
-title: "Distribución estacionaria de una cadena de dos estados"
+title: ""
 date: 2026-11-21
 description: "Un ejemplo pequeño para ver cómo se escriben fórmulas y código."
 tags: ["cadenas de markov", "probabilidad"]
-draft: false
+draft: true
 ---
-
+<!-- 
 *Entrada de ejemplo: edítala o bórrala.*
 
 Sea $P$ la matriz de transición de una cadena con estados $\{1, 2\}$:
@@ -38,4 +38,4 @@ import numpy as np
 a, b = 0.3, 0.1
 P = np.array([[1 - a, a], [b, 1 - b]])
 print(np.linalg.matrix_power(P, 100)[0])  # ≈ [0.25, 0.75]
-```
+``` -->
