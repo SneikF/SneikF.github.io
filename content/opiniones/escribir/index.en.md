@@ -1,7 +1,7 @@
 ---
-title: "Writing to Understand"
+title: "Writing"
 date: 2026-11-21
-description: "Why explaining something in writing is the best way to know whether I understood it."
+description: "Why do I need to write?"
 tags: ["writing", "learning"]
 draft: true
 ---

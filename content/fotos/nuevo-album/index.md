@@ -7,6 +7,7 @@ draft: true
 # Secuencia de UNA foto a la vez: el título y la descripción de cada foto aparecen debajo
 # de ella y cambian junto con la foto (Guía §6, «Secuencia de una foto»).
 secuencia: "una"
+nota_secuencia: false
 # Solo el número romano (IV), sin la palabra «Lámina»
 solo_numeros: true
 # Sin firma en las fotos ampliadas o descargadas, y sin crédito en la barra del visor
@@ -18,20 +19,20 @@ credito: false
 resources:
   - src: "01.jpg"
     params:
-      descripcion: "Texto de la primera foto. Cámbialo por el tuyo."
+      descripcion: "Texto1"
   - src: "02.jpg"
     params:
-      descripcion: "Cada foto tiene su propio texto, que aparece debajo cuando la foto está en pantalla."
+      descripcion: "texto2."
   - src: "03.jpg"
     params:
-      descripcion: "Texto de la tercera foto."
+      descripcion: "texto3."
   - src: "04.jpg"
   - src: "05.jpg"
     params:
-      descripcion: "Con ‹ › se pasa de una foto a otra; después de la última vuelve la primera."
+      descripcion: "texto4"
   - src: "06.jpg"
     params:
-      descripcion: "Un clic en la foto la abre en grande."
+      descripcion: "texto5"
 ---
 
-*Texto de presentación del álbum: cámbialo por el tuyo.*
+*prueba*

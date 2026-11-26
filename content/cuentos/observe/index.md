@@ -1,25 +1,26 @@
 ---
 title: "Dos guardianes"
 date: 2026-11-17
-description: "El último farero de una costa sin barcos."
+description: "Visitar el pasado"
 imagen: "reflejo.jpeg"
 draft: true
 ---
+*Observatorio Astronómico Nacional*
+{{< cita autor="Robert Walser," obra="Jakob von Gunten" >}}
+Si fuera rico, ni en sueños se me ocurriría dar la vuelta al mundo. Cierto es que no estaría nada mal. Pero la perspectiva de conocer tan fugazmente otros países no me entusiasma en absoluto.
+{{< /cita >}}
 
-*Cuento de ejemplo con imagen junto al título e imágenes en el texto: reemplázalo por uno tuyo.*
 
-Hace veinte años que no pasa un barco por esta costa, pero Elías sigue subiendo los ciento doce escalones cada tarde para encender la luz.
+<!-- Hace veinte años que no pasa un barco por esta costa, pero Elías sigue subiendo los ciento doce escalones cada tarde para encender la luz. -->
 
-![El mar desde la torre](escaleras.jpeg "Lo que Elías ve desde arriba, todos los días")
+![El mar desde la torre](escaleras.jpeg "Lo que no sabe el guardián")
 
-En el pueblo dicen que está loco. Él dice que alguien tiene que avisarle al mar que la costa sigue ahí.
+
 
 {{< foto src="neblina.jpeg" titulo="La torre de día" >}}
-De día el faro parece un juguete olvidado en las rocas.
-
-Nadie sube, excepto él.
+No vi nada más...
 {{< /foto >}}
 
 {{< foto src="datum.jpeg" />}}
 
-Una noche de niebla, por primera vez en veinte años, alguien le respondió desde el agua con tres destellos.
+El datum era ella

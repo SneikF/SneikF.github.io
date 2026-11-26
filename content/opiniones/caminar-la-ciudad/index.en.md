@@ -1,7 +1,7 @@
 ---
 title: "Walking the City"
 date: 2026-11-18
-description: "What you see on foot and miss from a bus."
+description: "The city at night"
 tags: ["city"]
 imagen: "calle.jpg"
 draft: true

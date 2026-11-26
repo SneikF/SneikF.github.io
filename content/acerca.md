@@ -7,4 +7,4 @@ Matemático (Universidad Nacional de Colombia, Sede Bogotá) y estudiante de Cie
 
 Fuera de las matemáticas escribo cuentos y tomo fotos.
 
-**Contacto:** escribe aquí tu correo o tu perfil de Codeberg.
+**Contacto:** .

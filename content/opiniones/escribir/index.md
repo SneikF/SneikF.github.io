@@ -1,7 +1,7 @@
 ---
-title: "Escribir para entender"
+title: "Escribir"
 date: 2026-11-21
-description: "Por qué explicar algo por escrito es la mejor forma de saber si lo entendí."
+description: "¿Por qué necesito escribir?"
 tags: ["escritura", "aprendizaje"]
 draft: true
 ---

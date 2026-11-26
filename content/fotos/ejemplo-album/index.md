@@ -9,16 +9,16 @@ resources:
   - src: "portada.jpg"
     title: "Cerros al amanecer"
     params:
-      descripcion: "Primera luz sobre los cerros orientales. La niebla todavía cubre la parte baja y solo se ven las crestas."
+      descripcion: "texto1"
   - src: "foto-2.jpg"
     title: "Mediodía"
     params:
       lado: "derecha"
       descripcion: |
-        El mismo paisaje unas horas después.
+        texto2.
 
         La descripción puede tener **varios párrafos** y *cursivas*.
   - src: "foto-3.jpg"
 ---
 
-*Álbum de ejemplo: estas imágenes son de prueba. Reemplázalas por tus fotos.*
+*Imágenes de pruba*

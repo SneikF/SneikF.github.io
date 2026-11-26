@@ -7,4 +7,4 @@ Mathematician (Universidad Nacional de Colombia, Bogotá) and Computer Science s
 
 Outside of mathematics I write short stories and take photos.
 
-**Contact:** write your email or GitHub profile here.
+**Contact:** 

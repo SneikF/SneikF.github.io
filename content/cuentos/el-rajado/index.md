@@ -5,7 +5,7 @@ description: "Idea original de Javier Martínez Huartos sobre un chisme de barri
 # imagen: "ventana.jpg"
 draft: true
 ---
-
+<!-- 
 {{< izquierda >}}
 *Propuesta en el taller de cuento Échame un cuento, del profe Alejo y la biblioteca de la UNAL*
 {{< /izquierda >}}
@@ -149,4 +149,4 @@ Helena le toma la mano y en lo primero que se fija es en una cajita negra de hie
 
 Suena un portazo y de un empujón don Rubén saca a Helena del cuarto y al instante se encierra. ¿Qué está pasando, Helena? Salga de ahí puerco hijueputa que no le vamos a hacer nada si colabora, salga viejo malparido. Zorra malnacida, yo si me sospechaba algo, uy pero la voy a pelar, salga de ahí, que es peor, salga o lo sacamos. Suenan las patadas de Lorenzo y de Helena sobre la puerta de hierro; Ve para atrás, revisa que no se salga por la ventana, pero desde afuera se ve una ventana alta, no se puede ni siquiera asomar ¡No Lorenzo, por aquí no puede salir! ¡Salgan de mi casa! Bueno ese no va a salir: y es como si el sonido de la bala intentara abrir la puerta y otra bala sobre la chapa y otro sonido y otra bala, se abre la puerta y tambalea, Lorenzo a un lado y Helena al otro y adentro don Rubén arrodillado, con un machete en la mano que apenas pudo sacar de debajo del colchón, ahogándose rojo de rabia y la cajita de hierro abierta y movíendo el machete como si espantara moscas, y luego cae hacía un lado, soltando una baba blanca de la garganta hinchada. Se va morir este puerco, Lorenzo, y no hay nada en la caja; y él apuntando a la cabeza pelada: mira que se dejó de mover, ¿será que se murió? no aguantó el susto y a lo mejor se le paró el corazón. Pero no hay plata Lorenzo, y la caja vacía, y el machete en la mano, ¡a lo mejor se la trago!, ¿quién se va a tragar la plata? ¿Y ahora qué hacemos? Pues revisemos más, aquí no hay nada y aquí tampoco, mira que ya no se mueve ni respira, revisa si tiene pulso, no, yo no voy a tocar a ese animal, no, ya se murió y no dijo nada. Toda la casa revuelta y no hay más que un par de billetes y monedas; ¿dónde está la plata, gordo de mierda? Que está muerto, Helena. A lo mejor no tenía nada y nosotros aquí, ¡Cómo no va a tener nada! Cómo va a ser que la caja abierta y no hay nada, el desgraciado se trago la plata. A lo mejor, pero uno no se traga los billetes, no se puede, ¿pero entonces qué se trago?. Y lo colgaron con la ventana alta y abierta y Helena recordó los cortes de la carnicería y el machete ensangrentado y con la impresión que los hacía tambalear y don Rubén, destripado y rajado en canal, con sus orejas puntiagudas, sus narices chatas y sus manos pequeñas y regordetas. Y en las tripas no había nada y la caja abierta.
 
-*«Desde mi cuarto se ve una ventana del edificio de enfrente…»*
+*«Desde mi cuarto se ve una ventana del edificio de enfrente…»* -->

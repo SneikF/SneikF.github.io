@@ -1,7 +1,7 @@
 ---
 title: "Caminar la ciudad"
 date: 2026-11-18
-description: "Lo que se ve a pie y no se ve desde un bus."
+description: "La ciudad de noche"
 tags: ["ciudad"]
 imagen: "calle.jpg"
 draft: true
